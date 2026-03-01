@@ -68,7 +68,7 @@ const ParticleAvatar = ({ className = "" }: { className?: string }) => {
 
       const particles: Particle[] = [];
       // Use primary amber color for particles like the inspiration site uses teal
-      const primaryHue = 32;
+      const primaryHue = 142;
 
       for (let y = 0; y < h; y += PARTICLE_GAP) {
         for (let x = 0; x < w; x += PARTICLE_GAP) {
