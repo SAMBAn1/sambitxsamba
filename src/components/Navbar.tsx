@@ -1,11 +1,18 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Linkedin, Instagram, Mail } from "lucide-react";
 
 const links = [
   { label: "About", href: "#about" },
+  { label: "Experience", href: "#experience" },
   { label: "Work", href: "#projects" },
   { label: "Contact", href: "#contact" },
+];
+
+const socialLinks = [
+  { icon: Mail, href: "mailto:sambit.samantaray2000@gmail.com", label: "Email" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/sambit-samantaray-225434166/", label: "LinkedIn" },
+  { icon: Instagram, href: "https://www.instagram.com/i_am_a_samba/", label: "Instagram" },
 ];
 
 const Navbar = () => {
@@ -15,7 +22,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container flex items-center justify-between h-16">
         <a href="#" className="font-display text-xl text-foreground">
-          SS<span className="text-primary">.</span>
+          Sambit<span className="text-primary">.</span>
         </a>
 
         {/* Desktop */}
@@ -29,6 +36,20 @@ const Navbar = () => {
               {link.label}
             </a>
           ))}
+          <div className="flex items-center gap-3 ml-4 border-l border-border pl-6">
+            {socialLinks.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                <s.icon className="w-4 h-4" />
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* Mobile toggle */}
@@ -61,6 +82,20 @@ const Navbar = () => {
                   {link.label}
                 </a>
               ))}
+              <div className="flex gap-4 pt-4 border-t border-border">
+                {socialLinks.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    <s.icon className="w-5 h-5" />
+                  </a>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
