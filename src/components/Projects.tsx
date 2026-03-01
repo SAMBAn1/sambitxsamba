@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+
 
 const projects = [
   {
@@ -66,39 +66,35 @@ const Projects = () => {
 
         <div className="space-y-1">
           {projects.map((project, i) => (
-            <motion.a
+            <motion.div
               key={project.title}
-              href={project.link}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group block py-8 border-t border-border hover:border-primary/50 transition-colors"
+              className="block py-8 border-t border-border"
             >
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-display text-2xl md:text-3xl group-hover:text-primary transition-colors mb-2">
+                  <h3 className="font-display text-2xl md:text-3xl mb-2">
                     {project.title}
                   </h3>
                   <p className="text-muted-foreground text-sm max-w-md">
                     {project.description}
                   </p>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="flex gap-2 flex-wrap">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs font-body text-muted-foreground border border-border px-3 py-1 rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <ExternalLink className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
+                <div className="flex gap-2 flex-wrap">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs font-body text-muted-foreground border border-border px-3 py-1 rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </motion.a>
+            </motion.div>
           ))}
         </div>
       </div>
