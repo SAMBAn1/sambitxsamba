@@ -72,11 +72,11 @@ const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="block py-8 border-t border-border"
+              className="block py-8 border-t border-border transition-colors duration-300 hover:bg-primary/5 px-4 -mx-4 rounded-sm group"
             >
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-display text-2xl md:text-3xl mb-2">
+                  <h3 className="font-display text-2xl md:text-3xl mb-2 transition-colors duration-300 group-hover:text-primary">
                     {project.title}
                   </h3>
                   <p className="text-muted-foreground text-sm max-w-md">
