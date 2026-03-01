@@ -19,7 +19,7 @@ const Hero = () => {
           </p>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] mb-8">
             Hello, I'm{" "}
-            <span className="text-gradient italic">Your Name</span>
+            <span className="text-gradient italic">Sambit.</span>
           </h1>
           <p className="text-muted-foreground text-lg md:text-xl max-w-md leading-relaxed mb-10">
             I craft digital experiences that blend thoughtful design with clean, performant code.
