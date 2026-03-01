@@ -3,22 +3,46 @@ import { ExternalLink } from "lucide-react";
 
 const projects = [
   {
-    title: "Project One",
-    description: "A full-stack web application with real-time features and elegant UI.",
-    tags: ["React", "TypeScript", "Supabase"],
+    title: "AI Agents for Autonomous Collections",
+    description: "Shipped AI agents that autonomously prioritize and allocate collection work, resulting in 50% FTE reduction across enterprise AR operations.",
+    tags: ["AI/ML", "Enterprise SaaS", "Automation"],
     link: "#",
   },
   {
-    title: "Project Two",
-    description: "Design system and component library built for scalability.",
-    tags: ["Design Systems", "Storybook", "Tailwind"],
+    title: "Markov Chain Worklist Engine",
+    description: "Patent-pending engine analyzing 1M+ invoice interactions to predict optimal collector actions, projected to reduce manual prioritization by 60%.",
+    tags: ["Data Science", "Patent", "Optimization"],
     link: "#",
   },
   {
-    title: "Project Three",
-    description: "E-commerce platform with seamless checkout and inventory management.",
-    tags: ["Next.js", "Stripe", "PostgreSQL"],
+    title: "RadiusOne AR Suite",
+    description: "Co-built a net-new SMB-focused SaaS product line from 0→1; identified $1B addressable market and onboarded 20+ clients contributing $9M ARR.",
+    tags: ["0→1 Product", "SMB SaaS", "Growth"],
     link: "#",
+  },
+  {
+    title: "Tags & Workflows Platform",
+    description: "Shipped tagging and workflow automation features — users created 200k+ tags applied 20M+ times, driving 35% adoption increase across 370 clients.",
+    tags: ["Workflow Automation", "Scale", "UX"],
+    link: "#",
+  },
+  {
+    title: "CRM Integration Hub",
+    description: "Delivered 20+ API-based CRM integrations (HubSpot, FollowUpBoss, KV Core, BoomTown, Lofty) for a US real estate platform.",
+    tags: ["API Integrations", "CRM", "Proptech"],
+    link: "#",
+  },
+  {
+    title: "KW Command Partnership",
+    description: "Built strategic CRM partnership with Keller Williams, retaining 20 at-risk clients and protecting $2.4M ARR.",
+    tags: ["Partnerships", "Retention", "Strategy"],
+    link: "#",
+  },
+  {
+    title: "ShrayArchy",
+    description: "Co-founded a handmade clay charms brand with 40k+ followers, 1M+ monthly views, and ~$2k monthly revenue through D2C sales and content.",
+    tags: ["D2C", "Content", "Entrepreneurship"],
+    link: "https://www.instagram.com/shrayarchy/",
   },
 ];
 
