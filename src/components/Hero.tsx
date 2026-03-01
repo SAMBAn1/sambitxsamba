@@ -60,12 +60,10 @@ const Hero = () => {
               View Experience
             </a>
             <a
-              href="/Sambit_Samantaray_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:sambit.samantaray2000@gmail.com"
               className="inline-flex items-center px-8 py-4 border border-border text-foreground font-body font-medium text-sm tracking-wide rounded-sm hover-lift hover:border-primary transition-colors"
             >
-              Resume ↗
+              Say Hi ✉
             </a>
           </div>
         </motion.div>
