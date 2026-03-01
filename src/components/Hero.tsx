@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import profileImage from "@/assets/profile-hero.jpg";
+import ParticleAvatar from "@/components/ParticleAvatar";
 
 const roles = ["Product Manager.", "Builder.", "Creator."];
 
@@ -75,13 +75,7 @@ const Hero = () => {
           className="relative hidden lg:block"
         >
           <div className="relative aspect-square max-w-lg ml-auto">
-            <div className="absolute -inset-4 rounded-sm border border-primary/20" />
-            <img
-              src={profileImage}
-              alt="Sambit Samantaray"
-              className="w-full h-full object-cover rounded-sm"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent rounded-sm" />
+            <ParticleAvatar className="w-full h-full" />
           </div>
         </motion.div>
       </div>
