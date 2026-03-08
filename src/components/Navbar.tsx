@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Linkedin, Instagram, Mail } from "lucide-react";
+import { Menu, X, Linkedin, Instagram, Mail, Github } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const links = [
@@ -15,6 +15,7 @@ const socialLinks = [
   { icon: Mail, href: "mailto:sambit.samantaray2000@gmail.com", label: "Email" },
   { icon: Linkedin, href: "https://www.linkedin.com/in/sambit-samantaray-225434166/", label: "LinkedIn" },
   { icon: Instagram, href: "https://www.instagram.com/i_am_a_samba/", label: "Instagram" },
+  { icon: Github, href: "https://github.com/SAMBAn1", label: "GitHub" },
 ];
 
 const Navbar = () => {
