@@ -103,10 +103,9 @@ const Navbar = () => {
               <Link
                 to="/blog"
                 onClick={() => setOpen(false)}
-                className="text-lg font-body text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+                className="text-lg font-body text-muted-foreground hover:text-primary transition-colors"
               >
-                <NotebookPen className="w-5 h-5" />
-                Blog
+                / blog<span className="animate-pulse text-primary">_</span>
               </Link>
               <div className="flex gap-4 pt-4 border-t border-border">
                 {socialLinks.map((s) => (
