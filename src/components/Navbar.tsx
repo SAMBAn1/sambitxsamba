@@ -29,15 +29,25 @@ const Navbar = () => {
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
-          {links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-sm font-body text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary transition-colors pb-0.5"
-            >
-              {link.label}
-            </a>
-          ))}
+          {links.map((link) =>
+            link.href.startsWith("/") ? (
+              <Link
+                key={link.label}
+                to={link.href}
+                className="text-sm font-body text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary transition-colors pb-0.5"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-sm font-body text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary transition-colors pb-0.5"
+              >
+                {link.label}
+              </a>
+            )
+          )}
           <div className="flex items-center gap-3 ml-4 border-l border-border pl-6">
             {socialLinks.map((s) => (
               <a
