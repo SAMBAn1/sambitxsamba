@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import ScrollToTop from "@/components/ScrollToTop";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -323,6 +324,7 @@ const BlogPost = () => {
           </div>
         </div>
       </article>
+      <ScrollToTop />
     </div>
   );
 };
