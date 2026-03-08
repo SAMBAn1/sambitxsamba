@@ -57,7 +57,7 @@ const Projects = () => {
           transition={{ duration: 0.7 }}
         >
           <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-4">
-            Selected Work
+            / selected work
           </p>
           <h2 className="font-display text-4xl md:text-5xl mb-16">
             Things I've <span className="italic text-gradient">built.</span>
