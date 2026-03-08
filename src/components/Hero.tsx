@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import PacmanPortrait from "@/components/PacmanPortrait";
+import GlitchPortrait from "@/components/GlitchPortrait";
 
 const roles = ["Product Manager.", "Builder.", "Creator."];
 
@@ -75,7 +75,7 @@ const Hero = () => {
           className="relative hidden lg:block"
         >
           <div className="relative aspect-square max-w-lg ml-auto">
-            <PacmanPortrait className="w-full h-full aspect-square" />
+            <GlitchPortrait className="w-full h-full aspect-square" />
           </div>
         </motion.div>
       </div>
