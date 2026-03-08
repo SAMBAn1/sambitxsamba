@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import ReadingProgress from "@/components/ReadingProgress";
+import BlogSidebar from "@/components/BlogSidebar";
 
 /* ── 24-page wall visual ── */
 const PageWallGraphic = () => (
@@ -133,6 +134,7 @@ const BlogPost = () => {
   return (
     <div className="min-h-screen bg-background">
       <ReadingProgress />
+      <BlogSidebar />
 
       {/* Nav bar for blog */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
@@ -151,7 +153,7 @@ const BlogPost = () => {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-16">
+      <section className="pt-32 pb-16 lg:pl-[260px] transition-all">
         <div className="container max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -175,7 +177,7 @@ const BlogPost = () => {
       </section>
 
       {/* Article */}
-      <article className="pb-32">
+      <article className="pb-32 lg:pl-[260px] transition-all">
         <div className="container max-w-3xl">
 
           <PageWallGraphic />
