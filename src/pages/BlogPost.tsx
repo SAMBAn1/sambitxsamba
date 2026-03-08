@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { X } from "lucide-react";
 import { Link } from "react-router-dom";
 import ReadingProgress from "@/components/ReadingProgress";
 import BlogSidebar from "@/components/BlogSidebar";
