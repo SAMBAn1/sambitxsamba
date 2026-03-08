@@ -23,30 +23,32 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container flex items-center justify-between h-16">
-        <a href="#" className="font-display text-xl text-foreground">
+        {/* Left: Logo + Nav links */}
+        <div className="hidden md:flex items-center gap-8">
+          <a href="#" className="font-display text-xl text-foreground">
+            Sambit<span className="text-primary animate-pulse">.</span>
+          </a>
+          <nav className="flex items-center gap-6">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-sm font-body text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary transition-colors pb-0.5"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+
+        {/* Mobile: Logo only */}
+        <a href="#" className="md:hidden font-display text-xl text-foreground">
           Sambit<span className="text-primary animate-pulse">.</span>
         </a>
 
-        {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-sm font-body text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary transition-colors pb-0.5"
-            >
-              {link.label}
-            </a>
-          ))}
-          <div className="flex items-center gap-3 ml-4 border-l border-border pl-6">
-            <Link
-              to="/blog"
-              className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Blog"
-            >
-              <NotebookPen className="w-4 h-4" />
-              <span className="text-sm font-body">Blog</span>
-            </Link>
+        {/* Right: Blog + Socials */}
+        <div className="hidden md:flex items-center gap-5">
+          <div className="flex items-center gap-3">
             {socialLinks.map((s) => (
               <a
                 key={s.label}
@@ -59,6 +61,15 @@ const Navbar = () => {
                 <s.icon className="w-4 h-4" />
               </a>
             ))}
+          </div>
+          <div className="border-l border-border pl-5">
+            <Link
+              to="/blog"
+              className="flex items-center gap-1.5 text-sm font-body text-muted-foreground hover:text-primary transition-colors"
+            >
+              <NotebookPen className="w-4 h-4" />
+              Blog
+            </Link>
           </div>
         </div>
 
