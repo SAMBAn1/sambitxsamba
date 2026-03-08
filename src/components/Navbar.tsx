@@ -52,7 +52,7 @@ const Navbar = () => {
             to="/blog"
             className="text-sm font-body text-muted-foreground hover:text-primary transition-colors"
           >
-            / blog<span className="animate-pulse">_</span>
+            / blog<span className="animate-pulse text-primary">_</span>
           </Link>
           <div className="flex items-center gap-3 border-l border-border pl-5">
             {socialLinks.map((s) => (
