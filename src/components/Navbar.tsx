@@ -82,27 +82,24 @@ const Navbar = () => {
             className="md:hidden bg-background border-b border-border overflow-hidden"
           >
             <div className="container py-6 flex flex-col gap-4">
-              {links.map((link) =>
-                link.href.startsWith("/") ? (
-                  <Link
-                    key={link.label}
-                    to={link.href}
-                    onClick={() => setOpen(false)}
-                    className="text-lg font-body text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className="text-lg font-body text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                )
-              )}
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="text-lg font-body text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <Link
+                to="/blog"
+                onClick={() => setOpen(false)}
+                className="text-lg font-body text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+              >
+                <NotebookPen className="w-5 h-5" />
+                Blog
+              </Link>
               <div className="flex gap-4 pt-4 border-t border-border">
                 {socialLinks.map((s) => (
                   <a
