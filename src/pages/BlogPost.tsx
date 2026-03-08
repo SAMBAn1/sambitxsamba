@@ -44,7 +44,7 @@ const ScannerComparison = () => (
       <div className="relative w-40 h-52 mx-auto mb-6">
         <div className="absolute inset-0 border-2 border-muted-foreground/40 rounded-sm" />
         <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-destructive rounded-tl-sm" />
-        <span className="absolute -top-6 left-0 text-[10px] text-destructive font-body">Missing corner</span>
+        <span className="absolute -top-8 left-0 text-[10px] text-destructive font-body">Missing corner</span>
         <div className="absolute bottom-2 left-2 right-2 flex flex-col gap-1">
           {[1, 2, 3].map((l) => (
             <div key={l} className="h-1 bg-muted-foreground/20 rounded-full" />
@@ -64,7 +64,7 @@ const ScannerComparison = () => (
           <div className="absolute top-0 left-0 h-full w-[2px] bg-primary" />
           <div className="absolute top-0 left-0 w-2 h-2 rounded-full bg-primary" />
         </div>
-        <span className="absolute -top-6 left-0 text-[10px] text-primary font-body">Inferred corner</span>
+        <span className="absolute -top-8 left-0 text-[10px] text-primary font-body">Inferred corner</span>
         <div className="absolute bottom-2 left-2 right-2 flex flex-col gap-1">
           {[1, 2, 3].map((l) => (
             <div key={l} className="h-1 bg-primary/20 rounded-full" />
