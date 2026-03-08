@@ -134,6 +134,7 @@ const BlogPost = () => {
   return (
     <div className="min-h-screen bg-background">
       <ReadingProgress />
+      <BlogSidebar />
 
       {/* Nav bar for blog */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
