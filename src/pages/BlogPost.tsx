@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { X } from "lucide-react";
 import { Link } from "react-router-dom";
 import ReadingProgress from "@/components/ReadingProgress";
 import BlogSidebar from "@/components/BlogSidebar";
@@ -142,13 +142,13 @@ const BlogPost = () => {
           <Link to="/" className="font-display text-xl text-foreground">
             Sambit<span className="text-primary animate-pulse">.</span>
           </Link>
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-sm font-body text-muted-foreground hover:text-primary transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
+           <Link
+             to="/"
+             className="inline-flex items-center justify-center w-8 h-8 text-sm font-body text-destructive hover:bg-destructive/10 transition-colors rounded"
+             title="Close and return to home"
+           >
+             <X className="w-5 h-5" />
+           </Link>
         </div>
       </nav>
 
@@ -314,13 +314,13 @@ const BlogPost = () => {
             <p className="text-muted-foreground font-body text-sm italic">
               More essays on product, systems, and the small frictions that reveal bigger truths.
             </p>
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 mt-4 text-primary text-sm font-body hover:underline"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              sambitxsamba.com
-            </Link>
+             <Link
+               to="/"
+               className="inline-flex items-center gap-2 mt-4 text-primary text-sm font-body hover:underline"
+             >
+               <X className="w-4 h-4" />
+               sambitxsamba.com
+             </Link>
           </div>
         </div>
       </article>
