@@ -75,7 +75,7 @@ const Hero = () => {
           className="relative hidden lg:block"
         >
           <div className="relative aspect-square max-w-lg ml-auto">
-            <GlitchPortrait className="w-full h-full aspect-square" />
+            <PacmanPortrait className="w-full h-full aspect-square" />
           </div>
         </motion.div>
       </div>
