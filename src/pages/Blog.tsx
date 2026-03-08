@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import ScrollToTop from "@/components/ScrollToTop";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
