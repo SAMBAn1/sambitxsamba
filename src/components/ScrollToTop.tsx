@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUp } from "lucide-react";
+import { ChevronUp } from "lucide-react";
 
 const ScrollToTop = () => {
   const [visible, setVisible] = useState(false);
@@ -23,7 +23,7 @@ const ScrollToTop = () => {
           className="fixed bottom-6 right-6 z-50 w-7 h-7 flex items-center justify-center rounded-sm bg-background/80 backdrop-blur-md text-primary hover:text-primary-foreground hover:bg-primary transition-colors"
           aria-label="Scroll to top"
         >
-          <ArrowUp className="w-4 h-4" />
+          <ChevronUp className="w-3.5 h-3.5" />
         </motion.button>
       )}
     </AnimatePresence>
