@@ -316,9 +316,8 @@ const BlogPost = () => {
             </p>
              <Link
                to="/"
-               className="inline-flex items-center gap-2 mt-4 text-primary text-sm font-body hover:underline"
+               className="inline-flex items-center mt-4 text-primary text-sm font-body hover:underline"
              >
-               <X className="w-4 h-4" />
                sambitxsamba.com
              </Link>
           </div>
