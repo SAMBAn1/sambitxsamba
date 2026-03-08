@@ -81,18 +81,8 @@ const BlogSidebar = () => {
                     </Link>
                   );
                 })}
-              </nav>
-
-              {/* Footer */}
-              <div className="px-5 py-4 border-t border-border/50">
-                <Link
-                  to="/"
-                  className="text-xs font-body text-muted-foreground hover:text-primary transition-colors"
-                >
-                  ← Back to Home
-                </Link>
-              </div>
-            </div>
+            </nav>
+          </div>
           </motion.aside>
         ) : (
           <motion.button
