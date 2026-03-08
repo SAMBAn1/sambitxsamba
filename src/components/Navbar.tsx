@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Linkedin, Instagram, Mail, Github } from "lucide-react";
+import { Menu, X, Linkedin, Instagram, Mail, Github, NotebookPen } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const links = [
+const navLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Work", href: "#projects" },
-  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -30,26 +29,24 @@ const Navbar = () => {
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
-          {links.map((link) =>
-            link.href.startsWith("/") ? (
-              <Link
-                key={link.label}
-                to={link.href}
-                className="text-sm font-body text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary transition-colors pb-0.5"
-              >
-                {link.label}
-              </Link>
-            ) : (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-sm font-body text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary transition-colors pb-0.5"
-              >
-                {link.label}
-              </a>
-            )
-          )}
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="text-sm font-body text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary transition-colors pb-0.5"
+            >
+              {link.label}
+            </a>
+          ))}
           <div className="flex items-center gap-3 ml-4 border-l border-border pl-6">
+            <Link
+              to="/blog"
+              className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors"
+              aria-label="Blog"
+            >
+              <NotebookPen className="w-4 h-4" />
+              <span className="text-sm font-body">Blog</span>
+            </Link>
             {socialLinks.map((s) => (
               <a
                 key={s.label}
@@ -85,27 +82,24 @@ const Navbar = () => {
             className="md:hidden bg-background border-b border-border overflow-hidden"
           >
             <div className="container py-6 flex flex-col gap-4">
-              {links.map((link) =>
-                link.href.startsWith("/") ? (
-                  <Link
-                    key={link.label}
-                    to={link.href}
-                    onClick={() => setOpen(false)}
-                    className="text-lg font-body text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className="text-lg font-body text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                )
-              )}
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="text-lg font-body text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <Link
+                to="/blog"
+                onClick={() => setOpen(false)}
+                className="text-lg font-body text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+              >
+                <NotebookPen className="w-5 h-5" />
+                Blog
+              </Link>
               <div className="flex gap-4 pt-4 border-t border-border">
                 {socialLinks.map((s) => (
                   <a
