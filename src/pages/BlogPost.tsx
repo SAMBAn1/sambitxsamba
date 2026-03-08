@@ -314,7 +314,7 @@ const BlogPost = () => {
               className="inline-flex items-center gap-2 mt-4 text-primary text-sm font-body hover:underline"
             >
               <ArrowLeft className="w-4 h-4" />
-              Back to sambitxsamba.com
+              sambitxsamba.com
             </Link>
           </div>
         </div>
