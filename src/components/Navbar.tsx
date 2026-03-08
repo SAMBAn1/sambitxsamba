@@ -31,7 +31,7 @@ const Navbar = () => {
             <a
               key={link.label}
               href={link.href}
-              className="text-sm font-body text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-body text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary transition-colors pb-0.5"
             >
               {link.label}
             </a>
@@ -73,14 +73,14 @@ const Navbar = () => {
           >
             <div className="container py-6 flex flex-col gap-4">
               {links.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="text-lg font-body text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {link.label}
-                </a>
+               <a
+                   key={link.label}
+                   href={link.href}
+                   onClick={() => setOpen(false)}
+                   className="text-lg font-body text-muted-foreground hover:text-primary transition-colors"
+                 >
+                   {link.label}
+                 </a>
               ))}
               <div className="flex gap-4 pt-4 border-t border-border">
                 {socialLinks.map((s) => (
