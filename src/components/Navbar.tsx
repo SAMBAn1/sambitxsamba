@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Linkedin, Instagram, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const links = [
   { label: "About", href: "#about" },
