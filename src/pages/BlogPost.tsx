@@ -173,7 +173,7 @@ const BlogPost = () => {
               A simple document scan turned into an unexpected lesson in UX, computer vision, and the difference between building for the happy path versus building for reality.
             </p>
             <div className="flex items-center gap-3 mt-6 text-xs font-body text-muted-foreground/60">
-              <span>By Sambit Samantaray</span>
+              <span>By <Link to="/" className="hover:text-primary transition-colors">Sambit Samantaray</Link></span>
               <span className="w-1 h-1 rounded-full bg-muted-foreground/40" />
               <span>March 8, 2026</span>
             </div>
