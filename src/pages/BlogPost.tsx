@@ -153,7 +153,7 @@ const BlogPost = () => {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-16 lg:pl-[260px] transition-all">
+      <section className="pt-32 pb-16 lg:pl-[220px] transition-all">
         <div className="container max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -177,7 +177,7 @@ const BlogPost = () => {
       </section>
 
       {/* Article */}
-      <article className="pb-32 lg:pl-[260px] transition-all">
+      <article className="pb-32 lg:pl-[220px] transition-all">
         <div className="container max-w-3xl">
 
           <PageWallGraphic />
