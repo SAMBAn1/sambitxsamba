@@ -50,7 +50,7 @@ const Hero = () => {
           </p>
           <p className="text-foreground text-xl md:text-2xl font-body font-medium mb-10 h-8">
             {text}
-            <span className="inline-block w-0.5 h-6 bg-primary ml-0.5 animate-pulse" />
+            <span className="inline-block w-0.5 bg-primary ml-0.5 animate-pulse align-baseline" style={{ height: '1.2em' }} />
           </p>
           <div className="flex gap-4">
             <a
