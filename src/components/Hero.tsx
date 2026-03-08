@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import GlitchPortrait from "@/components/GlitchPortrait";
+import PacmanPortrait from "@/components/PacmanPortrait";
 
 const roles = ["Product Manager.", "Builder.", "Creator."];
 
