@@ -177,7 +177,7 @@ const BlogPost = () => {
       </section>
 
       {/* Article */}
-      <article className="pb-32 lg:pl-[220px] transition-all">
+      <article className="pb-32 lg:pl-[260px] transition-all">
         <div className="container max-w-3xl">
 
           <PageWallGraphic />
