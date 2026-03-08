@@ -48,7 +48,13 @@ const Navbar = () => {
 
         {/* Right: Blog + Socials */}
         <div className="hidden md:flex items-center gap-5">
-          <div className="flex items-center gap-3">
+          <Link
+            to="/blog"
+            className="text-sm font-body text-muted-foreground hover:text-primary transition-colors"
+          >
+            /Blog<span className="animate-pulse">_</span>
+          </Link>
+          <div className="flex items-center gap-3 border-l border-border pl-5">
             {socialLinks.map((s) => (
               <a
                 key={s.label}
@@ -61,15 +67,6 @@ const Navbar = () => {
                 <s.icon className="w-4 h-4" />
               </a>
             ))}
-          </div>
-          <div className="border-l border-border pl-5">
-            <Link
-              to="/blog"
-              className="flex items-center gap-1.5 text-sm font-body text-muted-foreground hover:text-primary transition-colors"
-            >
-              <NotebookPen className="w-4 h-4" />
-              Blog
-            </Link>
           </div>
         </div>
 
