@@ -34,11 +34,10 @@ const BlogSidebar = () => {
                 Index
               </span>
               <motion.button
-                initial={{ opacity: 0 }}
                 animate={{ opacity: hovered ? 1 : 0 }}
                 transition={{ duration: 0.2 }}
                 onClick={() => setCollapsed(true)}
-                className="text-muted-foreground/40 hover:text-primary transition-colors"
+                className="text-primary hover:text-primary-foreground hover:bg-primary rounded-sm w-7 h-7 flex items-center justify-center transition-colors"
                 aria-label="Collapse sidebar"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
