@@ -7,6 +7,7 @@ import { useState } from "react";
 const BlogSidebar = () => {
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   return (
     <AnimatePresence mode="wait">
@@ -14,23 +15,34 @@ const BlogSidebar = () => {
         <motion.aside
           key="open"
           initial={{ width: 0, opacity: 0 }}
-          animate={{ width: 220, opacity: 1 }}
+          animate={{ width: 260, opacity: 1 }}
           exit={{ width: 0, opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="hidden lg:block fixed top-16 left-0 bottom-0 z-40 border-r border-border/30 bg-background/90 backdrop-blur-sm overflow-hidden"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          className="hidden lg:block fixed top-16 left-0 bottom-0 z-40 bg-background/90 backdrop-blur-sm overflow-hidden"
+          style={{
+            borderRight: hovered
+              ? "1px solid hsl(var(--border) / 0.5)"
+              : "1px solid transparent",
+            transition: "border-color 0.3s ease",
+          }}
         >
-          <div className="flex flex-col h-full w-[220px]">
+          <div className="flex flex-col h-full w-[260px]">
             <div className="flex items-center justify-between px-4 py-4">
               <span className="text-[10px] font-body tracking-[0.25em] uppercase text-muted-foreground/60">
                 Index
               </span>
-              <button
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: hovered ? 1 : 0 }}
+                transition={{ duration: 0.2 }}
                 onClick={() => setCollapsed(true)}
                 className="text-muted-foreground/40 hover:text-primary transition-colors"
                 aria-label="Collapse sidebar"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
-              </button>
+              </motion.button>
             </div>
 
             <nav className="flex-1 overflow-y-auto px-3">
@@ -48,7 +60,7 @@ const BlogSidebar = () => {
                         : "text-muted-foreground/70 hover:text-foreground/90"
                     }`}
                   >
-                    <p className="text-xs font-body leading-relaxed line-clamp-2">
+                    <p className="text-xs font-body leading-relaxed">
                       {post.title}
                     </p>
                     <span className="text-[10px] font-body text-muted-foreground/40 mt-1 block">
@@ -70,7 +82,7 @@ const BlogSidebar = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setCollapsed(false)}
-          className="hidden lg:flex fixed top-20 left-3 z-40 items-center justify-center w-7 h-7 rounded-sm text-muted-foreground/40 hover:text-primary transition-colors"
+          className="hidden lg:flex fixed top-20 left-3 z-40 items-center justify-center w-7 h-7 rounded-sm text-primary hover:text-primary-foreground hover:bg-primary transition-colors"
           aria-label="Expand sidebar"
         >
           <ChevronRight className="w-3.5 h-3.5" />
