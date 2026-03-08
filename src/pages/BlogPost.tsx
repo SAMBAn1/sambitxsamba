@@ -309,6 +309,13 @@ const BlogPost = () => {
             <p className="text-muted-foreground font-body text-sm italic">
               More essays on product, systems, and the small frictions that reveal bigger truths.
             </p>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 mt-4 text-primary text-sm font-body hover:underline"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to sambitxsamba.com
+            </Link>
           </div>
         </div>
       </article>
