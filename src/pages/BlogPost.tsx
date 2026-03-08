@@ -324,6 +324,7 @@ const BlogPost = () => {
           </div>
         </div>
       </article>
+      <ScrollToTop />
     </div>
   );
 };

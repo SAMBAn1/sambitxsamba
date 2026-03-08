@@ -94,7 +94,8 @@ const Blog = () => {
             ))}
           </div>
         </div>
-      </section>
+    </section>
+      <ScrollToTop />
     </div>
   );
 };
