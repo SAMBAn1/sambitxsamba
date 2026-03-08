@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Linkedin, Instagram, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const links = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Work", href: "#projects" },
+  { label: "Blog", href: "/blog/the-24-page-wall-iphone-scanner-apps" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -27,15 +29,25 @@ const Navbar = () => {
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
-          {links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-sm font-body text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary transition-colors pb-0.5"
-            >
-              {link.label}
-            </a>
-          ))}
+          {links.map((link) =>
+            link.href.startsWith("/") ? (
+              <Link
+                key={link.label}
+                to={link.href}
+                className="text-sm font-body text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary transition-colors pb-0.5"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-sm font-body text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary transition-colors pb-0.5"
+              >
+                {link.label}
+              </a>
+            )
+          )}
           <div className="flex items-center gap-3 ml-4 border-l border-border pl-6">
             {socialLinks.map((s) => (
               <a
@@ -72,16 +84,27 @@ const Navbar = () => {
             className="md:hidden bg-background border-b border-border overflow-hidden"
           >
             <div className="container py-6 flex flex-col gap-4">
-              {links.map((link) => (
-               <a
-                   key={link.label}
-                   href={link.href}
-                   onClick={() => setOpen(false)}
-                   className="text-lg font-body text-muted-foreground hover:text-primary transition-colors"
-                 >
-                   {link.label}
-                 </a>
-              ))}
+              {links.map((link) =>
+                link.href.startsWith("/") ? (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    onClick={() => setOpen(false)}
+                    className="text-lg font-body text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="text-lg font-body text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                )
+              )}
               <div className="flex gap-4 pt-4 border-t border-border">
                 {socialLinks.map((s) => (
                   <a
