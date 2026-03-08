@@ -105,7 +105,7 @@ const Experience = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="transition-all duration-500 ease-in-out"
+            className="min-h-[420px]"
           >
             <h3 className="font-display text-xl md:text-2xl mb-1">
               {active.role}{" "}
