@@ -20,7 +20,7 @@ export const blogPosts: BlogMeta[] = [
       "A simple document scan turned into an unexpected lesson in UX, computer vision, and the difference between building for the happy path versus building for reality.",
     tag: "Product Thinking",
     readTime: "6 min read",
-    date: "2025-06-01",
+    date: "2026-03-01",
   },
 ];
 
