@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Linkedin, Instagram, Mail, Github } from "lucide-react";
+import { Menu, X, Linkedin, Instagram, Mail, Github, NotebookPen } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const links = [
+const navLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Work", href: "#projects" },
-  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "#contact" },
 ];
 
