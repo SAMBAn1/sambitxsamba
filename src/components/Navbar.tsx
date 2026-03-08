@@ -7,7 +7,7 @@ const links = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Work", href: "#projects" },
-  { label: "Blog", href: "/blog/the-24-page-wall-iphone-scanner-apps" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "#contact" },
 ];
 
