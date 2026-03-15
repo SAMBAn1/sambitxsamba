@@ -15,6 +15,15 @@ export interface BlogMeta {
 
 export const blogPosts: BlogMeta[] = [
   {
+    slug: "how-display-technologies-actually-work",
+    title: "I Went Looking for a Second Monitor. I Ended Up Learning How Screens Actually Work",
+    subtitle:
+      "What started as a practical desk upgrade became a lesson in how screens are built, why display marketing is so confusing, and what actually matters when choosing one.",
+    tag: "Observation",
+    readTime: "8 min read",
+    date: "2026-03-15",
+  },
+  {
     slug: "the-24-page-wall-iphone-scanner-apps",
     title: "The 24-Page Wall: What Scanning a 36-Page Agreement Taught Me About Product Design",
     subtitle:
