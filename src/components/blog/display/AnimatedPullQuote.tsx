@@ -12,7 +12,7 @@ const AnimatedPullQuote = ({
   children: string;
   highlightWord?: string;
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLQuoteElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   // Split text to highlight a specific word
