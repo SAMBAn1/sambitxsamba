@@ -189,8 +189,6 @@ const DisplayTechnologyPost = () => (
           <div className="flex items-center gap-3 mb-8">
             <span className="text-primary text-xs font-body tracking-[0.2em] uppercase">Observation</span>
             <span className="w-1 h-1 rounded-full bg-muted-foreground" />
-            <span className="text-muted-foreground text-xs font-body">Display Technology</span>
-            <span className="w-1 h-1 rounded-full bg-muted-foreground" />
             <span className="text-muted-foreground text-xs font-body">8 min read</span>
           </div>
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-6">
