@@ -192,7 +192,8 @@ const DisplayTechnologyPost = () => (
             <span className="text-muted-foreground text-xs font-body">8 min read</span>
           </div>
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-6">
-            I Went Looking for a Second Monitor. I Ended Up Learning How Screens Actually Work
+            I Went Looking for a Second Monitor. I Ended Up Learning How Screens{" "}
+            <span className="italic text-gradient">Actually Work</span>
           </h1>
           <p className="text-muted-foreground text-lg md:text-xl font-body leading-relaxed max-w-2xl">
             What started as a practical desk upgrade became a lesson in how screens are built, why display marketing is so confusing, and what actually matters when choosing one.
