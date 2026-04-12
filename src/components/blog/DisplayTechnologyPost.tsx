@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 
 /* ── Reusable article primitives ── */
 const P = ({ children }: { children: React.ReactNode }) => (
@@ -26,6 +27,253 @@ const PullQuote = ({ children }: { children: React.ReactNode }) => (
     </p>
   </motion.blockquote>
 );
+
+/* ── Hero Optics Diagram: LCD vs OLED light path ── */
+const HeroOpticsDiagram = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  const lcdLayers = [
+    { label: "Backlight", x: 8 },
+    { label: "Polarizer", x: 25 },
+    { label: "Liquid Crystal", x: 42 },
+    { label: "Color Filter", x: 59 },
+  ];
+
+  const oledLayers = [
+    { label: "Substrate", x: 8 },
+    { label: "Anode", x: 22 },
+    { label: "Emissive Layer", x: 40 },
+    { label: "Cathode", x: 58 },
+  ];
+
+  const LightRay = ({ y, delay, dimEnd }: { y: number; delay: number; dimEnd?: boolean }) => (
+    <motion.line
+      x1="10%"
+      y1={`${y}%`}
+      x2="75%"
+      y2={`${y}%`}
+      stroke="hsl(var(--primary))"
+      strokeWidth="1"
+      strokeOpacity={dimEnd ? 0.3 : 0.6}
+      initial={{ pathLength: 0 }}
+      animate={isInView ? { pathLength: 1 } : {}}
+      transition={{ duration: 1.2, delay: delay + 0.4, ease: "easeOut" }}
+    />
+  );
+
+  const OutputSquare = ({ yStart, rows, trueBlack }: { yStart: number; rows: number[][]; trueBlack: boolean }) => (
+    <g>
+      <rect
+        x="78%"
+        y={`${yStart}%`}
+        width="18%"
+        height="70%"
+        rx="2"
+        fill="none"
+        stroke="hsl(var(--border))"
+        strokeWidth="0.5"
+      />
+      {rows.map((row, ri) =>
+        row.map((val, ci) => (
+          <motion.rect
+            key={`${ri}-${ci}`}
+            x={`${79 + ci * 4.2}%`}
+            y={`${yStart + 5 + ri * 16}%`}
+            width="3.5%"
+            height="13%"
+            rx="1"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 1.4 + (ri * row.length + ci) * 0.05 }}
+            fill={
+              val === 0
+                ? trueBlack
+                  ? "hsl(var(--background))"
+                  : "hsl(220 15% 16%)"
+                : val === 1
+                ? "hsl(var(--primary))"
+                : val === 2
+                ? "hsl(142 50% 30%)"
+                : "hsl(160 40% 25%)"
+            }
+            stroke={val === 0 && trueBlack ? "hsl(var(--border))" : "none"}
+            strokeWidth="0.3"
+          />
+        ))
+      )}
+    </g>
+  );
+
+  const pixelGrid = [
+    [1, 0, 2, 3],
+    [0, 1, 1, 0],
+    [3, 2, 0, 1],
+    [1, 1, 3, 2],
+  ];
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6 }}
+      className="my-12"
+    >
+      {/* LCD Diagram */}
+      <div className="mb-1">
+        <p className="text-primary text-[10px] font-body tracking-[0.2em] uppercase mb-2">LCD / LED — Backlit</p>
+        <div className="relative w-full" style={{ height: "120px" }}>
+          <svg width="100%" height="100%" viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid meet">
+            {/* Layer lines */}
+            {lcdLayers.map((layer, i) => (
+              <g key={layer.label}>
+                <motion.line
+                  x1={`${layer.x}%`}
+                  y1="10%"
+                  x2={`${layer.x}%`}
+                  y2="90%"
+                  stroke="hsl(var(--border))"
+                  strokeWidth="1.5"
+                  initial={{ scaleY: 0 }}
+                  animate={isInView ? { scaleY: 1 } : {}}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  style={{ transformOrigin: `${layer.x}% 50%` }}
+                />
+                <motion.text
+                  x={`${layer.x}%`}
+                  y="6%"
+                  textAnchor="middle"
+                  fill="hsl(var(--muted-foreground))"
+                  fontSize="9"
+                  fontFamily="var(--font-body)"
+                  initial={{ opacity: 0 }}
+                  animate={isInView ? { opacity: 0.7 } : {}}
+                  transition={{ delay: i * 0.1 + 0.3 }}
+                >
+                  {layer.label}
+                </motion.text>
+              </g>
+            ))}
+
+            {/* Light rays */}
+            {[25, 40, 55, 70, 80].map((y, i) => (
+              <LightRay key={y} y={y} delay={i * 0.08} />
+            ))}
+
+            {/* Backlight glow */}
+            <motion.circle
+              cx="5%"
+              cy="50%"
+              r="15"
+              fill="hsl(var(--primary))"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 0.15 } : {}}
+              transition={{ delay: 0.2 }}
+            />
+
+            {/* Output screen */}
+            <OutputSquare yStart={10} rows={pixelGrid} trueBlack={false} />
+
+            {/* Label for gray blacks */}
+            <motion.text
+              x="87%"
+              y="98%"
+              textAnchor="middle"
+              fill="hsl(var(--muted-foreground))"
+              fontSize="8"
+              fontFamily="var(--font-body)"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 0.5 } : {}}
+              transition={{ delay: 1.8 }}
+            >
+              Blacks appear grayish ↑
+            </motion.text>
+          </svg>
+        </div>
+      </div>
+
+      {/* OLED Diagram */}
+      <div>
+        <p className="text-primary text-[10px] font-body tracking-[0.2em] uppercase mb-2">OLED — Self-Emissive</p>
+        <div className="relative w-full" style={{ height: "120px" }}>
+          <svg width="100%" height="100%" viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid meet">
+            {/* Layer lines */}
+            {oledLayers.map((layer, i) => (
+              <g key={layer.label}>
+                <motion.line
+                  x1={`${layer.x}%`}
+                  y1="10%"
+                  x2={`${layer.x}%`}
+                  y2="90%"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth="1.5"
+                  strokeOpacity={0.4}
+                  initial={{ scaleY: 0 }}
+                  animate={isInView ? { scaleY: 1 } : {}}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  style={{ transformOrigin: `${layer.x}% 50%` }}
+                />
+                <motion.text
+                  x={`${layer.x}%`}
+                  y="6%"
+                  textAnchor="middle"
+                  fill="hsl(var(--muted-foreground))"
+                  fontSize="9"
+                  fontFamily="var(--font-body)"
+                  initial={{ opacity: 0 }}
+                  animate={isInView ? { opacity: 0.7 } : {}}
+                  transition={{ delay: i * 0.1 + 0.3 }}
+                >
+                  {layer.label}
+                </motion.text>
+              </g>
+            ))}
+
+            {/* Individual pixel emission arrows */}
+            {[25, 40, 55, 70, 80].map((y, i) => {
+              const isOff = i === 1 || i === 4;
+              return (
+                <motion.line
+                  key={y}
+                  x1="10%"
+                  y1={`${y}%`}
+                  x2={isOff ? "45%" : "75%"}
+                  y2={`${y}%`}
+                  stroke={isOff ? "hsl(var(--muted-foreground))" : "hsl(var(--primary))"}
+                  strokeWidth="1"
+                  strokeOpacity={isOff ? 0.15 : 0.6}
+                  strokeDasharray={isOff ? "3 4" : "none"}
+                  initial={{ pathLength: 0 }}
+                  animate={isInView ? { pathLength: 1 } : {}}
+                  transition={{ duration: 1, delay: 0.5 + i * 0.08, ease: "easeOut" }}
+                />
+              );
+            })}
+
+            {/* Output screen */}
+            <OutputSquare yStart={10} rows={pixelGrid} trueBlack={true} />
+
+            {/* Label for true blacks */}
+            <motion.text
+              x="87%"
+              y="98%"
+              textAnchor="middle"
+              fill="hsl(var(--primary))"
+              fontSize="8"
+              fontFamily="var(--font-body)"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 0.6 } : {}}
+              transition={{ delay: 1.8 }}
+            >
+              True black — pixels off ↑
+            </motion.text>
+          </svg>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 /* ── Visual 1: Two display models diagram ── */
 const DisplayModelsDiagram = () => (
@@ -204,6 +452,13 @@ const DisplayTechnologyPost = () => (
             <span>March 15, 2026</span>
           </div>
         </motion.div>
+      </div>
+    </section>
+
+    {/* Hero Optics Diagram */}
+    <section className="pb-8 lg:pl-[260px] transition-all">
+      <div className="container max-w-3xl">
+        <HeroOpticsDiagram />
       </div>
     </section>
 
