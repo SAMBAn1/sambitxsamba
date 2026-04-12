@@ -1,19 +1,5 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import {
-  HeroDisplayAnimation,
-  AmbientIntro,
-  ConfusionToClarity,
-  LayeredDisplayExplainer,
-  RabbitHoleDivider,
-  EnhancedTechMatrix,
-  PixelBlackout,
-  EnhancedConfusionStack,
-  EyeComfortIllustration,
-  EnhancedFinalChoiceCard,
-  SharpPullQuote,
-  FinalEndingAnimation,
-} from "./display-illustrations";
 
 /* ── Reusable article primitives ── */
 const P = ({ children }: { children: React.ReactNode }) => (
@@ -28,12 +14,26 @@ const H3 = ({ children }: { children: React.ReactNode }) => (
   <h3 className="font-display text-xl md:text-2xl text-foreground mt-10 mb-4">{children}</h3>
 );
 
+const PullQuote = ({ children }: { children: React.ReactNode }) => (
+  <motion.blockquote
+    initial={{ opacity: 0, x: -20 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    className="my-16 py-8 border-l-2 border-primary pl-8"
+  >
+    <p className="font-display text-2xl md:text-3xl italic text-foreground leading-snug">
+      {children}
+    </p>
+  </motion.blockquote>
+);
+
 /* ── Visual 1: Two display models diagram ── */
 const DisplayModelsDiagram = () => (
   <div className="grid md:grid-cols-2 gap-6 my-16">
     <div className="border border-border rounded-sm p-8 bg-card">
       <p className="text-primary text-xs font-body tracking-[0.2em] uppercase mb-6">Backlit Display</p>
       <div className="flex flex-col items-center gap-3 my-6">
+        {/* Backlight layer */}
         <div className="w-48 h-8 bg-muted-foreground/20 border border-muted-foreground/30 rounded-sm flex items-center justify-center">
           <span className="text-[10px] font-body text-muted-foreground">Backlight source</span>
         </div>
@@ -43,6 +43,7 @@ const DisplayModelsDiagram = () => (
           viewport={{ once: true }}
           className="w-px h-6 bg-primary origin-top"
         />
+        {/* LCD layer */}
         <div className="w-48 h-8 bg-primary/10 border border-primary/30 rounded-sm flex items-center justify-center">
           <span className="text-[10px] font-body text-primary">LCD / crystal layer</span>
         </div>
@@ -52,6 +53,7 @@ const DisplayModelsDiagram = () => (
           viewport={{ once: true }}
           className="w-px h-6 bg-primary origin-top"
         />
+        {/* Final image */}
         <div className="w-48 h-8 bg-foreground/10 border border-foreground/20 rounded-sm flex items-center justify-center">
           <span className="text-[10px] font-body text-foreground">Final image</span>
         </div>
@@ -63,6 +65,7 @@ const DisplayModelsDiagram = () => (
     <div className="border border-primary/30 rounded-sm p-8 bg-card">
       <p className="text-primary text-xs font-body tracking-[0.2em] uppercase mb-6">Self-Emissive Display</p>
       <div className="flex flex-col items-center gap-3 my-6">
+        {/* Pixel grid */}
         <div className="grid grid-cols-6 gap-1 my-4">
           {Array.from({ length: 24 }).map((_, i) => (
             <motion.div
@@ -83,6 +86,96 @@ const DisplayModelsDiagram = () => (
   </div>
 );
 
+/* ── Visual 2: Technology comparison matrix ── */
+const TechComparisonMatrix = () => {
+  const techs = [
+    { name: "TN", color: "★★", viewing: "★", contrast: "★★", speed: "★★★★", use: "Competitive gaming" },
+    { name: "IPS", color: "★★★★", viewing: "★★★★", contrast: "★★★", speed: "★★★", use: "Creative work, general use" },
+    { name: "VA", color: "★★★", viewing: "★★★", contrast: "★★★★", speed: "★★", use: "Movies, dark content" },
+    { name: "OLED", color: "★★★★★", viewing: "★★★★★", contrast: "★★★★★", speed: "★★★★★", use: "Premium everything" },
+  ];
+
+  return (
+    <div className="my-16 overflow-x-auto">
+      <table className="w-full text-sm font-body border-collapse">
+        <thead>
+          <tr className="border-b border-border">
+            <th className="text-left py-3 pr-4 text-primary text-xs tracking-[0.15em] uppercase font-normal">Tech</th>
+            <th className="text-left py-3 px-4 text-muted-foreground/60 text-xs tracking-[0.15em] uppercase font-normal">Color</th>
+            <th className="text-left py-3 px-4 text-muted-foreground/60 text-xs tracking-[0.15em] uppercase font-normal">Viewing Angles</th>
+            <th className="text-left py-3 px-4 text-muted-foreground/60 text-xs tracking-[0.15em] uppercase font-normal">Contrast</th>
+            <th className="text-left py-3 px-4 text-muted-foreground/60 text-xs tracking-[0.15em] uppercase font-normal">Speed</th>
+            <th className="text-left py-3 pl-4 text-muted-foreground/60 text-xs tracking-[0.15em] uppercase font-normal">Typical Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          {techs.map((t) => (
+            <tr key={t.name} className="border-b border-border/50">
+              <td className="py-3 pr-4 text-foreground font-display">{t.name}</td>
+              <td className="py-3 px-4 text-primary/80">{t.color}</td>
+              <td className="py-3 px-4 text-primary/80">{t.viewing}</td>
+              <td className="py-3 px-4 text-primary/80">{t.contrast}</td>
+              <td className="py-3 px-4 text-primary/80">{t.speed}</td>
+              <td className="py-3 pl-4 text-muted-foreground">{t.use}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+/* ── Visual 3: Consumer confusion stack ── */
+const ConfusionStack = () => {
+  const layers = [
+    { label: "Marketing labels", desc: "LED TV, Retina, NanoCell…", opacity: "bg-muted-foreground/10" },
+    { label: "Performance specs", desc: "Refresh rate, HDR, response time", opacity: "bg-muted-foreground/15" },
+    { label: "Panel structure", desc: "TN, IPS, VA — liquid crystal arrangement", opacity: "bg-muted-foreground/20" },
+    { label: "Illumination technology", desc: "Backlit (LED/Mini-LED) vs Self-emissive (OLED)", opacity: "bg-primary/20" },
+  ];
+
+  return (
+    <div className="my-16">
+      <p className="text-primary text-xs font-body tracking-[0.2em] uppercase mb-6 text-center">Why display terminology feels confusing</p>
+      <div className="flex flex-col items-center gap-2 max-w-md mx-auto">
+        {layers.map((layer, i) => (
+          <motion.div
+            key={layer.label}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.1 }}
+            className={`w-full ${layer.opacity} border border-border/50 rounded-sm p-4`}
+          >
+            <p className="text-xs font-body text-foreground">{layer.label}</p>
+            <p className="text-[11px] font-body text-muted-foreground mt-1">{layer.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+      <p className="text-center text-sm text-muted-foreground font-body mt-4 italic">
+        Consumers encounter all four layers at once — with no guide to separate them.
+      </p>
+    </div>
+  );
+};
+
+/* ── Visual 4: What I bought card ── */
+const FinalChoiceCard = () => (
+  <div className="my-16 border border-border/50 rounded-sm p-8 bg-card max-w-sm mx-auto">
+    <p className="text-primary text-xs font-body tracking-[0.2em] uppercase mb-4">What I ended up buying</p>
+    <h3 className="font-display text-lg text-foreground mb-4">Lenovo Legion 24‑10</h3>
+    <div className="grid grid-cols-2 gap-y-2 text-sm font-body">
+      <span className="text-muted-foreground/60">Size</span><span className="text-muted-foreground">23.8″</span>
+      <span className="text-muted-foreground/60">Resolution</span><span className="text-muted-foreground">FHD</span>
+      <span className="text-muted-foreground/60">Panel</span><span className="text-primary">IPS</span>
+      <span className="text-muted-foreground/60">Refresh</span><span className="text-muted-foreground">240Hz</span>
+    </div>
+    <p className="text-xs text-muted-foreground/60 font-body mt-4 italic">
+      Chosen for refresh-rate parity with my existing setup, plus meaningfully better image quality.
+    </p>
+  </div>
+);
+
 const DisplayTechnologyPost = () => (
   <>
     {/* Hero */}
@@ -93,9 +186,6 @@ const DisplayTechnologyPost = () => (
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* 1. Hero Animation */}
-          <HeroDisplayAnimation />
-
           <div className="flex items-center gap-3 mb-8">
             <span className="text-primary text-xs font-body tracking-[0.2em] uppercase">Observation</span>
             <span className="w-1 h-1 rounded-full bg-muted-foreground" />
@@ -120,27 +210,17 @@ const DisplayTechnologyPost = () => (
     {/* Article */}
     <article className="pb-32 lg:pl-[260px] transition-all">
       <div className="container max-w-3xl">
-        <div className="border-t border-border pt-16 relative">
-          {/* 2. Ambient Intro behind opening */}
-          <AmbientIntro />
-
+        <div className="border-t border-border pt-16">
           <P>I was not trying to become an expert in display technology.</P>
           <P>I was just trying to buy a second monitor.</P>
           <P>My current setup had started feeling cramped. I work on a 24-inch ASUS XG248Q, a monitor I bought around six to seven years ago. It has served me well, especially for responsiveness, but it is a TN panel, and over time its limits became harder to ignore. The screen space felt tight, and once I decided I needed a secondary monitor, I had one clear rule: if I am adding another display to my desk, it should not trap me in older image quality standards.</P>
           <P>So the requirement was simple. Another 24-inch monitor. Same general size. Same practical fit for the desk. But better image quality, because one day the older monitor might stop being my primary anyway.</P>
           <P>That was the buying decision.</P>
           <P>What followed was the rabbit hole.</P>
-
-          {/* 5. Rabbit Hole Divider */}
-          <RabbitHoleDivider />
-
           <P>I began where most people begin: with consumer shorthand. TN is fast. IPS looks better. OLED is the dream. That much I already knew. But somewhere in the middle of comparing monitors, specs, and reviews, I came across a video that explained display technology in a way that made the whole category click for me. Not just which one is better, but why they are different in the first place. And once that mental model sets in, a lot of the confusion around monitors and TVs starts disappearing.</P>
           <P>The video's most useful framing is also the simplest one: most modern displays work in one of two ways. Either there is a light source behind the screen being shaped into an image, or each pixel creates its own light.</P>
           <P>That distinction sounds basic, but it changes how you interpret almost every display term you see online.</P>
         </div>
-
-        {/* 3. Confusion to Clarity */}
-        <ConfusionToClarity />
 
         <H2>The real split is not TN vs IPS vs OLED</H2>
         <P>When people talk about display technology, the language gets mixed together very quickly. Some terms describe the way the image is illuminated. Some describe the way the liquid crystal layer behaves. Some describe improvements to backlighting. And some are just brand language dressed up as if they are entirely new categories.</P>
@@ -151,23 +231,16 @@ const DisplayTechnologyPost = () => (
         <P>That is the world of LCDs. The panel itself does not emit light. It controls and shapes light passing through it. This is why terms like TN, IPS, and VA belong to the LCD family. They are not separate from LCD. They are different ways of arranging the liquid crystals inside an LCD panel, each with different tradeoffs in color, viewing angle, contrast, and speed.</P>
         <P>This is also where a lot of modern confusion begins, because many screens marketed as "LED monitors" are still LCDs. The LED part usually refers to the backlight, not a fundamentally emissive panel. Mini-LED pushes that backlight architecture further with more, smaller lighting zones, but it is still a backlit display system rather than a pixel-level self-emissive one.</P>
 
-        {/* 4. Layered Display Explainer */}
-        <LayeredDisplayExplainer />
-
         <H3>2. Self-emissive displays</H3>
         <P>These are displays where each pixel produces its own light.</P>
         <P>That is what makes OLED feel so different. Individual pixels can switch off completely, which is why OLED can achieve perfect blacks, very high contrast, and a kind of image depth that backlit panels struggle to reproduce. There is no backlight trying to approximate darkness. The pixel simply stops emitting light.</P>
         <P>This is also why OLED still feels like the reference point in the consumer imagination. Even when someone cannot explain the science, they can usually see the difference.</P>
 
-        {/* 7. Pixel Blackout */}
-        <PixelBlackout />
-
         <DisplayModelsDiagram />
 
-        {/* 11. Pull Quote with word sharpening */}
-        <SharpPullQuote sharpWords={["two", "ways", "light", "pixel"]}>
+        <PullQuote>
           Most modern displays work in one of two ways: either there is a light behind the screen being shaped into an image, or each pixel creates its own light.
-        </SharpPullQuote>
+        </PullQuote>
 
         <H2>Why TN started feeling limited</H2>
         <P>My current monitor is a TN panel, and TN makes sense once you understand what it optimizes for.</P>
@@ -176,9 +249,9 @@ const DisplayTechnologyPost = () => (
         <P>A product can be technically good at the thing it was designed for and still become the wrong fit as your life around it changes. That is not a flaw in the product. It is a shift in context.</P>
         <P>When I bought that monitor years ago, speed mattered. Today, I still care about refresh rate, but my use case is wider. Work, reading, browsing, writing, content consumption, and general day-to-day screen time now matter just as much as responsiveness. Once that happens, color quality and viewing comfort stop feeling like luxuries and start feeling like part of the job.</P>
 
-        <SharpPullQuote sharpWords={["mistakes", "today's", "yesterday's", "tradeoffs"]}>
+        <PullQuote>
           A lot of buying mistakes happen because people are making today's decisions using yesterday's tradeoffs.
-        </SharpPullQuote>
+        </PullQuote>
 
         <H2>Why IPS became the sensible middle ground</H2>
         <P>IPS made sense to me long before I understood the underlying physics, simply because it looked better in the ways I cared about. Better colors. Better consistency. Better viewing angles.</P>
@@ -187,8 +260,7 @@ const DisplayTechnologyPost = () => (
         <P>For my setup, IPS felt like the right answer because it solved the bigger problem. I was not trying to win a panel technology argument. I was trying to create a desk setup that would remain good even after my older monitor stopped being the main one.</P>
         <P>That is a different question, and different questions lead to different "best" products.</P>
 
-        {/* 6. Enhanced Comparison Matrix */}
-        <EnhancedTechMatrix />
+        <TechComparisonMatrix />
 
         <H2>OLED is still the benchmark, even when it is not the purchase</H2>
         <P>I have an old OLED TV at home in Bhubaneswar, bought years ago, and that memory sat in the background while I was evaluating monitors.</P>
@@ -217,12 +289,9 @@ const DisplayTechnologyPost = () => (
         <P>Eye comfort is influenced by the full setup: brightness, glare, contrast, text clarity, posture, distance from the screen, ambient lighting, and how long you stay on the screen without a break.</P>
         <P>That does not mean eye-comfort features are meaningless. It means they should be understood correctly.</P>
 
-        {/* 9. Eye Comfort Illustration */}
-        <EyeComfortIllustration />
-
-        <SharpPullQuote sharpWords={["screen", "setup", "product"]}>
+        <PullQuote>
           The screen is only one part of the experience. The setup is the product.
-        </SharpPullQuote>
+        </PullQuote>
 
         <H2>What I ended up buying</H2>
         <P>After all that searching, I landed on the Lenovo Legion 24-10.</P>
@@ -231,11 +300,9 @@ const DisplayTechnologyPost = () => (
         <P>I started out trying to buy a monitor.</P>
         <P>I ended up with a much cleaner way to understand the category.</P>
 
-        {/* 10. Enhanced Final Choice Card */}
-        <EnhancedFinalChoiceCard />
+        <FinalChoiceCard />
 
-        {/* 8. Enhanced Confusion Stack */}
-        <EnhancedConfusionStack />
+        <ConfusionStack />
 
         <H2>The product lesson I took away</H2>
         <P>The most interesting part of this experience was not the monitor itself. It was how badly this category is communicated to normal buyers.</P>
@@ -247,12 +314,9 @@ const DisplayTechnologyPost = () => (
         <P>It helps the user understand the system well enough to feel confident in a choice.</P>
         <P>That is really what this display rabbit hole gave me. Not just a monitor decision, but a reminder that clarity is one of the most valuable product features there is.</P>
 
-        <SharpPullQuote sharpWords={["communication", "features", "understand", "confident", "choice"]}>
+        <PullQuote>
           Good product communication does not just list features. It helps the user understand the system well enough to feel confident in a choice.
-        </SharpPullQuote>
-
-        {/* 13. Final Ending Animation */}
-        <FinalEndingAnimation />
+        </PullQuote>
 
         {/* Footer */}
         <div className="mt-24 pt-12 border-t border-border">
