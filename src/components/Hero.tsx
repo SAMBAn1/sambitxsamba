@@ -42,11 +42,7 @@ const Hero = () => {
           </h1>
           <p className="text-muted-foreground text-lg md:text-xl max-w-lg leading-relaxed mb-4">
             I'm a Product Manager obsessed with building AI-first enterprise SaaS products.
-            Currently shipping autonomous AI agents at{" "}
-            <a href="https://www.highradius.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-              HighRadius
-            </a>
-            .
+            I ship autonomous AI agents that solve real business problems at scale.
           </p>
           <p className="text-foreground text-xl md:text-2xl font-body font-medium mb-10 h-8">
             {text}
