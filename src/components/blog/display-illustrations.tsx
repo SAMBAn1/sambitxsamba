@@ -775,7 +775,7 @@ export const SharpPullQuote = ({
   children: string;
   sharpWords?: string[];
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLQuoteElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   const words = children.split(" ");
