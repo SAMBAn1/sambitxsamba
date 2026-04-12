@@ -486,7 +486,7 @@ const FinalChoiceCard = () => (
 const DisplayTechnologyPost = () => (
   <>
     {/* Hero */}
-    <section className="pt-32 pb-16 lg:pl-[260px] transition-all">
+    <section className="pt-32 pb-4 lg:pl-[260px] transition-all">
       <div className="container max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -515,7 +515,7 @@ const DisplayTechnologyPost = () => (
     </section>
 
     {/* Hero Optics Diagram */}
-    <section className="pb-8 lg:pl-[260px] transition-all">
+    <section className="pb-2 lg:pl-[260px] transition-all">
       <div className="container max-w-3xl">
         <HeroOpticsDiagram />
       </div>
@@ -524,7 +524,7 @@ const DisplayTechnologyPost = () => (
     {/* Article */}
     <article className="pb-32 lg:pl-[260px] transition-all">
       <div className="container max-w-3xl">
-        <div className="border-t border-border pt-16">
+        <div className="border-t border-border pt-8">
           <P>I was not trying to become an expert in display technology.</P>
           <P>I was just trying to buy a second monitor.</P>
           <P>My current setup had started feeling cramped. I work on a 24-inch ASUS XG248Q, a monitor I bought around six to seven years ago. It has served me well, especially for responsiveness, but it is a TN panel, and over time its limits became harder to ignore. The screen space felt tight, and once I decided I needed a secondary monitor, I had one clear rule: if I am adding another display to my desk, it should not trap me in older image quality standards.</P>
