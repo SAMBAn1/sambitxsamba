@@ -47,60 +47,92 @@ const HeroOpticsDiagram = () => {
     { label: "Cathode", x: 58 },
   ];
 
-  const LightRay = ({ y, delay, dimEnd }: { y: number; delay: number; dimEnd?: boolean }) => (
-    <motion.line
-      x1="10%"
-      y1={`${y}%`}
-      x2="75%"
-      y2={`${y}%`}
-      stroke="hsl(var(--primary))"
-      strokeWidth="1"
-      strokeOpacity={dimEnd ? 0.3 : 0.6}
-      initial={{ pathLength: 0 }}
-      animate={isInView ? { pathLength: 1 } : {}}
-      transition={{ duration: 1.2, delay: delay + 0.4, ease: "easeOut" }}
-    />
+  // Continuous animated light ray with moving dash
+  const AnimatedRay = ({ y, delay, dimEnd, isOff }: { y: number; delay: number; dimEnd?: boolean; isOff?: boolean }) => (
+    <g>
+      <motion.line
+        x1="10%"
+        y1={`${y}%`}
+        x2={isOff ? "45%" : "75%"}
+        y2={`${y}%`}
+        stroke={isOff ? "hsl(var(--muted-foreground))" : "hsl(var(--primary))"}
+        strokeWidth="1"
+        strokeOpacity={isOff ? 0.15 : dimEnd ? 0.3 : 0.6}
+        strokeDasharray={isOff ? "3 4" : "none"}
+        initial={{ pathLength: 0 }}
+        animate={isInView ? { pathLength: 1 } : {}}
+        transition={{ duration: 1.2, delay: delay + 0.4, ease: "easeOut" }}
+      />
+      {/* Continuous moving particle along the ray */}
+      {!isOff && isInView && (
+        <motion.circle
+          cy={`${y}%`}
+          r="2"
+          fill="hsl(var(--primary))"
+          initial={{ cx: "10%", opacity: 0 }}
+          animate={{
+            cx: [isOff ? "45%" : "75%", "10%"],
+            opacity: [0.8, 0],
+          }}
+          transition={{
+            duration: 2,
+            delay: delay + 1.6,
+            repeat: Infinity,
+            repeatDelay: 1 + delay * 2,
+            ease: "linear",
+          }}
+        />
+      )}
+    </g>
+  );
+
+  const GlowingPixel = ({ x, y, w, h, color, delay: d, glow }: { x: string; y: string; w: string; h: string; color: string; delay: number; glow: boolean }) => (
+    <g>
+      <motion.rect
+        x={x} y={y} width={w} height={h} rx="1"
+        fill={color}
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : {}}
+        transition={{ delay: d }}
+      />
+      {glow && isInView && (
+        <motion.rect
+          x={x} y={y} width={w} height={h} rx="1"
+          fill={color}
+          filter="url(#pixelGlow)"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 0.6, 0] }}
+          transition={{ duration: 3, delay: d + 0.5, repeat: Infinity, repeatDelay: 2 }}
+        />
+      )}
+    </g>
   );
 
   const OutputSquare = ({ yStart, rows, trueBlack }: { yStart: number; rows: number[][]; trueBlack: boolean }) => (
     <g>
       <rect
-        x="78%"
-        y={`${yStart}%`}
-        width="18%"
-        height="70%"
-        rx="2"
-        fill="none"
-        stroke="hsl(var(--border))"
-        strokeWidth="0.5"
+        x="78%" y={`${yStart}%`} width="18%" height="70%" rx="2"
+        fill="none" stroke="hsl(var(--border))" strokeWidth="0.5"
       />
       {rows.map((row, ri) =>
-        row.map((val, ci) => (
-          <motion.rect
-            key={`${ri}-${ci}`}
-            x={`${79 + ci * 4.2}%`}
-            y={`${yStart + 5 + ri * 16}%`}
-            width="3.5%"
-            height="13%"
-            rx="1"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 1.4 + (ri * row.length + ci) * 0.05 }}
-            fill={
-              val === 0
-                ? trueBlack
-                  ? "hsl(var(--background))"
-                  : "hsl(220 15% 16%)"
-                : val === 1
-                ? "hsl(var(--primary))"
-                : val === 2
-                ? "hsl(142 50% 30%)"
-                : "hsl(160 40% 25%)"
-            }
-            stroke={val === 0 && trueBlack ? "hsl(var(--border))" : "none"}
-            strokeWidth="0.3"
-          />
-        ))
+        row.map((val, ci) => {
+          const color = val === 0
+            ? trueBlack ? "hsl(var(--background))" : "hsl(220 15% 16%)"
+            : val === 1 ? "hsl(var(--primary))"
+            : val === 2 ? "hsl(142 50% 30%)"
+            : "hsl(160 40% 25%)";
+          return (
+            <GlowingPixel
+              key={`${ri}-${ci}`}
+              x={`${79 + ci * 4.2}%`}
+              y={`${yStart + 5 + ri * 16}%`}
+              w="3.5%" h="13%"
+              color={color}
+              delay={1.4 + (ri * row.length + ci) * 0.05}
+              glow={val !== 0}
+            />
+          );
+        })
       )}
     </g>
   );
@@ -111,6 +143,18 @@ const HeroOpticsDiagram = () => {
     [3, 2, 0, 1],
     [1, 1, 3, 2],
   ];
+
+  const glowFilter = (
+    <defs>
+      <filter id="pixelGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="4" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+  );
 
   return (
     <motion.div
@@ -125,30 +169,27 @@ const HeroOpticsDiagram = () => {
         <p className="text-primary text-[10px] font-body tracking-[0.2em] uppercase mb-2">LCD / LED — Backlit</p>
         <div className="relative w-full" style={{ height: "120px" }}>
           <svg width="100%" height="100%" viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid meet">
-            {/* Layer lines */}
+            {glowFilter}
+            {/* Layer lines — consistent border color */}
             {lcdLayers.map((layer, i) => (
               <g key={layer.label}>
                 <motion.line
-                  x1={`${layer.x}%`}
-                  y1="10%"
-                  x2={`${layer.x}%`}
-                  y2="90%"
-                  stroke="hsl(var(--border))"
-                  strokeWidth="1.5"
+                  x1={`${layer.x}%`} y1="15%" x2={`${layer.x}%`} y2="90%"
+                  stroke="hsl(var(--border))" strokeWidth="1.5"
                   initial={{ scaleY: 0 }}
                   animate={isInView ? { scaleY: 1 } : {}}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
                   style={{ transformOrigin: `${layer.x}% 50%` }}
                 />
                 <motion.text
-                  x={`${layer.x}%`}
-                  y="6%"
+                  x={`${layer.x}%`} y="8%"
                   textAnchor="middle"
-                  fill="hsl(var(--muted-foreground))"
-                  fontSize="9"
+                  fill="hsl(var(--foreground))"
+                  fontSize="11"
+                  fontWeight="500"
                   fontFamily="var(--font-body)"
                   initial={{ opacity: 0 }}
-                  animate={isInView ? { opacity: 0.7 } : {}}
+                  animate={isInView ? { opacity: 0.85 } : {}}
                   transition={{ delay: i * 0.1 + 0.3 }}
                 >
                   {layer.label}
@@ -156,33 +197,25 @@ const HeroOpticsDiagram = () => {
               </g>
             ))}
 
-            {/* Light rays */}
+            {/* Light rays with continuous animation */}
             {[25, 40, 55, 70, 80].map((y, i) => (
-              <LightRay key={y} y={y} delay={i * 0.08} />
+              <AnimatedRay key={y} y={y} delay={i * 0.08} dimEnd />
             ))}
 
             {/* Backlight glow */}
             <motion.circle
-              cx="5%"
-              cy="50%"
-              r="15"
+              cx="5%" cy="50%" r="15"
               fill="hsl(var(--primary))"
               initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 0.15 } : {}}
-              transition={{ delay: 0.2 }}
+              animate={isInView ? { opacity: [0.1, 0.25, 0.1] } : {}}
+              transition={{ duration: 3, repeat: Infinity }}
             />
 
-            {/* Output screen */}
             <OutputSquare yStart={10} rows={pixelGrid} trueBlack={false} />
 
-            {/* Label for gray blacks */}
             <motion.text
-              x="87%"
-              y="98%"
-              textAnchor="middle"
-              fill="hsl(var(--muted-foreground))"
-              fontSize="8"
-              fontFamily="var(--font-body)"
+              x="87%" y="98%" textAnchor="middle"
+              fill="hsl(var(--muted-foreground))" fontSize="8" fontFamily="var(--font-body)"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 0.5 } : {}}
               transition={{ delay: 1.8 }}
@@ -198,31 +231,27 @@ const HeroOpticsDiagram = () => {
         <p className="text-primary text-[10px] font-body tracking-[0.2em] uppercase mb-2">OLED — Self-Emissive</p>
         <div className="relative w-full" style={{ height: "120px" }}>
           <svg width="100%" height="100%" viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid meet">
-            {/* Layer lines */}
+            {glowFilter}
+            {/* Layer lines — same border color as LCD for consistency */}
             {oledLayers.map((layer, i) => (
               <g key={layer.label}>
                 <motion.line
-                  x1={`${layer.x}%`}
-                  y1="10%"
-                  x2={`${layer.x}%`}
-                  y2="90%"
-                  stroke="hsl(var(--primary))"
-                  strokeWidth="1.5"
-                  strokeOpacity={0.4}
+                  x1={`${layer.x}%`} y1="15%" x2={`${layer.x}%`} y2="90%"
+                  stroke="hsl(var(--border))" strokeWidth="1.5"
                   initial={{ scaleY: 0 }}
                   animate={isInView ? { scaleY: 1 } : {}}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
                   style={{ transformOrigin: `${layer.x}% 50%` }}
                 />
                 <motion.text
-                  x={`${layer.x}%`}
-                  y="6%"
+                  x={`${layer.x}%`} y="8%"
                   textAnchor="middle"
-                  fill="hsl(var(--muted-foreground))"
-                  fontSize="9"
+                  fill="hsl(var(--foreground))"
+                  fontSize="11"
+                  fontWeight="500"
                   fontFamily="var(--font-body)"
                   initial={{ opacity: 0 }}
-                  animate={isInView ? { opacity: 0.7 } : {}}
+                  animate={isInView ? { opacity: 0.85 } : {}}
                   transition={{ delay: i * 0.1 + 0.3 }}
                 >
                   {layer.label}
@@ -230,38 +259,17 @@ const HeroOpticsDiagram = () => {
               </g>
             ))}
 
-            {/* Individual pixel emission arrows */}
+            {/* OLED rays — some off to show true black */}
             {[25, 40, 55, 70, 80].map((y, i) => {
               const isOff = i === 1 || i === 4;
-              return (
-                <motion.line
-                  key={y}
-                  x1="10%"
-                  y1={`${y}%`}
-                  x2={isOff ? "45%" : "75%"}
-                  y2={`${y}%`}
-                  stroke={isOff ? "hsl(var(--muted-foreground))" : "hsl(var(--primary))"}
-                  strokeWidth="1"
-                  strokeOpacity={isOff ? 0.15 : 0.6}
-                  strokeDasharray={isOff ? "3 4" : "none"}
-                  initial={{ pathLength: 0 }}
-                  animate={isInView ? { pathLength: 1 } : {}}
-                  transition={{ duration: 1, delay: 0.5 + i * 0.08, ease: "easeOut" }}
-                />
-              );
+              return <AnimatedRay key={y} y={y} delay={0.5 + i * 0.08} isOff={isOff} />;
             })}
 
-            {/* Output screen */}
             <OutputSquare yStart={10} rows={pixelGrid} trueBlack={true} />
 
-            {/* Label for true blacks */}
             <motion.text
-              x="87%"
-              y="98%"
-              textAnchor="middle"
-              fill="hsl(var(--primary))"
-              fontSize="8"
-              fontFamily="var(--font-body)"
+              x="87%" y="98%" textAnchor="middle"
+              fill="hsl(var(--primary))" fontSize="8" fontFamily="var(--font-body)"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 0.6 } : {}}
               transition={{ delay: 1.8 }}
