@@ -1,58 +1,58 @@
 
 
-# Silhouette Portrait with Interactive Effects
+## Plan: Add Interactive Illustrations to the Display Technology Blog Post
 
-Replace the current GlitchPortrait with a canvas-based **silhouette portrait** that extracts your outline from the photo and renders it with stunning interactive effects.
+This plan implements the 13 interactive visual elements described in your instructions file, all built with Framer Motion, CSS, and React — no external libraries needed.
 
-## Concept
+### What will be added
 
-Your portrait will be processed into a **glowing green silhouette** -- like a hacker terminal scan. The silhouette will be composed of:
+1. **Hero animation** — A minimal screen silhouette that transitions from backlit glow to self-emissive pixel grid, with "Backlit" / "Self-emissive" labels fading in/out. Placed above the title.
 
-- **Edge-detected outline** drawn with bright green strokes
-- **Interior filled with a subtle dark green wash** 
-- **Floating digital rain particles** falling inside the silhouette boundary
-- **Mouse proximity distortion** -- edges ripple/displace near the cursor
-- **Periodic scan line** sweeping top-to-bottom, briefly revealing the real photo underneath
+2. **Ambient intro illustration** — Faint linework desk setup (monitor outlines, floating spec labels like `TN`, `IPS`, `240Hz`) behind the opening paragraph. Low opacity, atmospheric.
 
-## How It Works
+3. **Confusion-to-clarity scroll transition** — Scattered display terms (`TN`, `IPS`, `OLED`, `HDR`, etc.) that reorganize into two clean buckets ("Backlit displays" / "Self-emissive displays") as user scrolls into view.
 
-1. **Load the portrait onto a hidden canvas** and extract brightness data per pixel
-2. **Edge detection**: Use a Sobel filter to find the silhouette contour, then render those edges as bright green dots/lines
-3. **Matrix rain inside the silhouette**: Small green characters fall within the body boundary, creating a "digital body" feel
-4. **Mouse interaction**: As the cursor moves, nearby edge particles scatter and reform, and a radial "reveal" shows a glimpse of the real photo underneath
-5. **Scan effect**: A horizontal green line sweeps down periodically, momentarily brightening the silhouette edges it passes
+4. **Layered display explainer** — Scroll-triggered diagram revealing backlight → LCD → color filter → image layers one by one, then dissolving into a self-emissive pixel grid with pixels turning off.
 
-## Technical Plan
+5. **"Rabbit hole" scroll divider** — A horizontal visual threshold between the personal story and tech explanation sections, transitioning from a simple monitor shape into abstract pixel/layer structures.
 
-### 1. Rewrite `GlitchPortrait.tsx` as a canvas-based `SilhouettePortrait.tsx`
+6. **Comparison matrix with hover states** — Replace the current star-rating table with an editorial hover-interactive version. Hovering a column highlights it and reveals a plain-language summary note.
 
-- Use `useRef` for a `<canvas>` element and a hidden `<img>` for source data
-- On image load:
-  - Draw image to an offscreen canvas
-  - Extract pixel data via `getImageData`
-  - Compute a brightness map (grayscale per pixel)
-  - Run edge detection (Sobel) to get contour points
-  - Sample interior points where brightness is below a threshold (inside the body)
-- Store two arrays: `edgePoints[]` and `interiorPoints[]`
+7. **Pixel blackout illustration** — In the OLED section, a grid showing backlit "dark" (faintly glowing) vs self-emissive "dark" (pixels fully off). Triggered on scroll.
 
-### 2. Render loop (`requestAnimationFrame`)
+8. **Confusion stack upgrade** — Enhance the existing `ConfusionStack` with hover/tap interactions that show examples and subtle connecting lines between layers.
 
-- **Background**: Fully transparent/dark
-- **Edge points**: Render as small bright green circles (`hsl(142, 72%, 45%)`) with a subtle glow (`shadowBlur`)
-- **Interior rain**: A set of "raindrop" characters (katakana or 0/1) that fall downward, constrained to interior points, recycling to the top when they reach the bottom
-- **Mouse interaction**: Track mouse position; edge points within a radius get displaced outward; a circular area around the cursor briefly reveals the original image using `clip()` + `drawImage`
-- **Scan line**: A horizontal band that moves top-to-bottom every few seconds, intensifying edge glow as it passes
+9. **Eye comfort ambient illustration** — Minimal line-drawing desk setup with toggleable states (brightness, glare, posture, distance) via hover/tap.
 
-### 3. Update `Hero.tsx`
+10. **Final decision card upgrade** — Expand the existing `FinalChoiceCard` to reveal reasoning on interaction (why 24", why IPS, why 240Hz, why future-proof).
 
-- Replace `GlitchPortrait` import with `SilhouettePortrait`
-- Keep the same `className` and layout props
+11. **Pull quote motion treatment** — Add subtle word-sharpening (blur-to-clear) animation on key words within pull quotes as they enter view.
 
-### Files Changed
+12. **Scroll-progress reading rail** — Already exists as `ReadingProgress` component; enhance with tiny section markers that show names on hover.
 
-| File | Action |
+13. **Final ending animation** — Scattered terminology settling into a clean backlit vs self-emissive visual with the caption "Once the system is clear, the choice becomes easier."
+
+### Technical approach
+
+- All new illustration components will be added to `src/components/blog/DisplayTechnologyPost.tsx` (or extracted into a helper file if too large)
+- Use `framer-motion` for scroll-triggered animations (`whileInView`, `useScroll`, `useTransform`)
+- Use `useState` for hover/tap interactive states
+- Respect `prefers-reduced-motion` via a shared hook
+- CSS-first where possible (opacity, transforms), Framer Motion for orchestration
+- Mobile: simplify scroll-sensitive elements to basic `whileInView` fade-ins; interactive hover states become tap toggles
+
+### File changes
+
+| File | Change |
 |------|--------|
-| `src/components/SilhouettePortrait.tsx` | Create -- canvas-based silhouette with edge detection, matrix rain, mouse reveal |
-| `src/components/GlitchPortrait.tsx` | Can be kept or removed (no longer imported) |
-| `src/components/Hero.tsx` | Update import to use `SilhouettePortrait` |
+| `src/components/blog/DisplayTechnologyPost.tsx` | Major rewrite — add all 13 illustration components inline or imported, place them at the correct article positions |
+| `src/components/blog/display-illustrations.tsx` (new) | Extract the larger illustration components to keep the main file readable |
+| `src/components/ReadingProgress.tsx` | Minor enhancement — add section markers with hover labels |
+
+### Implementation order
+
+1. Build all illustration components (grouped in `display-illustrations.tsx`)
+2. Integrate them into `DisplayTechnologyPost.tsx` at the correct positions in the article flow
+3. Enhance `ReadingProgress.tsx` with section markers
+4. Test animations and reduced-motion fallbacks
 
