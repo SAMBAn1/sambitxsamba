@@ -32,6 +32,342 @@ const AccentTerm = ({ children }: { children: React.ReactNode }) => (
   <span className="text-primary font-medium">{children}</span>
 );
 
+/* ══════════════════════════════════════════════════
+   Hero Fission Diagram — animated nuclear chain reaction
+   Shows a neutron hitting U-235 → fission → products + new neutrons → chain
+   Conceptual tie: each neutron's fate is a Markov state transition
+   ══════════════════════════════════════════════════ */
+const HeroFissionDiagram = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-30px" });
+
+  // Nucleus positions & sizes
+  const sourceNeutron = { x: 60, y: 200 };
+  const targetNucleus = { cx: 280, cy: 200, r: 38 };
+
+  // Fission products — two smaller nuclei flying apart
+  const fragment1 = { cx: 420, cy: 130, r: 20 };
+  const fragment2 = { cx: 420, cy: 270, r: 18 };
+
+  // Released neutrons fanning out from fission site
+  const releasedNeutrons = [
+    { endX: 560, endY: 80, label: "n" },
+    { endX: 580, endY: 170, label: "n" },
+    { endX: 560, endY: 320, label: "n" },
+  ];
+
+  // Secondary targets (showing chain reaction potential)
+  const secondaryTargets = [
+    { cx: 700, cy: 80, r: 28 },
+    { cx: 720, cy: 180, r: 28 },
+    { cx: 700, cy: 320, r: 28 },
+  ];
+
+  // Nucleon dots inside a nucleus
+  const NucleonCluster = ({ cx, cy, r, color, count, delay }: { cx: number; cy: number; r: number; color: string; count: number; delay: number }) => {
+    const dots = [];
+    for (let i = 0; i < count; i++) {
+      const angle = (i / count) * Math.PI * 2 + (i % 2 === 0 ? 0.3 : 0);
+      const dist = r * 0.55 * (0.4 + (i % 3) * 0.25);
+      dots.push(
+        <motion.circle
+          key={i}
+          cx={cx + Math.cos(angle) * dist}
+          cy={cy + Math.sin(angle) * dist}
+          r={3}
+          fill={i % 2 === 0 ? "hsl(var(--primary))" : color}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: [0, 0.9, 0.7] } : {}}
+          transition={{ duration: 0.4, delay: delay + i * 0.02 }}
+        />
+      );
+    }
+    return <>{dots}</>;
+  };
+
+  return (
+    <div ref={ref} className="w-full">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.6 }}
+        className="relative"
+      >
+        <div className="relative w-full" style={{ height: "160px" }}>
+          <svg width="100%" height="100%" viewBox="0 0 900 400" preserveAspectRatio="xMidYMid meet">
+            {/* Glow filter */}
+            <defs>
+              <filter id="fissionGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="6" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="neutronGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <radialGradient id="nucleusGrad" cx="40%" cy="40%">
+                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.08" />
+              </radialGradient>
+              <radialGradient id="fissionFlash" cx="50%" cy="50%">
+                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.6" />
+                <stop offset="60%" stopColor="hsl(var(--primary))" stopOpacity="0.1" />
+                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+
+            {/* ── Title ── */}
+            <motion.text
+              x="1%" y="18"
+              textAnchor="start"
+              fill="hsl(var(--muted-foreground))"
+              fontSize="9" fontWeight="500" fontFamily="var(--font-body)" letterSpacing="2" opacity={0.5}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 0.5 } : {}}
+              transition={{ delay: 0.1 }}
+            >
+              NUCLEAR FISSION — CHAIN REACTION
+            </motion.text>
+
+            {/* ── Incoming neutron ── */}
+            <motion.circle
+              cx={sourceNeutron.x}
+              cy={sourceNeutron.y}
+              r={5}
+              fill="hsl(var(--primary))"
+              filter="url(#neutronGlow)"
+              initial={{ cx: 20, opacity: 0 }}
+              animate={isInView ? {
+                cx: [20, targetNucleus.cx - targetNucleus.r - 5],
+                opacity: [0, 1, 1, 0],
+              } : {}}
+              transition={{ duration: 1.5, delay: 0.3, ease: "easeIn" }}
+            />
+
+            {/* Neutron travel path */}
+            <motion.line
+              x1="30" y1={sourceNeutron.y}
+              x2={targetNucleus.cx - targetNucleus.r - 8} y2={sourceNeutron.y}
+              stroke="hsl(var(--primary))"
+              strokeWidth="1"
+              strokeOpacity={0.3}
+              strokeDasharray="4 4"
+              initial={{ pathLength: 0 }}
+              animate={isInView ? { pathLength: 1 } : {}}
+              transition={{ duration: 1, delay: 0.2 }}
+            />
+
+            {/* Neutron label */}
+            <motion.text
+              x="30" y={sourceNeutron.y - 14}
+              fill="hsl(var(--primary))" fontSize="10" fontFamily="var(--font-body)" opacity={0.7}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 0.7 } : {}}
+              transition={{ delay: 0.3 }}
+            >
+              neutron
+            </motion.text>
+
+            {/* ── Target U-235 nucleus ── */}
+            <motion.circle
+              cx={targetNucleus.cx} cy={targetNucleus.cy} r={targetNucleus.r}
+              fill="url(#nucleusGrad)"
+              stroke="hsl(var(--primary))"
+              strokeWidth="1"
+              strokeOpacity={0.3}
+              initial={{ scale: 0 }}
+              animate={isInView ? { scale: [0, 1, 1, 1.3, 0] } : {}}
+              transition={{ duration: 2.5, delay: 0.5, times: [0, 0.3, 0.6, 0.75, 0.85] }}
+              style={{ transformOrigin: `${targetNucleus.cx}px ${targetNucleus.cy}px` }}
+            />
+
+            {/* Nucleon dots inside target */}
+            <NucleonCluster cx={targetNucleus.cx} cy={targetNucleus.cy} r={targetNucleus.r} color="hsl(var(--muted-foreground))" count={16} delay={0.6} />
+
+            {/* U-235 label */}
+            <motion.text
+              x={targetNucleus.cx} y={targetNucleus.cy + targetNucleus.r + 20}
+              textAnchor="middle"
+              fill="hsl(var(--muted-foreground))" fontSize="10" fontFamily="var(--font-body)" opacity={0.6}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: [0, 0.6, 0.6, 0] } : {}}
+              transition={{ duration: 2.5, delay: 0.5, times: [0, 0.2, 0.7, 1] }}
+            >
+              U-235
+            </motion.text>
+
+            {/* ── Fission flash ── */}
+            <motion.circle
+              cx={targetNucleus.cx} cy={targetNucleus.cy} r={60}
+              fill="url(#fissionFlash)"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={isInView ? { opacity: [0, 0.8, 0], scale: [0.3, 1.2, 1.5] } : {}}
+              transition={{ duration: 0.8, delay: 1.8 }}
+              style={{ transformOrigin: `${targetNucleus.cx}px ${targetNucleus.cy}px` }}
+            />
+
+            {/* ── Fragment 1 (top) ── */}
+            <motion.circle
+              cx={fragment1.cx} cy={fragment1.cy} r={fragment1.r}
+              fill="url(#nucleusGrad)"
+              stroke="hsl(var(--primary))"
+              strokeWidth="0.8" strokeOpacity={0.3}
+              initial={{ cx: targetNucleus.cx, cy: targetNucleus.cy, opacity: 0, scale: 0 }}
+              animate={isInView ? { cx: fragment1.cx, cy: fragment1.cy, opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.8, delay: 2.0, ease: "easeOut" }}
+            />
+            <NucleonCluster cx={fragment1.cx} cy={fragment1.cy} r={fragment1.r} color="hsl(var(--muted-foreground))" count={8} delay={2.2} />
+            <motion.text
+              x={fragment1.cx} y={fragment1.cy - fragment1.r - 8}
+              textAnchor="middle"
+              fill="hsl(var(--muted-foreground))" fontSize="9" fontFamily="var(--font-body)" opacity={0.5}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 0.5 } : {}}
+              transition={{ delay: 2.4 }}
+            >
+              Ba-141
+            </motion.text>
+
+            {/* ── Fragment 2 (bottom) ── */}
+            <motion.circle
+              cx={fragment2.cx} cy={fragment2.cy} r={fragment2.r}
+              fill="url(#nucleusGrad)"
+              stroke="hsl(var(--primary))"
+              strokeWidth="0.8" strokeOpacity={0.3}
+              initial={{ cx: targetNucleus.cx, cy: targetNucleus.cy, opacity: 0, scale: 0 }}
+              animate={isInView ? { cx: fragment2.cx, cy: fragment2.cy, opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.8, delay: 2.0, ease: "easeOut" }}
+            />
+            <NucleonCluster cx={fragment2.cx} cy={fragment2.cy} r={fragment2.r} color="hsl(var(--muted-foreground))" count={6} delay={2.2} />
+            <motion.text
+              x={fragment2.cx} y={fragment2.cy + fragment2.r + 16}
+              textAnchor="middle"
+              fill="hsl(var(--muted-foreground))" fontSize="9" fontFamily="var(--font-body)" opacity={0.5}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 0.5 } : {}}
+              transition={{ delay: 2.4 }}
+            >
+              Kr-92
+            </motion.text>
+
+            {/* ── Released neutrons fanning out ── */}
+            {releasedNeutrons.map((n, i) => {
+              const startX = targetNucleus.cx;
+              const startY = targetNucleus.cy;
+              return (
+                <g key={`released-${i}`}>
+                  {/* Path line */}
+                  <motion.line
+                    x1={startX} y1={startY}
+                    x2={n.endX} y2={n.endY}
+                    stroke="hsl(var(--primary))"
+                    strokeWidth="1"
+                    strokeOpacity={0.25}
+                    strokeDasharray="3 3"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
+                    transition={{ duration: 0.8, delay: 2.2 + i * 0.1 }}
+                  />
+                  {/* Neutron dot */}
+                  <motion.circle
+                    cx={n.endX} cy={n.endY}
+                    r={4}
+                    fill="hsl(var(--primary))"
+                    filter="url(#neutronGlow)"
+                    initial={{ cx: startX, cy: startY, opacity: 0 }}
+                    animate={isInView ? { cx: n.endX, cy: n.endY, opacity: 1 } : {}}
+                    transition={{ duration: 0.8, delay: 2.2 + i * 0.1, ease: "easeOut" }}
+                  />
+                  {/* Label */}
+                  <motion.text
+                    x={n.endX + 10} y={n.endY + 4}
+                    fill="hsl(var(--primary))" fontSize="9" fontFamily="var(--font-body)" fontStyle="italic" opacity={0.6}
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 0.6 } : {}}
+                    transition={{ delay: 2.6 + i * 0.1 }}
+                  >
+                    {n.label}
+                  </motion.text>
+                </g>
+              );
+            })}
+
+            {/* ── Secondary targets (chain reaction) ── */}
+            {secondaryTargets.map((t, i) => (
+              <g key={`secondary-${i}`}>
+                {/* Dashed path from released neutron to secondary target */}
+                <motion.line
+                  x1={releasedNeutrons[i].endX} y1={releasedNeutrons[i].endY}
+                  x2={t.cx - t.r} y2={t.cy}
+                  stroke="hsl(var(--primary))"
+                  strokeWidth="0.8"
+                  strokeOpacity={0.15}
+                  strokeDasharray="3 4"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.6, delay: 3.0 + i * 0.15 }}
+                />
+                {/* Secondary nucleus */}
+                <motion.circle
+                  cx={t.cx} cy={t.cy} r={t.r}
+                  fill="url(#nucleusGrad)"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth="0.6" strokeOpacity={0.2}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={isInView ? { opacity: 0.7, scale: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 3.2 + i * 0.15 }}
+                  style={{ transformOrigin: `${t.cx}px ${t.cy}px` }}
+                />
+                <NucleonCluster cx={t.cx} cy={t.cy} r={t.r} color="hsl(var(--muted-foreground))" count={10} delay={3.3 + i * 0.15} />
+                {/* Question mark — chain continues */}
+                <motion.text
+                  x={t.cx + t.r + 10} y={t.cy + 4}
+                  fill="hsl(var(--primary))" fontSize="12" fontFamily="var(--font-body)" opacity={0.4}
+                  initial={{ opacity: 0 }}
+                  animate={isInView ? { opacity: [0, 0.4, 0.2, 0.4] } : {}}
+                  transition={{ duration: 2, delay: 3.5 + i * 0.15, repeat: Infinity }}
+                >
+                  ?
+                </motion.text>
+              </g>
+            ))}
+
+            {/* ── Energy release indicator ── */}
+            <motion.text
+              x={350} y={200}
+              textAnchor="middle"
+              fill="hsl(var(--primary))" fontSize="10" fontFamily="var(--font-body)" fontWeight="500"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: [0, 0.7, 0.4, 0.7] } : {}}
+              transition={{ duration: 2, delay: 2.0, repeat: Infinity }}
+            >
+              ≈ 200 MeV
+            </motion.text>
+
+            {/* ── Bottom annotation ── */}
+            <motion.text
+              x="50%" y="390"
+              textAnchor="middle"
+              fill="hsl(var(--muted-foreground))" fontSize="8" fontFamily="var(--font-body)" opacity={0.4}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 0.4 } : {}}
+              transition={{ delay: 3.8 }}
+            >
+              Each neutron's fate — absorbed, scattered, or fission — is a state transition
+            </motion.text>
+          </svg>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
 /* ── Exhibit wrapper ── */
 const ExhibitCard = ({
   number,
@@ -586,6 +922,13 @@ const MarkovChainsPost = () => {
               <span>April 10, 2026</span>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Hero Fission Diagram */}
+      <section className="pb-2 lg:pl-[260px] transition-all">
+        <div className="container max-w-3xl">
+          <HeroFissionDiagram />
         </div>
       </section>
 
