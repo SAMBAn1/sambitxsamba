@@ -143,7 +143,7 @@ const ScannerPost = () => (
           transition={{ duration: 0.8 }}
         >
           <div className="flex items-center gap-3 mb-8">
-            <span className="text-primary text-xs font-body tracking-[0.2em] uppercase">Product Thinking</span>
+            <span className="text-primary text-xs font-body tracking-[0.2em] uppercase">Finding</span>
             <span className="w-1 h-1 rounded-full bg-muted-foreground" />
             <span className="text-muted-foreground text-xs font-body">6 min read</span>
           </div>
