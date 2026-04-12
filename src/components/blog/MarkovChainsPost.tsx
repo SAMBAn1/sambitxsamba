@@ -592,6 +592,7 @@ const MarkovChainsPost = () => {
       {/* Article */}
       <article className="pb-32 lg:pl-[260px] transition-all">
         <div className="container max-w-3xl">
+          <div className="border-t border-border pt-16">
 
           {/* ── Abstract ── */}
           <motion.div
