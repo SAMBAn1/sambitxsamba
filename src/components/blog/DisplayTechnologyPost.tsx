@@ -48,11 +48,11 @@ const HeroOpticsDiagram = () => {
   // For LCD: all rays travel full path, but "black" rays get dimmed/grey near the end
   // For OLED: "off" rays simply don't exist
   const rayConfigs = [
-    { y: 25, lit: true },
-    { y: 38, lit: false }, // black pixel row
-    { y: 51, lit: true },
-    { y: 64, lit: true },
-    { y: 77, lit: false }, // black pixel row
+    { y: 30, lit: true },
+    { y: 44, lit: false }, // black pixel row
+    { y: 58, lit: true },
+    { y: 72, lit: true },
+    { y: 86, lit: false }, // black pixel row
   ];
 
   // LCD ray: always travels, but dims for "black" pixels
@@ -176,7 +176,7 @@ const HeroOpticsDiagram = () => {
     ];
     return (
       <g>
-        <rect x="73%" y={`${yStart}%`} width="24%" height="75%" rx="2" fill="none" stroke="hsl(var(--border))" strokeWidth="0.5" />
+        <rect x="73%" y={`${yStart}%`} width="24%" height="80%" rx="2" fill="none" stroke="hsl(var(--border))" strokeWidth="0.5" />
         {rayConfigs.map((ray, ri) => {
           const lit = ray.lit;
           const baseColor = lit ? colors[ri % colors.length] : (trueBlack ? "hsl(var(--background))" : "hsl(220 10% 22%)");
@@ -214,7 +214,7 @@ const HeroOpticsDiagram = () => {
       {layers.map((layer, i) => (
         <g key={layer.label}>
           <motion.line
-            x1={`${layer.x}%`} y1="22%" x2={`${layer.x}%`} y2="95%"
+            x1={`${layer.x}%`} y1="24%" x2={`${layer.x}%`} y2="95%"
             stroke={layer.isSource ? "hsl(142 50% 45%)" : "hsl(var(--border))"}
             strokeWidth={layer.isSource ? "2.5" : "1.5"}
             initial={{ scaleY: 0 }}
@@ -224,7 +224,7 @@ const HeroOpticsDiagram = () => {
           />
           {layer.isSource && isInView && (
             <motion.line
-              x1={`${layer.x}%`} y1="22%" x2={`${layer.x}%`} y2="95%"
+              x1={`${layer.x}%`} y1="24%" x2={`${layer.x}%`} y2="95%"
               stroke="hsl(142 50% 45%)" strokeWidth="8" strokeOpacity={0.15}
               initial={{ opacity: 0 }}
               animate={{ opacity: [0.1, 0.25, 0.1] }}
@@ -232,7 +232,7 @@ const HeroOpticsDiagram = () => {
             />
           )}
           <motion.text
-            x={`${layer.x}%`} y="18%"
+            x={`${layer.x}%`} y="20%"
             textAnchor="middle"
             fill="hsl(var(--foreground))"
             fontSize="10" fontWeight="500" fontFamily="var(--font-body)"
@@ -257,8 +257,8 @@ const HeroOpticsDiagram = () => {
     >
       {/* LCD Diagram */}
       <div className="mb-2">
-        <div className="relative w-full" style={{ height: "120px" }}>
-          <svg width="100%" height="100%" viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid meet">
+        <div className="relative w-full" style={{ height: "130px" }}>
+          <svg width="100%" height="100%" viewBox="0 0 1000 140" preserveAspectRatio="xMidYMid meet">
             {glowFilter}
             <motion.text
               x="1%" y="10"
@@ -278,7 +278,7 @@ const HeroOpticsDiagram = () => {
               <LcdRay key={ray.y} y={ray.y} delay={i * 0.08} lit={ray.lit} />
             ))}
 
-            <OutputGrid yStart={8} trueBlack={false} />
+            <OutputGrid yStart={12} trueBlack={false} />
 
             <motion.text
               x="85%" y="98%" textAnchor="middle"
@@ -295,8 +295,8 @@ const HeroOpticsDiagram = () => {
 
       {/* OLED Diagram */}
       <div>
-        <div className="relative w-full" style={{ height: "120px" }}>
-          <svg width="100%" height="100%" viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid meet">
+        <div className="relative w-full" style={{ height: "130px" }}>
+          <svg width="100%" height="100%" viewBox="0 0 1000 140" preserveAspectRatio="xMidYMid meet">
             {glowFilter}
             <motion.text
               x="1%" y="10"
@@ -316,7 +316,7 @@ const HeroOpticsDiagram = () => {
               <OledRay key={ray.y} y={ray.y} delay={0.5 + i * 0.08} lit={ray.lit} />
             ))}
 
-            <OutputGrid yStart={8} trueBlack={true} />
+            <OutputGrid yStart={12} trueBlack={true} />
 
             <motion.text
               x="85%" y="98%" textAnchor="middle"
