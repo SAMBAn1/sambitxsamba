@@ -39,8 +39,13 @@ const ScannerComparison = () => (
       <p className="text-primary text-xs font-body tracking-[0.2em] uppercase mb-4">Basic scanner logic</p>
       <div className="relative w-40 h-52 mx-auto mb-6 mt-4">
         <div className="absolute inset-0 border-2 border-muted-foreground/40 rounded-sm" />
-        <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-destructive rounded-tl-sm" />
-        <span className="absolute top-10 left-0 text-[10px] text-destructive font-body">↑ Missing corner</span>
+        {/* Paper fold triangle */}
+        <div className="absolute top-0 left-0 w-10 h-10 overflow-hidden">
+          <div className="absolute top-0 left-0 w-0 h-0 border-t-[40px] border-t-background border-r-[40px] border-r-muted-foreground/15" />
+          <div className="absolute top-0 left-0 w-[40px] h-[1px] bg-muted-foreground/40 origin-top-left rotate-0" />
+          <div className="absolute top-[40px] left-0 w-[56px] h-[1px] bg-destructive/60 origin-top-left -rotate-45" />
+        </div>
+        <span className="absolute top-12 left-0 text-[10px] text-destructive font-body">↑ Missing corner</span>
         <div className="absolute bottom-2 left-2 right-2 flex flex-col gap-1">
           {[1, 2, 3].map((l) => (
             <div key={l} className="h-1 bg-muted-foreground/20 rounded-full" />
@@ -55,12 +60,18 @@ const ScannerComparison = () => (
       <p className="text-primary text-xs font-body tracking-[0.2em] uppercase mb-4">Smarter scanner logic</p>
       <div className="relative w-40 h-52 mx-auto mb-6 mt-4">
         <div className="absolute inset-0 border-2 border-primary/40 rounded-sm" />
+        {/* Paper fold triangle */}
+        <div className="absolute top-0 left-0 w-10 h-10 overflow-hidden">
+          <div className="absolute top-0 left-0 w-0 h-0 border-t-[40px] border-t-background border-r-[40px] border-r-primary/15" />
+          <div className="absolute top-[40px] left-0 w-[56px] h-[1px] bg-primary/40 origin-top-left -rotate-45" />
+        </div>
+        {/* Inferred corner dot + dashed lines */}
         <div className="absolute top-0 left-0 w-8 h-8">
-          <div className="absolute top-0 left-0 w-full h-[2px] bg-primary" />
-          <div className="absolute top-0 left-0 h-full w-[2px] bg-primary" />
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-primary border-dashed" style={{ backgroundImage: 'repeating-linear-gradient(90deg, hsl(var(--primary)) 0px, hsl(var(--primary)) 4px, transparent 4px, transparent 8px)', background: 'none', borderTop: '2px dashed hsl(var(--primary))' }} />
+          <div className="absolute top-0 left-0 h-full w-[2px]" style={{ borderLeft: '2px dashed hsl(var(--primary))' }} />
           <div className="absolute top-0 left-0 w-2 h-2 rounded-full bg-primary" />
         </div>
-        <span className="absolute top-10 left-0 text-[10px] text-primary font-body">↑ Inferred corner</span>
+        <span className="absolute top-12 left-0 text-[10px] text-primary font-body">↑ Inferred corner</span>
         <div className="absolute bottom-2 left-2 right-2 flex flex-col gap-1">
           {[1, 2, 3].map((l) => (
             <div key={l} className="h-1 bg-primary/20 rounded-full" />
