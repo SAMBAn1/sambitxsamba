@@ -15,6 +15,15 @@ export interface BlogMeta {
 
 export const blogPosts: BlogMeta[] = [
   {
+    slug: "the-mathematics-of-what-comes-next-markov-chains",
+    title: "The Mathematics of What Comes Next: A Research Note on Markov Chains",
+    subtitle:
+      "A research note meets editorial explainer on Markov chains: what they are, why they mattered, and how one simple idea ended up shaping simulation, search, and predictive systems.",
+    tag: "Research Note",
+    readTime: "12 min read",
+    date: "2026-04-12",
+  },
+  {
     slug: "how-display-technologies-actually-work",
     title: "I Went Looking for a Second Monitor. I Ended Up Learning How Screens Actually Work",
     subtitle:
