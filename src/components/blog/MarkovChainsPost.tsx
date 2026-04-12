@@ -925,6 +925,13 @@ const MarkovChainsPost = () => {
         </div>
       </section>
 
+      {/* Hero Fission Diagram */}
+      <section className="pb-2 lg:pl-[260px] transition-all">
+        <div className="container max-w-3xl">
+          <HeroFissionDiagram />
+        </div>
+      </section>
+
       {/* Article */}
       <article className="pb-32 lg:pl-[260px] transition-all">
         <div className="container max-w-3xl">
