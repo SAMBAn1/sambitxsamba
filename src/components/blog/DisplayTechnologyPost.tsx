@@ -455,6 +455,13 @@ const DisplayTechnologyPost = () => (
       </div>
     </section>
 
+    {/* Hero Optics Diagram */}
+    <section className="pb-8 lg:pl-[260px] transition-all">
+      <div className="container max-w-3xl">
+        <HeroOpticsDiagram />
+      </div>
+    </section>
+
     {/* Article */}
     <article className="pb-32 lg:pl-[260px] transition-all">
       <div className="container max-w-3xl">
