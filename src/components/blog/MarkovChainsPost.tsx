@@ -875,18 +875,21 @@ const MarkovChainsPost = () => {
             </ol>
           </div>
 
-          {/* ── Author ── */}
-          <div className="mt-16 pt-8 border-t border-border/20 flex items-center justify-between">
+          {/* Footer */}
+          <div className="mt-24 pt-12 border-t border-border">
+            <p className="text-muted-foreground font-body text-sm italic">
+              More essays on product, systems, and the small frictions that reveal bigger truths.
+            </p>
             <Link
               to="/"
-              className="text-sm font-body text-muted-foreground hover:text-primary transition-colors"
+              className="inline-flex items-center mt-4 text-primary text-sm font-body hover:underline"
             >
-              — Sambit
+              sambitxsamba.com
             </Link>
           </div>
         </div>
-      </section>
-    </article>
+      </article>
+    </>
   );
 };
 
