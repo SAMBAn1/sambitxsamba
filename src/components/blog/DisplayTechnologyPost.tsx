@@ -35,111 +35,149 @@ const HeroOpticsDiagram = () => {
 
   const lcdLayers = [
     { label: "Backlight", x: 12, isSource: true },
-    { label: "Polarizer", x: 28 },
-    { label: "Liquid Crystal", x: 44 },
-    { label: "Color Filter", x: 60 },
+    { label: "Polarizer", x: 26 },
+    { label: "Liquid Crystal", x: 40 },
+    { label: "Color Filter", x: 54 },
   ];
 
   const oledLayers = [
     { label: "Substrate", x: 12, isSource: true },
   ];
 
-  // Continuous animated light ray moving LEFT to RIGHT, pixel lights up on arrival
-  const AnimatedRay = ({ y, delay, dimEnd, isOff, sourceX }: { y: number; delay: number; dimEnd?: boolean; isOff?: boolean; sourceX: string }) => (
+  // 5 rays, each mapped to a pixel row behavior
+  // For LCD: all rays travel full path, but "black" rays get dimmed/grey near the end
+  // For OLED: "off" rays simply don't exist
+  const rayConfigs = [
+    { y: 25, lit: true },
+    { y: 38, lit: false }, // black pixel row
+    { y: 51, lit: true },
+    { y: 64, lit: true },
+    { y: 77, lit: false }, // black pixel row
+  ];
+
+  // LCD ray: always travels, but dims for "black" pixels
+  const LcdRay = ({ y, delay, lit }: { y: number; delay: number; lit: boolean }) => (
     <g>
+      {/* Full ray line */}
       <motion.line
-        x1={sourceX}
-        y1={`${y}%`}
-        x2={isOff ? "45%" : "75%"}
-        y2={`${y}%`}
-        stroke={isOff ? "hsl(var(--muted-foreground))" : "hsl(var(--primary))"}
+        x1="14%" y1={`${y}%`} x2="70%" y2={`${y}%`}
+        stroke={lit ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))"}
         strokeWidth="1"
-        strokeOpacity={isOff ? 0.15 : dimEnd ? 0.3 : 0.6}
-        strokeDasharray={isOff ? "3 4" : "none"}
+        strokeOpacity={lit ? 0.6 : 0.25}
+        strokeDasharray={lit ? "none" : "4 3"}
         initial={{ pathLength: 0 }}
         animate={isInView ? { pathLength: 1 } : {}}
         transition={{ duration: 1.2, delay: delay + 0.4, ease: "easeOut" }}
       />
-      {/* Continuous moving particle left → right */}
-      {!isOff && isInView && (
+      {/* Dimming indicator for black rays — small "blocked" marker after LC layer */}
+      {!lit && isInView && (
+        <>
+          <motion.line
+            x1="40%" y1={`${y - 3}%`} x2="40%" y2={`${y + 3}%`}
+            stroke="hsl(0 70% 50%)" strokeWidth="1.5" strokeOpacity={0.6}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 0.7, 0.4] }}
+            transition={{ duration: 1, delay: delay + 1 }}
+          />
+          <motion.text
+            x="42%" y={`${y - 4}%`} fontSize="6.5" fill="hsl(0 70% 50%)"
+            fontFamily="var(--font-body)" opacity={0}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 0.55 } : {}}
+            transition={{ delay: delay + 1.2 }}
+          >
+            dimmed
+          </motion.text>
+        </>
+      )}
+      {/* Continuous particle */}
+      {isInView && (
         <motion.circle
-          cy={`${y}%`}
-          r="2"
-          fill="hsl(var(--primary))"
-          initial={{ cx: sourceX, opacity: 0 }}
-          animate={{
-            cx: [sourceX, "75%"],
-            opacity: [0.8, 0],
-          }}
-          transition={{
-            duration: 2,
-            delay: delay + 1.6,
-            repeat: Infinity,
-            repeatDelay: 1 + delay * 2,
-            ease: "linear",
-          }}
+          cy={`${y}%`} r="2"
+          fill={lit ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))"}
+          initial={{ cx: "14%", opacity: 0 }}
+          animate={{ cx: ["14%", "70%"], opacity: lit ? [0.8, 0] : [0.3, 0] }}
+          transition={{ duration: 2, delay: delay + 1.6, repeat: Infinity, repeatDelay: 1.5 + delay, ease: "linear" }}
         />
       )}
     </g>
   );
 
-  const GlowingPixel = ({ x, y, w, h, color, delay: d, glow }: { x: string; y: string; w: string; h: string; color: string; delay: number; glow: boolean }) => (
+  // OLED ray: only renders if pixel is lit
+  const OledRay = ({ y, delay, lit }: { y: number; delay: number; lit: boolean }) => {
+    if (!lit) return null;
+    return (
+      <g>
+        <motion.line
+          x1="14%" y1={`${y}%`} x2="70%" y2={`${y}%`}
+          stroke="hsl(var(--primary))" strokeWidth="1" strokeOpacity={0.6}
+          initial={{ pathLength: 0 }}
+          animate={isInView ? { pathLength: 1 } : {}}
+          transition={{ duration: 1.2, delay: delay + 0.4, ease: "easeOut" }}
+        />
+        {isInView && (
+          <motion.circle
+            cy={`${y}%`} r="2" fill="hsl(var(--primary))"
+            initial={{ cx: "14%", opacity: 0 }}
+            animate={{ cx: ["14%", "70%"], opacity: [0.8, 0] }}
+            transition={{ duration: 2, delay: delay + 1.6, repeat: Infinity, repeatDelay: 1.5 + delay, ease: "linear" }}
+          />
+        )}
+      </g>
+    );
+  };
+
+  // Pixel that lights up when ray arrives
+  const PixelBlock = ({ x, y, w, h, color, lit, arrivalDelay }: { x: string; y: string; w: string; h: string; color: string; lit: boolean; arrivalDelay: number }) => (
     <g>
       <motion.rect
         x={x} y={y} width={w} height={h} rx="1"
         fill={color}
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : {}}
-        transition={{ delay: d }}
+        initial={{ opacity: 0.1 }}
+        animate={isInView ? { opacity: lit ? 1 : 0.3 } : {}}
+        transition={{ delay: arrivalDelay, duration: 0.4 }}
       />
-      {glow && isInView && (
+      {lit && isInView && (
         <motion.rect
           x={x} y={y} width={w} height={h} rx="1"
-          fill={color}
-          filter="url(#pixelGlow)"
+          fill={color} filter="url(#pixelGlow)"
           initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 0.6, 0] }}
-          transition={{ duration: 3, delay: d + 0.5, repeat: Infinity, repeatDelay: 2 }}
+          animate={{ opacity: [0, 0.5, 0] }}
+          transition={{ duration: 3, delay: arrivalDelay + 0.3, repeat: Infinity, repeatDelay: 2 }}
         />
       )}
     </g>
   );
 
-  const OutputSquare = ({ yStart, rows, trueBlack }: { yStart: number; rows: number[][]; trueBlack: boolean }) => (
-    <g>
-      <rect
-        x="78%" y={`${yStart}%`} width="18%" height="70%" rx="2"
-        fill="none" stroke="hsl(var(--border))" strokeWidth="0.5"
-      />
-      {rows.map((row, ri) =>
-        row.map((val, ci) => {
-          const color = val === 0
-            ? trueBlack ? "hsl(var(--background))" : "hsl(220 15% 16%)"
-            : val === 1 ? "hsl(var(--primary))"
-            : val === 2 ? "hsl(142 50% 30%)"
-            : "hsl(160 40% 25%)";
-          return (
-            <GlowingPixel
+  // Output grid tied to ray arrival
+  const OutputGrid = ({ yStart, trueBlack }: { yStart: number; trueBlack: boolean }) => {
+    const colors = [
+      "hsl(var(--primary))",
+      "hsl(142 50% 30%)",
+      "hsl(160 40% 25%)",
+    ];
+    return (
+      <g>
+        <rect x="73%" y={`${yStart}%`} width="24%" height="75%" rx="2" fill="none" stroke="hsl(var(--border))" strokeWidth="0.5" />
+        {rayConfigs.map((ray, ri) => {
+          const lit = ray.lit;
+          const baseColor = lit ? colors[ri % colors.length] : (trueBlack ? "hsl(var(--background))" : "hsl(220 10% 22%)");
+          // 4 pixel columns per row
+          return Array.from({ length: 4 }).map((_, ci) => (
+            <PixelBlock
               key={`${ri}-${ci}`}
-              x={`${79 + ci * 4.2}%`}
-              y={`${yStart + 5 + ri * 16}%`}
-              w="3.5%" h="13%"
-              color={color}
-              delay={1.4 + (ri * row.length + ci) * 0.05}
-              glow={val !== 0}
+              x={`${74 + ci * 5.5}%`}
+              y={`${yStart + 3 + ri * 14}%`}
+              w="4.5%" h="11%"
+              color={baseColor}
+              lit={lit}
+              arrivalDelay={1.4 + ri * 0.15}
             />
-          );
-        })
-      )}
-    </g>
-  );
-
-  const pixelGrid = [
-    [1, 0, 2, 3],
-    [0, 1, 1, 0],
-    [3, 2, 0, 1],
-    [1, 1, 3, 2],
-  ];
+          ));
+        })}
+      </g>
+    );
+  };
 
   const glowFilter = (
     <defs>
@@ -153,13 +191,12 @@ const HeroOpticsDiagram = () => {
     </defs>
   );
 
-  const LayerLines = ({ layers, isOled }: { layers: typeof lcdLayers; isOled?: boolean }) => (
+  const LayerLines = ({ layers }: { layers: typeof lcdLayers }) => (
     <>
       {layers.map((layer, i) => (
         <g key={layer.label}>
-          {/* Layer line — green glow for light source */}
           <motion.line
-            x1={`${layer.x}%`} y1="18%" x2={`${layer.x}%`} y2="92%"
+            x1={`${layer.x}%`} y1="22%" x2={`${layer.x}%`} y2="95%"
             stroke={layer.isSource ? "hsl(142 50% 45%)" : "hsl(var(--border))"}
             strokeWidth={layer.isSource ? "2.5" : "1.5"}
             initial={{ scaleY: 0 }}
@@ -167,25 +204,20 @@ const HeroOpticsDiagram = () => {
             transition={{ duration: 0.4, delay: i * 0.1 }}
             style={{ transformOrigin: `${layer.x}% 50%` }}
           />
-          {/* Glow effect on source layer */}
           {layer.isSource && isInView && (
             <motion.line
-              x1={`${layer.x}%`} y1="18%" x2={`${layer.x}%`} y2="92%"
-              stroke="hsl(142 50% 45%)"
-              strokeWidth="8"
-              strokeOpacity={0.15}
+              x1={`${layer.x}%`} y1="22%" x2={`${layer.x}%`} y2="95%"
+              stroke="hsl(142 50% 45%)" strokeWidth="8" strokeOpacity={0.15}
               initial={{ opacity: 0 }}
               animate={{ opacity: [0.1, 0.25, 0.1] }}
               transition={{ duration: 3, repeat: Infinity }}
             />
           )}
           <motion.text
-            x={`${layer.x}%`} y="12%"
+            x={`${layer.x}%`} y="18%"
             textAnchor="middle"
             fill="hsl(var(--foreground))"
-            fontSize="11"
-            fontWeight="500"
-            fontFamily="var(--font-body)"
+            fontSize="10" fontWeight="500" fontFamily="var(--font-body)"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 0.85 } : {}}
             transition={{ delay: i * 0.1 + 0.3 }}
@@ -205,20 +237,16 @@ const HeroOpticsDiagram = () => {
       transition={{ duration: 0.6 }}
       className="my-8"
     >
-      {/* LCD Diagram — label inside SVG */}
-      <div className="mb-1">
-        <div className="relative w-full" style={{ height: "110px" }}>
-          <svg width="100%" height="100%" viewBox="0 0 1000 110" preserveAspectRatio="xMidYMid meet">
+      {/* LCD Diagram */}
+      <div className="mb-2">
+        <div className="relative w-full" style={{ height: "120px" }}>
+          <svg width="100%" height="100%" viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid meet">
             {glowFilter}
-            {/* Inline label */}
             <motion.text
-              x="1%" y="8%"
+              x="1%" y="10"
               textAnchor="start"
               fill="hsl(var(--primary))"
-              fontSize="9"
-              fontWeight="500"
-              fontFamily="var(--font-body)"
-              letterSpacing="2"
+              fontSize="9" fontWeight="500" fontFamily="var(--font-body)" letterSpacing="2"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 0.7 } : {}}
               transition={{ delay: 0.1 }}
@@ -228,40 +256,35 @@ const HeroOpticsDiagram = () => {
 
             <LayerLines layers={lcdLayers} />
 
-            {/* Light rays left → right */}
-            {[28, 42, 56, 68, 82].map((y, i) => (
-              <AnimatedRay key={y} y={y} delay={i * 0.08} dimEnd sourceX="14%" />
+            {rayConfigs.map((ray, i) => (
+              <LcdRay key={ray.y} y={ray.y} delay={i * 0.08} lit={ray.lit} />
             ))}
 
-            <OutputSquare yStart={10} rows={pixelGrid} trueBlack={false} />
+            <OutputGrid yStart={8} trueBlack={false} />
 
             <motion.text
-              x="87%" y="98%" textAnchor="middle"
-              fill="hsl(var(--muted-foreground))" fontSize="8" fontFamily="var(--font-body)"
+              x="85%" y="98%" textAnchor="middle"
+              fill="hsl(var(--muted-foreground))" fontSize="7.5" fontFamily="var(--font-body)"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 0.5 } : {}}
               transition={{ delay: 1.8 }}
             >
-              Blacks appear grayish ↑
+              Blacks appear grayish — light still leaks through ↑
             </motion.text>
           </svg>
         </div>
       </div>
 
-      {/* OLED Diagram — label inside SVG, single Substrate layer */}
+      {/* OLED Diagram */}
       <div>
-        <div className="relative w-full" style={{ height: "110px" }}>
-          <svg width="100%" height="100%" viewBox="0 0 1000 110" preserveAspectRatio="xMidYMid meet">
+        <div className="relative w-full" style={{ height: "120px" }}>
+          <svg width="100%" height="100%" viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid meet">
             {glowFilter}
-            {/* Inline label */}
             <motion.text
-              x="1%" y="8%"
+              x="1%" y="10"
               textAnchor="start"
               fill="hsl(var(--primary))"
-              fontSize="9"
-              fontWeight="500"
-              fontFamily="var(--font-body)"
-              letterSpacing="2"
+              fontSize="9" fontWeight="500" fontFamily="var(--font-body)" letterSpacing="2"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 0.7 } : {}}
               transition={{ delay: 0.1 }}
@@ -269,24 +292,22 @@ const HeroOpticsDiagram = () => {
               OLED — SELF-EMISSIVE
             </motion.text>
 
-            <LayerLines layers={oledLayers} isOled />
+            <LayerLines layers={oledLayers} />
 
-            {/* OLED rays — some off to show true black */}
-            {[28, 42, 56, 68, 82].map((y, i) => {
-              const isOff = i === 1 || i === 4;
-              return <AnimatedRay key={y} y={y} delay={0.5 + i * 0.08} isOff={isOff} sourceX="14%" />;
-            })}
+            {rayConfigs.map((ray, i) => (
+              <OledRay key={ray.y} y={ray.y} delay={0.5 + i * 0.08} lit={ray.lit} />
+            ))}
 
-            <OutputSquare yStart={10} rows={pixelGrid} trueBlack={true} />
+            <OutputGrid yStart={8} trueBlack={true} />
 
             <motion.text
-              x="87%" y="98%" textAnchor="middle"
-              fill="hsl(var(--primary))" fontSize="8" fontFamily="var(--font-body)"
+              x="85%" y="98%" textAnchor="middle"
+              fill="hsl(var(--primary))" fontSize="7.5" fontFamily="var(--font-body)"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 0.6 } : {}}
               transition={{ delay: 1.8 }}
             >
-              True black — pixels off ↑
+              True black — no light, pixels completely off ↑
             </motion.text>
           </svg>
         </div>
