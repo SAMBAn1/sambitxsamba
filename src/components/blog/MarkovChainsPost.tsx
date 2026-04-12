@@ -614,9 +614,6 @@ const MarkovChainsPost = () => {
             <P>
               Andrey Markov's answer was powerful because it was both narrow and practical. In some systems, the next step can be modeled from the current state alone. That principle, now known as the <AccentTerm>Markov property</AccentTerm>, helped probability theory move beyond strictly independent events and eventually influenced simulation, web search, and predictive text systems.
             </P>
-            <p className="text-muted-foreground font-body text-base md:text-lg leading-relaxed">
-              This essay explains that arc for the average reader.
-            </p>
           </motion.div>
 
           {/* ── Key Terms ── */}
