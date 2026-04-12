@@ -127,23 +127,41 @@ const HeroOpticsDiagram = () => {
     );
   };
 
-  // Pixel that lights up when ray arrives
+  // Pixel that illuminates with flicker/twinkle when ray arrives
   const PixelBlock = ({ x, y, w, h, color, lit, arrivalDelay }: { x: string; y: string; w: string; h: string; color: string; lit: boolean; arrivalDelay: number }) => (
     <g>
+      {/* Base pixel — starts dim, flickers on arrival then settles */}
       <motion.rect
         x={x} y={y} width={w} height={h} rx="1"
         fill={color}
-        initial={{ opacity: 0.1 }}
-        animate={isInView ? { opacity: lit ? 1 : 0.3 } : {}}
-        transition={{ delay: arrivalDelay, duration: 0.4 }}
+        initial={{ opacity: 0.05 }}
+        animate={isInView ? {
+          opacity: lit
+            ? [0.05, 0.9, 0.4, 1, 0.7, 1]   // flicker sequence on hit
+            : [0.05, 0.3]
+        } : {}}
+        transition={{
+          delay: arrivalDelay,
+          duration: lit ? 0.8 : 0.4,
+          times: lit ? [0, 0.15, 0.3, 0.5, 0.7, 1] : undefined,
+          ease: "easeOut",
+        }}
       />
+      {/* Continuous twinkle glow for lit pixels */}
       {lit && isInView && (
         <motion.rect
           x={x} y={y} width={w} height={h} rx="1"
           fill={color} filter="url(#pixelGlow)"
           initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 0.5, 0] }}
-          transition={{ duration: 3, delay: arrivalDelay + 0.3, repeat: Infinity, repeatDelay: 2 }}
+          animate={{ opacity: [0, 0.6, 0.15, 0.5, 0] }}
+          transition={{
+            duration: 2.2,
+            delay: arrivalDelay + 0.3,
+            repeat: Infinity,
+            repeatDelay: 0.8 + Math.random() * 1.2,
+            times: [0, 0.2, 0.5, 0.75, 1],
+            ease: "easeInOut",
+          }}
         />
       )}
     </g>
