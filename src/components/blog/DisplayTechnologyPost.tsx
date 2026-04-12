@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 
 /* ── Reusable article primitives ── */
 const P = ({ children }: { children: React.ReactNode }) => (
