@@ -559,41 +559,40 @@ const Exhibit05 = () => {
    ══════════════════════════════════════════════════ */
 const MarkovChainsPost = () => {
   return (
-    <article>
+    <>
       {/* Hero */}
-      <section className="pt-32 lg:pt-36 pb-12">
-        <div className="container max-w-3xl lg:ml-[300px] xl:ml-auto lg:max-w-2xl xl:max-w-3xl">
+      <section className="pt-32 pb-16 lg:pl-[260px] transition-all">
+        <div className="container max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8 }}
           >
-            <p className="text-primary text-xs font-body tracking-[0.25em] uppercase mb-4">
-              Research Note / Editorial Explainer
-            </p>
-            <h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-4">
-              The Mathematics of What Comes Next
+            <div className="flex items-center gap-3 mb-8">
+              <span className="text-primary text-xs font-body tracking-[0.2em] uppercase">Research Note</span>
+              <span className="w-1 h-1 rounded-full bg-muted-foreground" />
+              <span className="text-muted-foreground text-xs font-body">12 min read</span>
+            </div>
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-6">
+              The Mathematics of What Comes Next:{" "}
+              <span className="italic text-gradient">Markov Chains</span>
             </h1>
-            <p className="font-display text-lg md:text-xl text-muted-foreground leading-relaxed mb-6">
-              A Research Note on Markov Chains
+            <p className="text-muted-foreground text-lg md:text-xl font-body leading-relaxed max-w-2xl">
+              A white-paper-style introduction to Markov chains, written for curious readers who want the intuition before the notation.
             </p>
-            <p className="font-body text-sm text-muted-foreground/60">
-              A white paper style introduction to Markov chains, written for curious readers who want the intuition before the notation.
-            </p>
-            <div className="flex items-center gap-3 mt-6 text-xs font-body text-muted-foreground/40">
-              <span>Probability Theory</span>
-              <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
-              <span>Systems Thinking</span>
-              <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
-              <span>Mathematics</span>
+            <div className="flex items-center gap-3 mt-6 text-xs font-body text-muted-foreground/60">
+              <span>By <Link to="/" className="hover:text-primary transition-colors">Sambit Samantaray</Link></span>
+              <span className="w-1 h-1 rounded-full bg-muted-foreground/40" />
+              <span>April 10, 2026</span>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Body */}
-      <section className="pb-24">
-        <div className="container max-w-3xl lg:ml-[300px] xl:ml-auto lg:max-w-2xl xl:max-w-3xl">
+      {/* Article */}
+      <article className="pb-32 lg:pl-[260px] transition-all">
+        <div className="container max-w-3xl">
+          <div className="border-t border-border pt-16">
 
           {/* ── Abstract ── */}
           <motion.div
@@ -877,18 +876,22 @@ const MarkovChainsPost = () => {
             </ol>
           </div>
 
-          {/* ── Author ── */}
-          <div className="mt-16 pt-8 border-t border-border/20 flex items-center justify-between">
+          {/* Footer */}
+          <div className="mt-24 pt-12 border-t border-border">
+            <p className="text-muted-foreground font-body text-sm italic">
+              More essays on product, systems, and the small frictions that reveal bigger truths.
+            </p>
             <Link
               to="/"
-              className="text-sm font-body text-muted-foreground hover:text-primary transition-colors"
+              className="inline-flex items-center mt-4 text-primary text-sm font-body hover:underline"
             >
-              — Sambit
+              sambitxsamba.com
             </Link>
           </div>
+          </div>
         </div>
-      </section>
-    </article>
+      </article>
+    </>
   );
 };
 
