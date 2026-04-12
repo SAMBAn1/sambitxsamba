@@ -8,10 +8,12 @@ import BlogSidebar from "@/components/BlogSidebar";
 import { blogPosts } from "@/pages/Blog";
 import ScannerPost from "@/components/blog/ScannerPost";
 import DisplayTechnologyPost from "@/components/blog/DisplayTechnologyPost";
+import MarkovChainsPost from "@/components/blog/MarkovChainsPost";
 
 const postComponents: Record<string, React.FC> = {
   "the-24-page-wall-iphone-scanner-apps": ScannerPost,
   "how-display-technologies-actually-work": DisplayTechnologyPost,
+  "the-mathematics-of-what-comes-next-markov-chains": MarkovChainsPost,
 };
 
 const BlogPost = () => {
