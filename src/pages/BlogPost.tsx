@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useParams, Navigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import ScrollToTop from "@/components/ScrollToTop";
 import { X } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -23,7 +24,9 @@ const BlogPost = () => {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  if (!slug || !blogPosts.find((p) => p.slug === slug)) {
+  const post = blogPosts.find((p) => p.slug === slug);
+
+  if (!slug || !post) {
     return <Navigate to="/blog" replace />;
   }
 
@@ -33,8 +36,28 @@ const BlogPost = () => {
     return <Navigate to="/blog" replace />;
   }
 
+  const url = `https://pp-1-profile.lovable.app/blog/${post.slug}`;
+  const description = post.subtitle.length > 160 ? post.subtitle.slice(0, 157) + "..." : post.subtitle;
+
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{`${post.title} — Sambit Samantaray`}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={url} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={url} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post.title,
+          datePublished: post.date,
+          author: { "@type": "Person", name: "Sambit Samantaray" },
+          url,
+        })}</script>
+      </Helmet>
       <ReadingProgress />
       <BlogSidebar />
 
