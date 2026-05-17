@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import ScrollToTop from "@/components/ScrollToTop";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -50,6 +51,15 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Blog — Sambit Samantaray</title>
+        <meta name="description" content="Essays on product, systems, and the small frictions that reveal bigger truths — by Sambit Samantaray." />
+        <link rel="canonical" href="https://pp-1-profile.lovable.app/blog" />
+        <meta property="og:title" content="Blog — Sambit Samantaray" />
+        <meta property="og:description" content="Essays on product, systems, and the small frictions that reveal bigger truths." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://pp-1-profile.lovable.app/blog" />
+      </Helmet>
       {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
         <div className="container flex items-center justify-between h-16">
