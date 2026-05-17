@@ -1,0 +1,14 @@
+# Sambit Samantaray
+
+> Personal site of Sambit Samantaray — Product Manager building AI-first enterprise SaaS products, currently shipping autonomous AI agents at HighRadius. Includes essays on product, systems, and the small frictions that reveal bigger truths.
+
+## Pages
+
+- [Home](/): About, experience, projects, and contact.
+- [Blog](/blog): Index of essays and research notes.
+
+## Blog posts
+
+- [The Mathematics of What Comes Next: A Research Note on Markov Chains](/blog/the-mathematics-of-what-comes-next-markov-chains): What Markov chains are, why they mattered, and how one simple idea shaped simulation, search, and predictive systems.
+- [How Display Technologies Actually Work](/blog/how-display-technologies-actually-work): A practical desk upgrade that became a lesson in how screens are built and what actually matters when choosing one.
+- [The 24-Page Wall: What Scanning a 36-Page Agreement Taught Me About Product Design](/blog/the-24-page-wall-iphone-scanner-apps): A document scan that turned into a lesson in UX, computer vision, and building for reality vs the happy path.
