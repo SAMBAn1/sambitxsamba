@@ -140,46 +140,16 @@ const Workflow = () => {
         className="pointer-events-none absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_55%,hsl(var(--background))_100%)]"
       />
 
-      {/* HYPE INTRO LAYERS — fire on scroll-in */}
-      {/* Lightning flash */}
+      {/* Scanline sweep on enter */}
       <motion.div
         aria-hidden
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: [0, 1, 0, 0.7, 0] }}
+        initial={{ y: "-10%", opacity: 0 }}
+        whileInView={{ y: "110%", opacity: [0, 0.8, 0] }}
         viewport={{ once: true }}
-        transition={{ duration: 0.55, times: [0, 0.05, 0.15, 0.2, 0.35], ease: "easeOut" }}
-        className="pointer-events-none absolute inset-0 bg-primary/40 mix-blend-screen z-20"
+        transition={{ duration: 1.4, ease: "easeOut" }}
+        className="pointer-events-none absolute left-0 right-0 top-0 h-[2px] bg-primary/70 shadow-[0_0_24px_4px_hsl(var(--primary)/0.6)]"
       />
-      {/* Secondary white flash */}
-      <motion.div
-        aria-hidden
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: [0, 0.9, 0] }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.18, ease: "easeOut" }}
-        className="pointer-events-none absolute inset-0 bg-foreground/80 mix-blend-overlay z-20"
-      />
-      {/* Triple scanline barrage */}
-      {[0, 0.15, 0.3].map((d, i) => (
-        <motion.div
-          key={i}
-          aria-hidden
-          initial={{ y: "-10%", opacity: 0 }}
-          whileInView={{ y: "110%", opacity: [0, 1, 0] }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2 - i * 0.2, delay: d, ease: "easeOut" }}
-          className="pointer-events-none absolute left-0 right-0 top-0 h-[2px] bg-primary shadow-[0_0_30px_6px_hsl(var(--primary)/0.9)] z-20"
-        />
-      ))}
-      {/* Slash diagonal sweep */}
-      <motion.div
-        aria-hidden
-        initial={{ x: "-120%", skewX: -20, opacity: 0 }}
-        whileInView={{ x: "120%", opacity: [0, 0.7, 0] }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7, delay: 0.1, ease: [0.7, 0, 0.3, 1] }}
-        className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/2 bg-gradient-to-r from-transparent via-primary/50 to-transparent z-20"
-      />
+
 
       <div className="container max-w-5xl relative z-10">
         <motion.div
