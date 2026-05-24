@@ -543,23 +543,44 @@ const Workflow = () => {
             <p className="text-primary font-body text-xs tracking-[0.3em] uppercase">
               / stack
             </p>
-            {/* Temporary icon mode toggle */}
-            <div className="flex items-center gap-1 border border-border rounded-sm p-0.5 text-[10px] font-body uppercase tracking-widest">
-              {(["icons", "logos"] as const).map((m) => (
-                <button
-                  key={m}
-                  onClick={() => setIconMode(m)}
-                  className={`px-2 py-1 transition-colors ${
-                    iconMode === m
-                      ? "bg-primary/15 text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {tools.map((tool, i) => {
+              const isActive =
+                hoveredTool !== null
+                  ? hoveredTool === i
+                  : highlightedStages.some((s) => stages[s].related.includes(tool.name));
+              return (
+                <motion.div
+                  key={tool.name}
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: i * 0.025, ease: "easeOut" }}
+                  whileHover={{ y: -2 }}
+                  onHoverStart={() => setHoveredTool(i)}
+                  onHoverEnd={() => setHoveredTool(null)}
+                  className={`group relative border rounded-sm p-4 bg-card transition-all duration-300 ${
+                    isActive
+                      ? "border-primary/70 shadow-[0_0_20px_-4px_hsl(var(--primary)/0.5)]"
+                      : "border-border"
                   }`}
                 >
-                  {m}
-                </button>
-              ))}
-            </div>
-          </div>
+                  {/* Corner ticks */}
+                  <span className={`absolute top-1 left-1 w-1.5 h-1.5 border-t border-l ${isActive ? "border-primary" : "border-border group-hover:border-primary/60"}`} aria-hidden />
+                  <span className={`absolute bottom-1 right-1 w-1.5 h-1.5 border-b border-r ${isActive ? "border-primary" : "border-border group-hover:border-primary/60"}`} aria-hidden />
+
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-display text-base text-foreground">
+                      {tool.name}
+                      {isActive && <span className="text-primary ml-1 animate-pulse">_</span>}
+                    </span>
+                    {(() => {
+                      const Viz = visualizerMap[tool.name] ?? DotsViz;
+                      return <Viz active={isActive} />;
+                    })()}
+                  </div>
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {tools.map((tool, i) => {
               const isActive =
