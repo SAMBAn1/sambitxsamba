@@ -167,74 +167,42 @@ const Workflow = () => {
           >
             / workflow
           </motion.p>
-          <h2 className="font-display text-4xl md:text-5xl mb-4 flex flex-wrap gap-x-3 relative">
-            <span className="inline-flex relative">
+          <h2 className="font-display text-4xl md:text-5xl mb-4 flex flex-wrap gap-x-3">
+            <span className="inline-flex">
               {headline.split("").map((ch, i) => (
-                <span key={i} className="relative inline-block whitespace-pre">
-                  {/* RGB chromatic ghost — red */}
-                  <motion.span
-                    aria-hidden
-                    initial={{ x: 0, opacity: 0 }}
-                    whileInView={{ x: [-8, 2, -1, 0], opacity: [0.9, 0.6, 0.3, 0] }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.025, duration: 0.55 }}
-                    className="absolute inset-0 text-[hsl(0,90%,60%)] mix-blend-screen"
-                  >
-                    {ch}
-                  </motion.span>
-                  {/* RGB chromatic ghost — cyan */}
-                  <motion.span
-                    aria-hidden
-                    initial={{ x: 0, opacity: 0 }}
-                    whileInView={{ x: [8, -2, 1, 0], opacity: [0.9, 0.6, 0.3, 0] }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.025, duration: 0.55 }}
-                    className="absolute inset-0 text-[hsl(180,90%,60%)] mix-blend-screen"
-                  >
-                    {ch}
-                  </motion.span>
-                  <motion.span
-                    initial={{ y: 32, opacity: 0, filter: "blur(8px)", scale: 1.3 }}
-                    whileInView={{ y: 0, opacity: 1, filter: "blur(0px)", scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.035, duration: 0.45, ease: [0.2, 0.9, 0.3, 1] }}
-                    className="relative inline-block"
-                  >
-                    {ch}
-                  </motion.span>
-                </span>
+                <motion.span
+                  key={i}
+                  initial={{ y: 24, opacity: 0, filter: "blur(6px)" }}
+                  whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.025, duration: 0.4, ease: "easeOut" }}
+                  className="inline-block whitespace-pre"
+                >
+                  {ch}
+                </motion.span>
               ))}
             </span>
             <motion.span
-              initial={{ opacity: 0, scale: 0.5, rotate: -8 }}
-              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+              initial={{ opacity: 0, scale: 0.85 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.55, duration: 0.6, type: "spring", stiffness: 260, damping: 12 }}
-              className="italic text-gradient relative drop-shadow-[0_0_24px_hsl(var(--primary)/0.7)]"
+              transition={{ delay: 0.45, duration: 0.5, type: "spring", stiffness: 200 }}
+              className="italic text-gradient relative"
             >
               AI.
               <motion.span
                 aria-hidden
                 initial={{ opacity: 0 }}
-                whileInView={{ opacity: [0, 1, 0, 1, 0, 1, 0] }}
+                whileInView={{ opacity: [0, 1, 0, 1, 0] }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-                className="absolute inset-0 italic text-primary mix-blend-screen translate-x-[3px] -translate-y-[1px]"
-              >
-                AI.
-              </motion.span>
-              <motion.span
-                aria-hidden
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: [0, 1, 0] }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.55, duration: 0.4 }}
-                className="absolute inset-0 italic text-[hsl(320,90%,60%)] mix-blend-screen -translate-x-[3px] translate-y-[1px]"
+                transition={{ delay: 0.5, duration: 0.4 }}
+                className="absolute inset-0 italic text-primary mix-blend-screen translate-x-[2px]"
               >
                 AI.
               </motion.span>
             </motion.span>
           </h2>
+
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
