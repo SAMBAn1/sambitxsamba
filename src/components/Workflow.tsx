@@ -349,17 +349,22 @@ const Workflow = () => {
                           boxShadow: isActive
                             ? "0 0 32px 4px hsl(var(--primary) / 0.65), inset 0 0 14px hsl(var(--primary) / 0.25)"
                             : "0 0 0px 0px hsl(var(--primary) / 0)",
-                          scale: isActive ? 1.12 : 1,
+                          scale: isActive ? 1.15 : 1,
                         }}
                         transition={{ duration: 0.5 }}
-                        className={`relative w-14 h-14 rounded-full border-2 flex items-center justify-center bg-background font-display text-lg z-10 ${
+                        className={`relative w-14 h-14 rounded-full border-2 flex items-center justify-center bg-background z-10 ${
                           isActive
-                            ? "border-primary text-primary"
-                            : "border-border text-muted-foreground"
+                            ? "border-primary"
+                            : "border-border"
                         }`}
                       >
-                        <StageNumber n={`0${i + 1}`} active={isActive} reduced={reduced} />
+                        <span
+                          className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                            isActive ? "bg-primary" : "bg-muted-foreground/50"
+                          }`}
+                        />
                       </motion.div>
+
                     </div>
 
                     <p className="font-body text-xs tracking-[0.2em] uppercase text-foreground mb-2 flex items-center gap-1">
