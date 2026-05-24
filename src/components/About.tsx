@@ -2,13 +2,13 @@ import { motion } from "framer-motion";
 
 const skills = [
   "Product Strategy",
+  "AI/ML Products",
+  "User Research",
+  "Agile & Scrum",
+  "CRM Integrations",
+  "Data Analytics",
+  "User Experience",
   "AI-Native PM",
-  "0→1 Product",
-  "Roadmap Strategy",
-  "Discovery & Research",
-  "O2C / AR Domain",
-  "Workflow Automation",
-  "Analytics (Pendo, GA)",
 ];
 
 const About = () => {
