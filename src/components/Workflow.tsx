@@ -230,10 +230,60 @@ const Workflow = () => {
             <span className="absolute -bottom-px -left-px w-3 h-3 border-b border-l border-primary" aria-hidden />
             <span className="absolute -bottom-px -right-px w-3 h-3 border-b border-r border-primary" aria-hidden />
 
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-2 relative">
+            {/* Title row with dotted connectors between stage labels */}
+            <div className="hidden md:grid grid-cols-5 items-center mb-6">
               {stages.map((stage, i) => {
                 const isActive = i === activeStage;
                 const isLast = i === stages.length - 1;
+                return (
+                  <div key={stage.key} className="relative flex items-center">
+                    <div className="flex-1 flex justify-center relative">
+                      {/* Radial glow */}
+                      {isActive && (
+                        <motion.span
+                          aria-hidden
+                          initial={{ opacity: 0, scale: 0.4 }}
+                          animate={{ opacity: [0.35, 0.7, 0.35], scale: [0.9, 1.25, 0.9] }}
+                          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                          className="pointer-events-none absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full"
+                          style={{
+                            background:
+                              "radial-gradient(circle, hsl(var(--primary) / 0.35) 0%, hsl(var(--primary) / 0.12) 40%, transparent 70%)",
+                          }}
+                        />
+                      )}
+                      <motion.p
+                        animate={{
+                          textShadow: isActive
+                            ? "0 0 22px hsl(var(--primary) / 0.85), 0 0 6px hsl(var(--primary) / 0.6)"
+                            : "0 0 0px hsl(var(--primary) / 0)",
+                        }}
+                        transition={{ duration: 0.4 }}
+                        className={`relative font-body text-sm tracking-[0.2em] uppercase flex items-center gap-1 transition-colors ${
+                          isActive ? "text-primary" : "text-muted-foreground"
+                        }`}
+                      >
+                        {stage.label}
+                        {isActive && <span className="text-primary animate-pulse">▌</span>}
+                      </motion.p>
+                    </div>
+                    {!isLast && (
+                      <span
+                        aria-hidden
+                        className={`absolute left-1/2 right-0 top-1/2 -translate-y-1/2 border-t border-dotted transition-colors ${
+                          isActive || activeStage === i + 1 ? "border-primary/60" : "border-border"
+                        }`}
+                        style={{ marginLeft: "3.5rem", marginRight: "-3.5rem" }}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-2 relative">
+              {stages.map((stage, i) => {
+                const isActive = i === activeStage;
                 const extra = Math.max(0, stage.poolSize - stage.tools.length);
                 return (
                   <motion.div
@@ -244,18 +294,7 @@ const Workflow = () => {
                     transition={{ duration: 0.5, delay: 0.9 + i * 0.12, ease: [0.2, 0.9, 0.3, 1] }}
                     className="relative flex flex-col items-center text-center"
                   >
-                    {/* Connector — sits between this circle and the next, only on top band */}
-                    {!isLast && (
-                      <span
-                        aria-hidden
-                        className="hidden md:block absolute top-2 right-0 text-primary/40"
-                      >
-                        →
-                      </span>
-                    )}
-
-
-
+                    {/* Mobile-only label */}
                     <motion.p
                       animate={{
                         textShadow: isActive
@@ -263,20 +302,18 @@ const Workflow = () => {
                           : "0 0 0px hsl(var(--primary) / 0)",
                       }}
                       transition={{ duration: 0.4 }}
-                      className={`font-body text-sm tracking-[0.2em] uppercase mb-3 flex items-center gap-1 transition-colors ${
+                      className={`md:hidden font-body text-sm tracking-[0.2em] uppercase mb-3 flex items-center gap-1 transition-colors ${
                         isActive ? "text-primary" : "text-muted-foreground"
                       }`}
                     >
                       {stage.label}
-                      {isActive && (
-                        <span className="text-primary animate-pulse">▌</span>
-                      )}
+                      {isActive && <span className="text-primary animate-pulse">▌</span>}
                     </motion.p>
 
                     <p className="text-xs text-muted-foreground font-body leading-relaxed mb-3 max-w-[200px]">
                       {stage.artifact}
                     </p>
-                    <div className="flex flex-wrap justify-center gap-1.5">
+                    <div className="flex flex-nowrap items-center justify-center gap-1 w-full">
                       {stage.tools.map((t) => (
                         <motion.span
                           key={t}
@@ -286,7 +323,7 @@ const Workflow = () => {
                               : { y: 0, boxShadow: "0 0 0px transparent inset" }
                           }
                           transition={{ duration: 0.4 }}
-                          className={`text-[10px] font-body px-2 py-0.5 rounded-full border transition-colors ${
+                          className={`shrink-0 text-[9px] font-body px-1.5 py-0.5 rounded-full border whitespace-nowrap transition-colors ${
                             isActive
                               ? "border-primary/60 text-primary bg-primary/5"
                               : "border-border text-muted-foreground"
@@ -297,14 +334,13 @@ const Workflow = () => {
                       ))}
                       {extra > 0 && (
                         <span
-                          title={`+${extra} more tools from the stack`}
-                          className={`text-[10px] font-body px-2 py-0.5 rounded-full border border-dashed transition-colors ${
-                            isActive
-                              ? "border-primary/60 text-primary/80"
-                              : "border-border/70 text-muted-foreground/70"
+                          aria-hidden
+                          title={`+${extra} more from the stack below`}
+                          className={`shrink-0 tracking-[0.15em] text-[11px] leading-none transition-colors ${
+                            isActive ? "text-primary/80" : "text-muted-foreground/60"
                           }`}
                         >
-                          +{extra}
+                          ···
                         </span>
                       )}
                     </div>
