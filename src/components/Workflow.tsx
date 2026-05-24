@@ -318,42 +318,6 @@ const visualizerMap: Record<string, React.FC<VizProps>> = {
   Vercel: TriangleViz,
 };
 
-// Direct logo URLs (favicons from each tool's site for distinct branding).
-// null => no reliable remote logo, fall back to the retro visualizer.
-const logoUrlMap: Record<string, string | null> = {
-  Lovable: "https://lovable.dev/favicon.ico",
-  "Claude Code": "https://cdn.simpleicons.org/claude",
-  ChatGPT: "https://cdn.simpleicons.org/openai",
-  Codex: "https://cdn.simpleicons.org/openai",
-  "Gemini Gems": "https://www.gstatic.com/lamda/images/gemini_favicon_f069958c85030456e93de685481c559f160ea06b.png",
-  NotebookLM: "https://notebooklm.google.com/_/NotebookLmWebUi/favicon-new.ico",
-  "Google AI Studio": "https://www.gstatic.com/aistudio/ai_studio_favicon_256x256.png",
-  Obsidian: "https://obsidian.md/favicon.ico",
-  GitHub: "https://cdn.simpleicons.org/github/ffffff",
-  Supabase: "https://cdn.simpleicons.org/supabase",
-  VSCode: "https://cdn.simpleicons.org/visualstudiocode",
-  Vercel: "https://cdn.simpleicons.org/vercel/ffffff",
-};
-
-const ToolLogo = ({ name, active }: { name: string; active: boolean }) => {
-  const url = logoUrlMap[name];
-  const [errored, setErrored] = useState(false);
-  if (!url || errored) {
-    const Viz = visualizerMap[name] ?? DotsViz;
-    return <Viz active={active} />;
-  }
-  return (
-    <div className="w-4 h-4 flex items-center justify-center" aria-hidden>
-      <img
-        src={url}
-        alt=""
-        onError={() => setErrored(true)}
-        className={`w-full h-full object-contain transition-opacity duration-300 ${active ? "opacity-100" : "opacity-50"}`}
-        loading="lazy"
-      />
-    </div>
-  );
-};
 
 
 
@@ -362,7 +326,7 @@ const Workflow = () => {
   const [activeStage, setActiveStage] = useState(0);
   const [hoveredTool, setHoveredTool] = useState<number | null>(null);
   const [hoveredStage, setHoveredStage] = useState<number | null>(null);
-  const [iconMode, setIconMode] = useState<"icons" | "logos">("icons");
+  
 
   useEffect(() => {
     if (reduced || hoveredStage !== null || hoveredTool !== null) return;
@@ -575,27 +539,9 @@ const Workflow = () => {
 
         {/* Tool stack grid */}
         <div>
-          <div className="flex items-center justify-between mb-6">
-            <p className="text-primary font-body text-xs tracking-[0.3em] uppercase">
-              / stack
-            </p>
-            {/* Temporary icon mode toggle */}
-            <div className="flex items-center gap-1 border border-border rounded-sm p-0.5 text-[10px] font-body uppercase tracking-widest">
-              {(["icons", "logos"] as const).map((m) => (
-                <button
-                  key={m}
-                  onClick={() => setIconMode(m)}
-                  className={`px-2 py-1 transition-colors ${
-                    iconMode === m
-                      ? "bg-primary/15 text-primary"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {m}
-                </button>
-              ))}
-            </div>
-          </div>
+          <p className="text-primary font-body text-xs tracking-[0.3em] uppercase mb-6">
+            / stack
+          </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {tools.map((tool, i) => {
               const isActive =
@@ -618,7 +564,6 @@ const Workflow = () => {
                       : "border-border"
                   }`}
                 >
-                  {/* Corner ticks */}
                   <span className={`absolute top-1 left-1 w-1.5 h-1.5 border-t border-l ${isActive ? "border-primary" : "border-border group-hover:border-primary/60"}`} aria-hidden />
                   <span className={`absolute bottom-1 right-1 w-1.5 h-1.5 border-b border-r ${isActive ? "border-primary" : "border-border group-hover:border-primary/60"}`} aria-hidden />
 
@@ -627,9 +572,7 @@ const Workflow = () => {
                       {tool.name}
                       {isActive && <span className="text-primary ml-1 animate-pulse">_</span>}
                     </span>
-                    {iconMode === "logos" ? (
-                      <ToolLogo name={tool.name} active={isActive} />
-                    ) : (() => {
+                    {(() => {
                       const Viz = visualizerMap[tool.name] ?? DotsViz;
                       return <Viz active={isActive} />;
                     })()}
@@ -642,6 +585,7 @@ const Workflow = () => {
             })}
           </div>
         </div>
+
       </div>
     </section>
   );
