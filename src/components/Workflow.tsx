@@ -140,46 +140,16 @@ const Workflow = () => {
         className="pointer-events-none absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_55%,hsl(var(--background))_100%)]"
       />
 
-      {/* HYPE INTRO LAYERS — fire on scroll-in */}
-      {/* Lightning flash */}
+      {/* Scanline sweep on enter */}
       <motion.div
         aria-hidden
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: [0, 1, 0, 0.7, 0] }}
+        initial={{ y: "-10%", opacity: 0 }}
+        whileInView={{ y: "110%", opacity: [0, 0.8, 0] }}
         viewport={{ once: true }}
-        transition={{ duration: 0.55, times: [0, 0.05, 0.15, 0.2, 0.35], ease: "easeOut" }}
-        className="pointer-events-none absolute inset-0 bg-primary/40 mix-blend-screen z-20"
+        transition={{ duration: 1.4, ease: "easeOut" }}
+        className="pointer-events-none absolute left-0 right-0 top-0 h-[2px] bg-primary/70 shadow-[0_0_24px_4px_hsl(var(--primary)/0.6)]"
       />
-      {/* Secondary white flash */}
-      <motion.div
-        aria-hidden
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: [0, 0.9, 0] }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.18, ease: "easeOut" }}
-        className="pointer-events-none absolute inset-0 bg-foreground/80 mix-blend-overlay z-20"
-      />
-      {/* Triple scanline barrage */}
-      {[0, 0.15, 0.3].map((d, i) => (
-        <motion.div
-          key={i}
-          aria-hidden
-          initial={{ y: "-10%", opacity: 0 }}
-          whileInView={{ y: "110%", opacity: [0, 1, 0] }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2 - i * 0.2, delay: d, ease: "easeOut" }}
-          className="pointer-events-none absolute left-0 right-0 top-0 h-[2px] bg-primary shadow-[0_0_30px_6px_hsl(var(--primary)/0.9)] z-20"
-        />
-      ))}
-      {/* Slash diagonal sweep */}
-      <motion.div
-        aria-hidden
-        initial={{ x: "-120%", skewX: -20, opacity: 0 }}
-        whileInView={{ x: "120%", opacity: [0, 0.7, 0] }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7, delay: 0.1, ease: [0.7, 0, 0.3, 1] }}
-        className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/2 bg-gradient-to-r from-transparent via-primary/50 to-transparent z-20"
-      />
+
 
       <div className="container max-w-5xl relative z-10">
         <motion.div
@@ -197,74 +167,42 @@ const Workflow = () => {
           >
             / workflow
           </motion.p>
-          <h2 className="font-display text-4xl md:text-5xl mb-4 flex flex-wrap gap-x-3 relative">
-            <span className="inline-flex relative">
+          <h2 className="font-display text-4xl md:text-5xl mb-4 flex flex-wrap gap-x-3">
+            <span className="inline-flex">
               {headline.split("").map((ch, i) => (
-                <span key={i} className="relative inline-block whitespace-pre">
-                  {/* RGB chromatic ghost — red */}
-                  <motion.span
-                    aria-hidden
-                    initial={{ x: 0, opacity: 0 }}
-                    whileInView={{ x: [-8, 2, -1, 0], opacity: [0.9, 0.6, 0.3, 0] }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.025, duration: 0.55 }}
-                    className="absolute inset-0 text-[hsl(0,90%,60%)] mix-blend-screen"
-                  >
-                    {ch}
-                  </motion.span>
-                  {/* RGB chromatic ghost — cyan */}
-                  <motion.span
-                    aria-hidden
-                    initial={{ x: 0, opacity: 0 }}
-                    whileInView={{ x: [8, -2, 1, 0], opacity: [0.9, 0.6, 0.3, 0] }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.025, duration: 0.55 }}
-                    className="absolute inset-0 text-[hsl(180,90%,60%)] mix-blend-screen"
-                  >
-                    {ch}
-                  </motion.span>
-                  <motion.span
-                    initial={{ y: 32, opacity: 0, filter: "blur(8px)", scale: 1.3 }}
-                    whileInView={{ y: 0, opacity: 1, filter: "blur(0px)", scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.035, duration: 0.45, ease: [0.2, 0.9, 0.3, 1] }}
-                    className="relative inline-block"
-                  >
-                    {ch}
-                  </motion.span>
-                </span>
+                <motion.span
+                  key={i}
+                  initial={{ y: 24, opacity: 0, filter: "blur(6px)" }}
+                  whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.025, duration: 0.4, ease: "easeOut" }}
+                  className="inline-block whitespace-pre"
+                >
+                  {ch}
+                </motion.span>
               ))}
             </span>
             <motion.span
-              initial={{ opacity: 0, scale: 0.5, rotate: -8 }}
-              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+              initial={{ opacity: 0, scale: 0.85 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.55, duration: 0.6, type: "spring", stiffness: 260, damping: 12 }}
-              className="italic text-gradient relative drop-shadow-[0_0_24px_hsl(var(--primary)/0.7)]"
+              transition={{ delay: 0.45, duration: 0.5, type: "spring", stiffness: 200 }}
+              className="italic text-gradient relative"
             >
               AI.
               <motion.span
                 aria-hidden
                 initial={{ opacity: 0 }}
-                whileInView={{ opacity: [0, 1, 0, 1, 0, 1, 0] }}
+                whileInView={{ opacity: [0, 1, 0, 1, 0] }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-                className="absolute inset-0 italic text-primary mix-blend-screen translate-x-[3px] -translate-y-[1px]"
-              >
-                AI.
-              </motion.span>
-              <motion.span
-                aria-hidden
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: [0, 1, 0] }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.55, duration: 0.4 }}
-                className="absolute inset-0 italic text-[hsl(320,90%,60%)] mix-blend-screen -translate-x-[3px] translate-y-[1px]"
+                transition={{ delay: 0.5, duration: 0.4 }}
+                className="absolute inset-0 italic text-primary mix-blend-screen translate-x-[2px]"
               >
                 AI.
               </motion.span>
             </motion.span>
           </h2>
+
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -308,71 +246,33 @@ const Workflow = () => {
                   >
                     {/* Connector — sits between this circle and the next, only on top band */}
                     {!isLast && (
-                      <div className="hidden md:block absolute top-7 left-[calc(50%+28px)] right-[calc(-50%+28px)] h-px overflow-hidden">
-                        <div className="w-full h-full border-t border-dashed border-primary/30" />
-                        <motion.span
-                          className="absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_2px_hsl(var(--primary)/0.8)]"
-                          animate={
-                            reduced
-                              ? { left: "0%", opacity: 0.6 }
-                              : isActive
-                              ? { left: ["-5%", "105%"], opacity: [0, 1, 1, 0] }
-                              : { left: "0%", opacity: 0 }
-                          }
-                          transition={
-                            isActive && !reduced
-                              ? { duration: 1.8, ease: "easeInOut" }
-                              : { duration: 0.3 }
-                          }
-                        />
-                      </div>
+                      <span
+                        aria-hidden
+                        className="hidden md:block absolute top-2 right-0 text-primary/40"
+                      >
+                        →
+                      </span>
                     )}
 
-                    <div className="relative mb-4">
-                      {/* Multi-ring halo */}
-                      {isActive && !reduced && (
-                        <>
-                          {[0, 1, 2].map((r) => (
-                            <motion.span
-                              key={r}
-                              aria-hidden
-                              initial={{ scale: 1, opacity: 0.7 }}
-                              animate={{ scale: 2.6, opacity: 0 }}
-                              transition={{ duration: 1.6, repeat: Infinity, delay: r * 0.45, ease: "easeOut" }}
-                              className="absolute inset-0 rounded-full border border-primary"
-                            />
-                          ))}
-                        </>
-                      )}
-                      <motion.div
-                        animate={{
-                          boxShadow: isActive
-                            ? "0 0 32px 4px hsl(var(--primary) / 0.65), inset 0 0 14px hsl(var(--primary) / 0.25)"
-                            : "0 0 0px 0px hsl(var(--primary) / 0)",
-                          scale: isActive ? 1.15 : 1,
-                        }}
-                        transition={{ duration: 0.5 }}
-                        className={`relative w-14 h-14 rounded-full border-2 flex items-center justify-center bg-background z-10 ${
-                          isActive
-                            ? "border-primary"
-                            : "border-border"
-                        }`}
-                      >
-                        <span
-                          className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                            isActive ? "bg-primary" : "bg-muted-foreground/50"
-                          }`}
-                        />
-                      </motion.div>
 
-                    </div>
 
-                    <p className="font-body text-xs tracking-[0.2em] uppercase text-foreground mb-2 flex items-center gap-1">
+                    <motion.p
+                      animate={{
+                        textShadow: isActive
+                          ? "0 0 18px hsl(var(--primary) / 0.7)"
+                          : "0 0 0px hsl(var(--primary) / 0)",
+                      }}
+                      transition={{ duration: 0.4 }}
+                      className={`font-body text-sm tracking-[0.2em] uppercase mb-3 flex items-center gap-1 transition-colors ${
+                        isActive ? "text-primary" : "text-muted-foreground"
+                      }`}
+                    >
                       {stage.label}
                       {isActive && (
                         <span className="text-primary animate-pulse">▌</span>
                       )}
-                    </p>
+                    </motion.p>
+
                     <p className="text-xs text-muted-foreground font-body leading-relaxed mb-3 max-w-[200px]">
                       {stage.artifact}
                     </p>
