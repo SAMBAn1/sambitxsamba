@@ -43,11 +43,6 @@ const tools = [
   { name: "Vercel", role: "Ship to live preview in minutes" },
 ];
 
-const outcomes = [
-  "Discovery → working software in days, not weeks",
-  "Versioned product guidance shipped per sprint",
-  "Live app surfaces validated before eng commits",
-];
 
 const SCRAMBLE_CHARS = "0123456789";
 const useScramble = (target: string, reduced: boolean) => {
