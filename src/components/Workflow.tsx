@@ -241,7 +241,7 @@ const Workflow = () => {
             {/* Title row with dotted connectors between stage labels */}
             <div className="hidden md:grid grid-cols-5 items-center mb-6">
               {stages.map((stage, i) => {
-                const isActive = i === currentStage;
+                const isActive = isStageHighlighted(i);
                 const isLast = i === stages.length - 1;
                 return (
                   <div key={stage.key} className="relative flex items-center">
