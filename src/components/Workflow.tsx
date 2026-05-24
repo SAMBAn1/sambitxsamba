@@ -253,21 +253,6 @@ const Workflow = () => {
                         {isActive && <span className="text-primary animate-pulse">▌</span>}
                       </motion.p>
                     </div>
-                      <motion.p
-                        animate={{
-                          textShadow: isActive
-                            ? "0 0 22px hsl(var(--primary) / 0.85), 0 0 6px hsl(var(--primary) / 0.6)"
-                            : "0 0 0px hsl(var(--primary) / 0)",
-                        }}
-                        transition={{ duration: 0.4 }}
-                        className={`relative font-body text-sm tracking-[0.2em] uppercase flex items-center gap-1 transition-colors ${
-                          isActive ? "text-primary" : "text-muted-foreground"
-                        }`}
-                      >
-                        {stage.label}
-                        {isActive && <span className="text-primary animate-pulse">▌</span>}
-                      </motion.p>
-                    </div>
                     {!isLast && (
                       <span
                         aria-hidden
