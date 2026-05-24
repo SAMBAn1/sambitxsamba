@@ -71,7 +71,7 @@ const projects: Project[] = [
 
 const Projects = () => {
   return (
-    <section id="projects" className="py-32">
+    <section id="portfolio" className="py-32">
       <div className="container max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
