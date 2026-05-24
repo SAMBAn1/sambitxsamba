@@ -359,6 +359,7 @@ const Workflow = () => {
   const [activeStage, setActiveStage] = useState(0);
   const [hoveredTool, setHoveredTool] = useState<number | null>(null);
   const [hoveredStage, setHoveredStage] = useState<number | null>(null);
+  const [iconMode, setIconMode] = useState<"icons" | "logos">("icons");
 
   useEffect(() => {
     if (reduced || hoveredStage !== null || hoveredTool !== null) return;
