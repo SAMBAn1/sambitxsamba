@@ -3,6 +3,24 @@ import { motion } from "framer-motion";
 
 const projects = [
   {
+    title: "Cortex",
+    description: "A second-brain note-taking app for PMs — markdown capture, natural-language dates, wikilinks, graph view, local-first storage, and Claude-powered next-action suggestions.",
+    tags: ["React", "Claude API", "Local-first"],
+    link: "https://github.com/SAMBAn1/Cortex",
+  },
+  {
+    title: "sambitxsamba.com",
+    description: "Personal product portfolio and writing hub — the site you're reading right now. Vite + React + shadcn-ui, with a custom blog system and reading experience.",
+    tags: ["Portfolio", "Writing", "Design"],
+    link: "https://github.com/SAMBAn1/sambitxsamba",
+  },
+  {
+    title: "Strategy Portfolio",
+    description: "Sanitized strategy work — AI-Native PM Workflow Initiative (Collections rebuild), i95Dev ecommerce GTM, and a Hybrid Collections Worklist Operating Model.",
+    tags: ["Strategy", "GTM", "Operating Models"],
+    link: "#workflow",
+  },
+  {
     title: "AI Agents for Autonomous Collections",
     description: "Shipped AI agents that autonomously prioritize and allocate collection work, resulting in 50% FTE reduction across enterprise AR operations.",
     tags: ["AI/ML", "Enterprise SaaS", "Automation"],
@@ -10,32 +28,14 @@ const projects = [
   },
   {
     title: "Markov Chain Worklist Engine",
-    description: "Patent-pending engine analyzing 1M+ invoice interactions to predict optimal collector actions, projected to reduce manual prioritization by 60%.",
+    description: "Patent-pending engine analyzing 1M+ invoice interactions to predict optimal collector actions — projected 60% reduction in manual prioritization and 20% recovery lift.",
     tags: ["Data Science", "Patent", "Optimization"],
-    link: "#",
+    link: "/blog/the-mathematics-of-what-comes-next-markov-chains",
   },
   {
     title: "RadiusOne AR Suite",
     description: "Co-built a net-new SMB-focused SaaS product line from 0→1; identified $1B addressable market and onboarded 20+ clients contributing $9M ARR.",
     tags: ["0→1 Product", "SMB SaaS", "Growth"],
-    link: "#",
-  },
-  {
-    title: "Tags & Workflows Platform",
-    description: "Shipped tagging and workflow automation features — users created 200k+ tags applied 20M+ times, driving 35% adoption increase across 370 clients.",
-    tags: ["Workflow Automation", "Scale", "UX"],
-    link: "#",
-  },
-  {
-    title: "CRM Integration Hub",
-    description: "Delivered 20+ API-based CRM integrations (HubSpot, FollowUpBoss, KV Core, BoomTown, Lofty) for a US real estate platform.",
-    tags: ["API Integrations", "CRM", "Proptech"],
-    link: "#",
-  },
-  {
-    title: "KW Command Partnership",
-    description: "Built strategic CRM partnership with Keller Williams, retaining 20 at-risk clients and protecting $2.4M ARR.",
-    tags: ["Partnerships", "Retention", "Strategy"],
     link: "#",
   },
   {
