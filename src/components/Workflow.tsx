@@ -318,42 +318,6 @@ const visualizerMap: Record<string, React.FC<VizProps>> = {
   Vercel: TriangleViz,
 };
 
-// Direct logo URLs (favicons from each tool's site for distinct branding).
-// null => no reliable remote logo, fall back to the retro visualizer.
-const logoUrlMap: Record<string, string | null> = {
-  Lovable: "https://lovable.dev/favicon.ico",
-  "Claude Code": "https://cdn.simpleicons.org/claude",
-  ChatGPT: "https://cdn.simpleicons.org/openai",
-  Codex: "https://cdn.simpleicons.org/openai",
-  "Gemini Gems": "https://www.gstatic.com/lamda/images/gemini_favicon_f069958c85030456e93de685481c559f160ea06b.png",
-  NotebookLM: "https://notebooklm.google.com/_/NotebookLmWebUi/favicon-new.ico",
-  "Google AI Studio": "https://www.gstatic.com/aistudio/ai_studio_favicon_256x256.png",
-  Obsidian: "https://obsidian.md/favicon.ico",
-  GitHub: "https://cdn.simpleicons.org/github/ffffff",
-  Supabase: "https://cdn.simpleicons.org/supabase",
-  VSCode: "https://cdn.simpleicons.org/visualstudiocode",
-  Vercel: "https://cdn.simpleicons.org/vercel/ffffff",
-};
-
-const ToolLogo = ({ name, active }: { name: string; active: boolean }) => {
-  const url = logoUrlMap[name];
-  const [errored, setErrored] = useState(false);
-  if (!url || errored) {
-    const Viz = visualizerMap[name] ?? DotsViz;
-    return <Viz active={active} />;
-  }
-  return (
-    <div className="w-4 h-4 flex items-center justify-center" aria-hidden>
-      <img
-        src={url}
-        alt=""
-        onError={() => setErrored(true)}
-        className={`w-full h-full object-contain transition-opacity duration-300 ${active ? "opacity-100" : "opacity-50"}`}
-        loading="lazy"
-      />
-    </div>
-  );
-};
 
 
 
