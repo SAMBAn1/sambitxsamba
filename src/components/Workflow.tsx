@@ -84,27 +84,240 @@ const StageNumber = ({ n, active, reduced }: { n: string; active: boolean; reduc
   return <span>{active ? scrambled : n}</span>;
 };
 
-const Visualizer = ({ active }: { active: boolean }) => (
-  <div className="flex items-end gap-[2px] h-3" aria-hidden>
-    {[0, 1, 2].map((i) => (
-      <motion.span
-        key={i}
-        className={`w-[2px] rounded-full ${active ? "bg-primary" : "bg-muted-foreground/40"}`}
-        animate={
-          active
-            ? { height: ["30%", "100%", "50%", "85%", "30%"] }
-            : { height: "40%" }
-        }
-        transition={
-          active
-            ? { duration: 0.9, repeat: Infinity, delay: i * 0.12, ease: "easeInOut" }
-            : { duration: 0.2 }
-        }
-        style={{ height: "40%" }}
-      />
-    ))}
+/* ──────────────────────────────────────────────────────────────────
+   Per-tool micro animations — tech / hacker / retro-game / CRT vibes
+   All sized ~28x12, render in HSL primary when active, dim when not
+   ────────────────────────────────────────────────────────────────── */
+
+type VizProps = { active: boolean };
+const stroke = "hsl(var(--primary))";
+const dimStroke = "hsl(var(--muted-foreground) / 0.45)";
+
+const VizBox = ({ children }: { children: React.ReactNode }) => (
+  <div className="w-7 h-3 flex items-center justify-center" aria-hidden>
+    {children}
   </div>
 );
+
+// 1. Lovable — pulsing pixel heart
+const HeartViz = ({ active }: VizProps) => (
+  <VizBox>
+    <motion.svg viewBox="0 0 12 10" className="w-5 h-3 overflow-visible">
+      <motion.path
+        d="M1 1h2v1h1v1h1V2h1V1h2v1h1v3h-1v1h-1v1h-1v1H6v1H5V8H4V7H3V6H2V5H1z"
+        fill={active ? stroke : dimStroke}
+        animate={active ? { scale: [1, 1.25, 1] } : { scale: 1 }}
+        transition={{ duration: 0.7, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: "50% 50%" }}
+      />
+    </motion.svg>
+  </VizBox>
+);
+
+// 2. Claude Code — typing cursor inside braces { _ }
+const BracesViz = ({ active }: VizProps) => (
+  <VizBox>
+    <div className={`font-mono text-[10px] leading-none flex items-center gap-[1px] ${active ? "text-primary" : "text-muted-foreground/50"}`}>
+      <span>{"{"}</span>
+      <motion.span
+        animate={active ? { opacity: [1, 0, 1] } : { opacity: 0.6 }}
+        transition={{ duration: 0.6, repeat: Infinity }}
+      >_</motion.span>
+      <span>{"}"}</span>
+    </div>
+  </VizBox>
+);
+
+// 3. ChatGPT — three bouncing typing dots
+const DotsViz = ({ active }: VizProps) => (
+  <VizBox>
+    <div className="flex items-end gap-[2px] h-2">
+      {[0, 1, 2].map((i) => (
+        <motion.span
+          key={i}
+          className={`w-[3px] h-[3px] rounded-full ${active ? "bg-primary" : "bg-muted-foreground/40"}`}
+          animate={active ? { y: [0, -3, 0] } : { y: 0 }}
+          transition={{ duration: 0.7, repeat: Infinity, delay: i * 0.12, ease: "easeInOut" }}
+        />
+      ))}
+    </div>
+  </VizBox>
+);
+
+// 4. Codex — scrolling binary 0/1 stream
+const BinaryViz = ({ active }: VizProps) => {
+  const [bits, setBits] = useState("01010");
+  useEffect(() => {
+    if (!active) return;
+    const id = setInterval(() => {
+      setBits(Array.from({ length: 5 }, () => (Math.random() > 0.5 ? "1" : "0")).join(""));
+    }, 140);
+    return () => clearInterval(id);
+  }, [active]);
+  return (
+    <VizBox>
+      <span className={`font-mono text-[9px] tracking-tight ${active ? "text-primary" : "text-muted-foreground/50"}`}>
+        {active ? bits : "01010"}
+      </span>
+    </VizBox>
+  );
+};
+
+// 5. Gemini Gems — rotating diamond/gem
+const GemViz = ({ active }: VizProps) => (
+  <VizBox>
+    <motion.svg viewBox="-6 -6 12 12" className="w-3 h-3 overflow-visible"
+      animate={active ? { rotate: 360 } : { rotate: 0 }}
+      transition={{ duration: 2.4, repeat: Infinity, ease: "linear" }}
+    >
+      <path d="M0,-5 L4,0 L0,5 L-4,0 Z" fill="none" stroke={active ? stroke : dimStroke} strokeWidth="1" />
+      <path d="M-4,0 L4,0 M0,-5 L0,5" stroke={active ? stroke : dimStroke} strokeWidth="0.6" opacity="0.6" />
+    </motion.svg>
+  </VizBox>
+);
+
+// 6. NotebookLM — scanning line across page
+const ScanViz = ({ active }: VizProps) => (
+  <VizBox>
+    <div className={`relative w-6 h-3 border ${active ? "border-primary/70" : "border-muted-foreground/30"} overflow-hidden`}>
+      {[1, 2].map((y) => (
+        <span key={y} className={`absolute left-[2px] right-[2px] h-px ${active ? "bg-primary/40" : "bg-muted-foreground/30"}`} style={{ top: y * 3 + 1 }} />
+      ))}
+      <motion.span
+        className="absolute left-0 right-0 h-[2px] bg-primary shadow-[0_0_4px_hsl(var(--primary))]"
+        animate={active ? { y: [0, 10, 0] } : { y: 0 }}
+        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+        style={{ opacity: active ? 1 : 0 }}
+      />
+    </div>
+  </VizBox>
+);
+
+// 7. Google AI Studio — oscilloscope sine wave
+const WaveViz = ({ active }: VizProps) => (
+  <VizBox>
+    <svg viewBox="0 0 28 12" className="w-7 h-3 overflow-visible">
+      <motion.path
+        d="M0 6 Q3.5 0 7 6 T14 6 T21 6 T28 6"
+        fill="none"
+        stroke={active ? stroke : dimStroke}
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        animate={active ? { x: [0, -7] } : { x: 0 }}
+        transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+      />
+    </svg>
+  </VizBox>
+);
+
+// 8. Obsidian — connected nodes pulsing (knowledge graph)
+const GraphViz = ({ active }: VizProps) => (
+  <VizBox>
+    <svg viewBox="0 0 14 12" className="w-6 h-3 overflow-visible">
+      <line x1="2" y1="6" x2="7" y2="2" stroke={active ? stroke : dimStroke} strokeWidth="0.6" />
+      <line x1="2" y1="6" x2="7" y2="10" stroke={active ? stroke : dimStroke} strokeWidth="0.6" />
+      <line x1="7" y1="2" x2="12" y2="6" stroke={active ? stroke : dimStroke} strokeWidth="0.6" />
+      <line x1="7" y1="10" x2="12" y2="6" stroke={active ? stroke : dimStroke} strokeWidth="0.6" />
+      {[
+        { cx: 2, cy: 6, d: 0 },
+        { cx: 7, cy: 2, d: 0.2 },
+        { cx: 12, cy: 6, d: 0.4 },
+        { cx: 7, cy: 10, d: 0.6 },
+      ].map((n, i) => (
+        <motion.circle
+          key={i}
+          cx={n.cx}
+          cy={n.cy}
+          r="1.4"
+          fill={active ? stroke : dimStroke}
+          animate={active ? { r: [1.2, 1.8, 1.2], opacity: [0.7, 1, 0.7] } : { r: 1.2 }}
+          transition={{ duration: 1.1, repeat: Infinity, delay: n.d, ease: "easeInOut" }}
+        />
+      ))}
+    </svg>
+  </VizBox>
+);
+
+// 9. GitHub — branch merge animation
+const BranchViz = ({ active }: VizProps) => (
+  <VizBox>
+    <svg viewBox="0 0 14 12" className="w-6 h-3 overflow-visible">
+      <path d="M3 1 V11 M3 6 Q3 3 6 3 H11" fill="none" stroke={active ? stroke : dimStroke} strokeWidth="1" />
+      <circle cx="3" cy="1" r="1.4" fill={active ? stroke : dimStroke} />
+      <circle cx="3" cy="11" r="1.4" fill={active ? stroke : dimStroke} />
+      <motion.circle
+        cx="11" cy="3" r="1.4"
+        fill={active ? stroke : dimStroke}
+        animate={active ? { scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] } : { scale: 1 }}
+        transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: "11px 3px" }}
+      />
+    </svg>
+  </VizBox>
+);
+
+// 10. Supabase — lightning bolt zap
+const BoltViz = ({ active }: VizProps) => (
+  <VizBox>
+    <motion.svg viewBox="0 0 10 12" className="w-3 h-3 overflow-visible"
+      animate={active ? { opacity: [0.5, 1, 0.7, 1, 0.5] } : { opacity: 0.6 }}
+      transition={{ duration: 0.9, repeat: Infinity }}
+    >
+      <path d="M6 0 L1 7 H4 L3 12 L9 5 H6 Z" fill={active ? stroke : dimStroke} />
+    </motion.svg>
+  </VizBox>
+);
+
+// 11. VSCode — angle brackets glitching
+const ChevronViz = ({ active }: VizProps) => (
+  <VizBox>
+    <div className={`font-mono text-[10px] leading-none flex items-center gap-[2px] ${active ? "text-primary" : "text-muted-foreground/50"}`}>
+      <motion.span animate={active ? { x: [0, -1, 0] } : { x: 0 }} transition={{ duration: 0.5, repeat: Infinity }}>{"<"}</motion.span>
+      <motion.span
+        className="w-[2px] h-[6px] inline-block"
+        style={{ background: "currentColor" }}
+        animate={active ? { opacity: [1, 0, 1] } : { opacity: 0.6 }}
+        transition={{ duration: 0.6, repeat: Infinity }}
+      />
+      <motion.span animate={active ? { x: [0, 1, 0] } : { x: 0 }} transition={{ duration: 0.5, repeat: Infinity }}>{">"}</motion.span>
+    </div>
+  </VizBox>
+);
+
+// 12. Vercel — triangle deploying upward
+const TriangleViz = ({ active }: VizProps) => (
+  <VizBox>
+    <motion.svg viewBox="0 0 12 10" className="w-3 h-3 overflow-visible"
+      animate={active ? { y: [2, -1, 2] } : { y: 0 }}
+      transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
+    >
+      <path d="M6 0 L12 10 H0 Z" fill={active ? stroke : dimStroke} />
+      <motion.line
+        x1="0" x2="12" y1="10" y2="10"
+        stroke={active ? stroke : dimStroke}
+        strokeWidth="0.6"
+        animate={active ? { opacity: [0.2, 1, 0.2] } : { opacity: 0.3 }}
+        transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
+      />
+    </motion.svg>
+  </VizBox>
+);
+
+const visualizerMap: Record<string, React.FC<VizProps>> = {
+  Lovable: HeartViz,
+  "Claude Code": BracesViz,
+  ChatGPT: DotsViz,
+  Codex: BinaryViz,
+  "Gemini Gems": GemViz,
+  NotebookLM: ScanViz,
+  "Google AI Studio": WaveViz,
+  Obsidian: GraphViz,
+  GitHub: BranchViz,
+  Supabase: BoltViz,
+  VSCode: ChevronViz,
+  Vercel: TriangleViz,
+};
+
 
 const Workflow = () => {
   const reduced = useReducedMotion() ?? false;
@@ -357,7 +570,10 @@ const Workflow = () => {
                       {tool.name}
                       {isActive && <span className="text-primary ml-1 animate-pulse">_</span>}
                     </span>
-                    <Visualizer active={isActive} />
+                    {(() => {
+                      const Viz = visualizerMap[tool.name] ?? DotsViz;
+                      return <Viz active={isActive} />;
+                    })()}
                   </div>
                   <p className="text-xs text-muted-foreground font-body leading-snug">
                     {tool.role}
