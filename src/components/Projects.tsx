@@ -61,7 +61,6 @@ const projects: Project[] = [
     title: "Markov Chain Worklist Engine",
     description: "Patent-pending engine analyzing 1M+ invoice interactions to predict optimal collector actions — projected 60% reduction in manual prioritization and 20% recovery lift.",
     tags: ["Data Science", "Patent", "Optimization"],
-    link: "/blog/the-mathematics-of-what-comes-next-markov-chains",
   },
   {
     title: "RadiusOne AR Suite",
@@ -81,7 +80,7 @@ const Projects = () => {
           transition={{ duration: 0.7 }}
         >
           <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-4">
-            / work
+            / portfolio
           </p>
           <h2 className="font-display text-4xl md:text-5xl mb-16">
             Things I've <span className="italic text-gradient">built.</span>
