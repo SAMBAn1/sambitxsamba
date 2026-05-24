@@ -108,24 +108,28 @@ const Visualizer = ({ active }: { active: boolean }) => (
 
 const Workflow = () => {
   const reduced = useReducedMotion() ?? false;
-  const [activeTool, setActiveTool] = useState(0);
   const [activeStage, setActiveStage] = useState(0);
   const [hoveredTool, setHoveredTool] = useState<number | null>(null);
   const [hoveredStage, setHoveredStage] = useState<number | null>(null);
 
   useEffect(() => {
-    if (reduced || hoveredStage !== null) return;
+    if (reduced || hoveredStage !== null || hoveredTool !== null) return;
     const s = setInterval(() => setActiveStage((p) => (p + 1) % stages.length), 2200);
     return () => clearInterval(s);
-  }, [reduced, hoveredStage]);
+  }, [reduced, hoveredStage, hoveredTool]);
 
-  useEffect(() => {
-    if (reduced || hoveredTool !== null || hoveredStage !== null) return;
-    const t = setInterval(() => setActiveTool((p) => (p + 1) % tools.length), 2000);
-    return () => clearInterval(t);
-  }, [reduced, hoveredTool, hoveredStage]);
+  // Stages highlighted right now (multiple possible when hovering a tool)
+  const highlightedStages: number[] =
+    hoveredStage !== null
+      ? [hoveredStage]
+      : hoveredTool !== null
+        ? stages
+            .map((s, idx) => (s.related.includes(tools[hoveredTool].name) ? idx : -1))
+            .filter((i) => i !== -1)
+        : [activeStage];
 
-  const currentStage = hoveredStage ?? activeStage;
+  const isStageHighlighted = (i: number) => highlightedStages.includes(i);
+  const currentStage = highlightedStages[0] ?? activeStage;
 
 
 
