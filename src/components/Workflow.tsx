@@ -571,9 +571,27 @@ const Workflow = () => {
 
         {/* Tool stack grid */}
         <div>
-          <p className="text-primary font-body text-xs tracking-[0.3em] uppercase mb-6">
-            / stack
-          </p>
+          <div className="flex items-center justify-between mb-6">
+            <p className="text-primary font-body text-xs tracking-[0.3em] uppercase">
+              / stack
+            </p>
+            {/* Temporary icon mode toggle */}
+            <div className="flex items-center gap-1 border border-border rounded-sm p-0.5 text-[10px] font-body uppercase tracking-widest">
+              {(["icons", "logos"] as const).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => setIconMode(m)}
+                  className={`px-2 py-1 transition-colors ${
+                    iconMode === m
+                      ? "bg-primary/15 text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {m}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {tools.map((tool, i) => {
               const isActive =
