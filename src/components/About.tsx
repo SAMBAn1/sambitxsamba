@@ -2,13 +2,13 @@ import { motion } from "framer-motion";
 
 const skills = [
   "Product Strategy",
-  "AI/ML Products",
-  "User Research",
-  "Agile & Scrum",
-  "CRM Integrations",
-  "Data Analytics",
-  "Figma & UX",
-  "Enterprise SaaS",
+  "AI-Native PM",
+  "0→1 Product",
+  "Roadmap Strategy",
+  "Discovery & Research",
+  "O2C / AR Domain",
+  "Workflow Automation",
+  "Analytics (Pendo, GA)",
 ];
 
 const About = () => {
@@ -34,6 +34,8 @@ const About = () => {
                 I'm a <span className="text-foreground font-medium">Product Manager</span> at{" "}
                 <span className="text-foreground">HighRadius</span>, where I ship AI agents for autonomous
                 collections across an enterprise AR platform used by 370+ customers and 4,000+ collectors.
+                I co-authored the 2025/26 Collections roadmap with the VP and CPO, and champion Claude Code
+                and AI-native workflows across the PM org.
               </p>
               <p>
                 Previously, I built CRM integrations at Fello, co-built the RadiusOne SMB suite,
