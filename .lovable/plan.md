@@ -1,58 +1,48 @@
+## 1. Sync homepage content with the new resume
 
+**About (`src/components/About.tsx`)**
+- Tighten the HighRadius blurb: keep the autonomous AI agents framing, but add the new beats — co-authored the 2025/2026 Collections roadmap with the VP/CPO and is championing Claude Code in the PM org.
+- Refresh the skills grid to match the resume vocabulary: replace "Agile & Scrum" / "Figma & UX" / "Data Analytics" / "CRM Integrations" with a tighter set — `AI-Native PM`, `0→1 Product`, `Roadmap Strategy`, `Discovery & Research`, `O2C / AR Domain`, `Workflow Automation`, `Analytics (Pendo, GA)`, `Figma & Prototyping`. Keep `Product Strategy`, `AI/ML Products`, `Enterprise SaaS`.
 
-# Silhouette Portrait with Interactive Effects
+**Experience (`src/components/Experience.tsx`)**
+- HighRadius (current): replace the "Lovable orchestration layer" bullet with the resume's accurate version — proprietary ML algorithm for the AI + Human Work Assignment Agent (+30% allocation). Add bullets for the 2025/26 AI-first roadmap co-authored with VP/CPO, the LiveCube integration ($300K ARR, 14 clients, 5 new products), and 20+ day-in-the-life studies. Keep the Markov chain and migration bullets.
+- Fello: swap the generic "in-app currency 30x" line ordering — add the 20% onboarding reduction (10→8 days), the Cash Offer / one-click quote feature, and the GA + Tag Manager dynamic env for consultants. Keep KW Command, Lead Segments, integrations.
+- HighRadius RadiusOne: add Google Workspace 1-click inbox setup and the config-step reduction (60%→10%); tighten the ExtJS→React migration bullet to include "10+ features, 1,000+ bugs."
 
-Replace the current GlitchPortrait with a canvas-based **silhouette portrait** that extracts your outline from the photo and renders it with stunning interactive effects.
+**Projects (`src/components/Projects.tsx`)**
+- Add three new cards at the top so the latest work leads: `Cortex` (second-brain PM app, link to github.com/SAMBAn1/Cortex), `sambitxsamba.com` (this site), and `Strategy Portfolio` (linking to the three sanitized strategy decks listed in the resume: AI-Native PM Workflow, i95Dev GTM, Hybrid Collections Operating Model — rendered as one card with three sub-items).
+- Keep existing cards (AI Agents, Markov Engine, RadiusOne, Tags & Workflows, CRM Hub, KW Command, ShrayArchy) but trim to the strongest 6 total so the section doesn't bloat.
 
-## Concept
+## 2. New section: `/ workflow` — How I work with AI
 
-Your portrait will be processed into a **glowing green silhouette** -- like a hacker terminal scan. The silhouette will be composed of:
+A dedicated section between `Experience` and `Projects`, anchored at `#workflow`, added to the navbar.
 
-- **Edge-detected outline** drawn with bright green strokes
-- **Interior filled with a subtle dark green wash** 
-- **Floating digital rain particles** falling inside the silhouette boundary
-- **Mouse proximity distortion** -- edges ripple/displace near the cursor
-- **Periodic scan line** sweeping top-to-bottom, briefly revealing the real photo underneath
+**Narrative spine** (pulled from the resume's "AI Native PM Workflow Initiative"):
+> Discovery → Prototype → Validate → Ship — powered by an AI-native stack.
 
-## How It Works
+**Layout**
+- Section header in the existing pattern: `/ workflow` eyebrow, lowercase serif title `How I leverage AI.` with the green italic accent.
+- Two-part body:
+  1. **Animated pipeline diagram** — a horizontal flow of 4 stages (Discovery, Prototype, Validate, Ship). Each stage is a node with the tool logos used at that stage; a "signal pulse" travels along the connecting line on loop (Framer Motion `animate` with `repeat: Infinity`), and tool chips light up as the pulse passes through. On hover, a stage expands to show the artifact produced (e.g., "Day-in-the-life notes", "Working prototype", "Versioned product guidance", "Live deploy").
+  2. **AI tool stack grid** — 8 cards in a 4×2 grid for the tools called out in the resume: Lovable, Claude / Claude Code, ChatGPT, Codex, GitHub, Supabase, Vercel, Cursor. Each card: tool name, one-line role ("Build the working prototype", "Pair-program edits", "Strategy + writing partner", etc.), and a subtle hover state (border lights to primary green, micro-scale, animated cursor blink on the active card cycling every 2s like the hero typewriter).
 
-1. **Load the portrait onto a hidden canvas** and extract brightness data per pixel
-2. **Edge detection**: Use a Sobel filter to find the silhouette contour, then render those edges as bright green dots/lines
-3. **Matrix rain inside the silhouette**: Small green characters fall within the body boundary, creating a "digital body" feel
-4. **Mouse interaction**: As the cursor moves, nearby edge particles scatter and reform, and a radial "reveal" shows a glimpse of the real photo underneath
-5. **Scan effect**: A horizontal green line sweeps down periodically, momentarily brightening the silhouette edges it passes
+**Outcome strip** under the diagram — three stat tiles that animate in on scroll: `Discovery → working software in days, not weeks`, `Versioned product guidance shipped per sprint`, `Live app surfaces + DB schema validated before eng commits`. Numbers/phrases pulled from the resume's strategy portfolio.
 
-## Technical Plan
+**Theme fidelity** — uses existing tokens only: `--primary` green, terminal-style lowercase headings prefixed with `/`, blinking cursor accents, `font-display` serif for the title, `font-body` Space Grotesk for body, `border-border` hairlines, `bg-card` surfaces, `hover-lift` utility. No new colors, no new fonts.
 
-### 1. Rewrite `GlitchPortrait.tsx` as a canvas-based `SilhouettePortrait.tsx`
+**Animation**
+- Pipeline pulse: Framer Motion `motion.circle` traversing an SVG path with `pathLength` / `offsetDistance` on a 4s loop.
+- Stage nodes: stagger fade-in on scroll-into-view (existing pattern).
+- Tool cards: `whileHover={{ y: -4 }}` matching `hover-lift`, plus an `animate-pulse` green dot on the "currently active" card that rotates every 2s.
+- Respects `prefers-reduced-motion` — pulse swaps for static glow.
 
-- Use `useRef` for a `<canvas>` element and a hidden `<img>` for source data
-- On image load:
-  - Draw image to an offscreen canvas
-  - Extract pixel data via `getImageData`
-  - Compute a brightness map (grayscale per pixel)
-  - Run edge detection (Sobel) to get contour points
-  - Sample interior points where brightness is below a threshold (inside the body)
-- Store two arrays: `edgePoints[]` and `interiorPoints[]`
+## 3. Navbar + SEO
 
-### 2. Render loop (`requestAnimationFrame`)
+- Add `Workflow` link to `src/components/Navbar.tsx` between `Experience` and `Projects`, scrolling to `#workflow`.
+- No new routes; section sits on `/`. The existing Helmet on `Index` already covers SEO; no changes needed.
 
-- **Background**: Fully transparent/dark
-- **Edge points**: Render as small bright green circles (`hsl(142, 72%, 45%)`) with a subtle glow (`shadowBlur`)
-- **Interior rain**: A set of "raindrop" characters (katakana or 0/1) that fall downward, constrained to interior points, recycling to the top when they reach the bottom
-- **Mouse interaction**: Track mouse position; edge points within a radius get displaced outward; a circular area around the cursor briefly reveals the original image using `clip()` + `drawImage`
-- **Scan line**: A horizontal band that moves top-to-bottom every few seconds, intensifying edge glow as it passes
+## Technical notes
 
-### 3. Update `Hero.tsx`
-
-- Replace `GlitchPortrait` import with `SilhouettePortrait`
-- Keep the same `className` and layout props
-
-### Files Changed
-
-| File | Action |
-|------|--------|
-| `src/components/SilhouettePortrait.tsx` | Create -- canvas-based silhouette with edge detection, matrix rain, mouse reveal |
-| `src/components/GlitchPortrait.tsx` | Can be kept or removed (no longer imported) |
-| `src/components/Hero.tsx` | Update import to use `SilhouettePortrait` |
-
+- All edits stay in `src/components/About.tsx`, `Experience.tsx`, `Projects.tsx`, `Navbar.tsx`, plus a new `src/components/Workflow.tsx` mounted in `src/pages/Index.tsx`.
+- No new dependencies — Framer Motion and the existing design tokens cover the animations.
+- No backend / data changes.
