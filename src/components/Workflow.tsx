@@ -318,6 +318,41 @@ const visualizerMap: Record<string, React.FC<VizProps>> = {
   Vercel: TriangleViz,
 };
 
+// simpleicons CDN slugs (null = no official logo, fallback to viz)
+const logoSlugMap: Record<string, string | null> = {
+  Lovable: null,
+  "Claude Code": "claude",
+  ChatGPT: "openai",
+  Codex: "openai",
+  "Gemini Gems": "googlegemini",
+  NotebookLM: "googlegemini",
+  "Google AI Studio": "googlegemini",
+  Obsidian: "obsidian",
+  GitHub: "github",
+  Supabase: "supabase",
+  VSCode: "visualstudiocode",
+  Vercel: "vercel",
+};
+
+const ToolLogo = ({ name, active }: { name: string; active: boolean }) => {
+  const slug = logoSlugMap[name];
+  if (!slug) {
+    const Viz = visualizerMap[name] ?? DotsViz;
+    return <Viz active={active} />;
+  }
+  const color = active ? "22c55e" : "6b7280";
+  return (
+    <div className="w-4 h-4 flex items-center justify-center" aria-hidden>
+      <img
+        src={`https://cdn.simpleicons.org/${slug}/${color}`}
+        alt=""
+        className={`w-full h-full transition-opacity duration-300 ${active ? "opacity-100" : "opacity-60"}`}
+        loading="lazy"
+      />
+    </div>
+  );
+};
+
 
 const Workflow = () => {
   const reduced = useReducedMotion() ?? false;
