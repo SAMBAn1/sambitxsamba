@@ -108,24 +108,28 @@ const Visualizer = ({ active }: { active: boolean }) => (
 
 const Workflow = () => {
   const reduced = useReducedMotion() ?? false;
-  const [activeTool, setActiveTool] = useState(0);
   const [activeStage, setActiveStage] = useState(0);
   const [hoveredTool, setHoveredTool] = useState<number | null>(null);
   const [hoveredStage, setHoveredStage] = useState<number | null>(null);
 
   useEffect(() => {
-    if (reduced || hoveredStage !== null) return;
+    if (reduced || hoveredStage !== null || hoveredTool !== null) return;
     const s = setInterval(() => setActiveStage((p) => (p + 1) % stages.length), 2200);
     return () => clearInterval(s);
-  }, [reduced, hoveredStage]);
+  }, [reduced, hoveredStage, hoveredTool]);
 
-  useEffect(() => {
-    if (reduced || hoveredTool !== null || hoveredStage !== null) return;
-    const t = setInterval(() => setActiveTool((p) => (p + 1) % tools.length), 2000);
-    return () => clearInterval(t);
-  }, [reduced, hoveredTool, hoveredStage]);
+  // Stages highlighted right now (multiple possible when hovering a tool)
+  const highlightedStages: number[] =
+    hoveredStage !== null
+      ? [hoveredStage]
+      : hoveredTool !== null
+        ? stages
+            .map((s, idx) => (s.related.includes(tools[hoveredTool].name) ? idx : -1))
+            .filter((i) => i !== -1)
+        : [activeStage];
 
-  const currentStage = hoveredStage ?? activeStage;
+  const isStageHighlighted = (i: number) => highlightedStages.includes(i);
+  const currentStage = highlightedStages[0] ?? activeStage;
 
 
 
@@ -237,7 +241,7 @@ const Workflow = () => {
             {/* Title row with dotted connectors between stage labels */}
             <div className="hidden md:grid grid-cols-5 items-center mb-6">
               {stages.map((stage, i) => {
-                const isActive = i === currentStage;
+                const isActive = isStageHighlighted(i);
                 const isLast = i === stages.length - 1;
                 return (
                   <div key={stage.key} className="relative flex items-center">
@@ -274,7 +278,7 @@ const Workflow = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-2 relative">
               {stages.map((stage, i) => {
-                const isActive = i === currentStage;
+                const isActive = isStageHighlighted(i);
                 return (
                   <motion.div
                     key={stage.key}
@@ -324,12 +328,9 @@ const Workflow = () => {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {tools.map((tool, i) => {
-              const stageRelated = hoveredStage !== null && stages[hoveredStage].related.includes(tool.name);
-              const isActive = hoveredStage !== null
-                ? stageRelated
-                : hoveredTool === null
-                  ? i === activeTool
-                  : hoveredTool === i;
+              const isActive =
+                hoveredTool === i ||
+                highlightedStages.some((s) => stages[s].related.includes(tool.name));
               return (
                 <motion.div
                   key={tool.name}
