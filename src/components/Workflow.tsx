@@ -318,12 +318,48 @@ const visualizerMap: Record<string, React.FC<VizProps>> = {
   Vercel: TriangleViz,
 };
 
+// simpleicons CDN slugs (null = no official logo, fallback to viz)
+const logoSlugMap: Record<string, string | null> = {
+  Lovable: null,
+  "Claude Code": "claude",
+  ChatGPT: "openai",
+  Codex: "openai",
+  "Gemini Gems": "googlegemini",
+  NotebookLM: "googlegemini",
+  "Google AI Studio": "googlegemini",
+  Obsidian: "obsidian",
+  GitHub: "github",
+  Supabase: "supabase",
+  VSCode: "visualstudiocode",
+  Vercel: "vercel",
+};
+
+const ToolLogo = ({ name, active }: { name: string; active: boolean }) => {
+  const slug = logoSlugMap[name];
+  if (!slug) {
+    const Viz = visualizerMap[name] ?? DotsViz;
+    return <Viz active={active} />;
+  }
+  const color = active ? "22c55e" : "6b7280";
+  return (
+    <div className="w-4 h-4 flex items-center justify-center" aria-hidden>
+      <img
+        src={`https://cdn.simpleicons.org/${slug}/${color}`}
+        alt=""
+        className={`w-full h-full transition-opacity duration-300 ${active ? "opacity-100" : "opacity-60"}`}
+        loading="lazy"
+      />
+    </div>
+  );
+};
+
 
 const Workflow = () => {
   const reduced = useReducedMotion() ?? false;
   const [activeStage, setActiveStage] = useState(0);
   const [hoveredTool, setHoveredTool] = useState<number | null>(null);
   const [hoveredStage, setHoveredStage] = useState<number | null>(null);
+  const [iconMode, setIconMode] = useState<"icons" | "logos">("icons");
 
   useEffect(() => {
     if (reduced || hoveredStage !== null || hoveredTool !== null) return;
@@ -536,9 +572,27 @@ const Workflow = () => {
 
         {/* Tool stack grid */}
         <div>
-          <p className="text-primary font-body text-xs tracking-[0.3em] uppercase mb-6">
-            / stack
-          </p>
+          <div className="flex items-center justify-between mb-6">
+            <p className="text-primary font-body text-xs tracking-[0.3em] uppercase">
+              / stack
+            </p>
+            {/* Temporary icon mode toggle */}
+            <div className="flex items-center gap-1 border border-border rounded-sm p-0.5 text-[10px] font-body uppercase tracking-widest">
+              {(["icons", "logos"] as const).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => setIconMode(m)}
+                  className={`px-2 py-1 transition-colors ${
+                    iconMode === m
+                      ? "bg-primary/15 text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {m}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {tools.map((tool, i) => {
               const isActive =
@@ -570,7 +624,9 @@ const Workflow = () => {
                       {tool.name}
                       {isActive && <span className="text-primary ml-1 animate-pulse">_</span>}
                     </span>
-                    {(() => {
+                    {iconMode === "logos" ? (
+                      <ToolLogo name={tool.name} active={isActive} />
+                    ) : (() => {
                       const Viz = visualizerMap[tool.name] ?? DotsViz;
                       return <Viz active={isActive} />;
                     })()}
