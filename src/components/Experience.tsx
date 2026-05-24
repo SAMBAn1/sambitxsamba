@@ -89,7 +89,7 @@ const Experience = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 md:items-start">
           {/* Tabs */}
-          <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible border-b md:border-b-0 md:border-l border-border md:min-h-[720px]">
+          <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible border-b md:border-b-0 md:border-l border-border md:min-h-[560px]">
             {experiences.map((exp, i) => (
               <button
                 key={i}
