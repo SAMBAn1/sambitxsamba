@@ -89,7 +89,7 @@ const Experience = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 md:items-start">
           {/* Tabs */}
-          <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible border-b md:border-b-0 md:border-l border-border md:min-h-[420px]">
+          <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible border-b md:border-b-0 md:border-l border-border md:min-h-[720px]">
             {experiences.map((exp, i) => (
               <button
                 key={i}
@@ -111,7 +111,7 @@ const Experience = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="min-h-[420px]"
+            className="min-h-[680px]"
           >
             <h3 className="font-display text-xl md:text-2xl mb-1">
               {active.role}{" "}
