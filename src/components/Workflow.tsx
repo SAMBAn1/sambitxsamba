@@ -6,38 +6,34 @@ const stages = [
     key: "discovery",
     label: "Discovery",
     artifact: "Day-in-the-life notes, problem theses, opportunity maps",
-    tools: ["ChatGPT", "NotebookLM", "Obsidian"],
-    poolSize: 5,
+    related: ["ChatGPT", "NotebookLM", "Obsidian", "Gemini Gems"],
   },
   {
     key: "ideate",
     label: "Ideate",
     artifact: "Solution sketches, model experiments, custom PM agents",
-    tools: ["Gemini Gems", "AI Studio", "Codex"],
-    poolSize: 6,
+    related: ["ChatGPT", "Gemini Gems", "Google AI Studio", "Codex", "Claude Code", "Obsidian"],
   },
   {
     key: "prototype",
     label: "Prototype",
     artifact: "Working software — live app surfaces, not static mocks",
-    tools: ["Lovable", "Claude Code", "Supabase"],
-    poolSize: 6,
+    related: ["Lovable", "Claude Code", "Codex", "Supabase", "Google AI Studio"],
   },
   {
     key: "validate",
     label: "Validate",
     artifact: "Versioned product guidance, schema, demo loops",
-    tools: ["GitHub", "VSCode", "Gems"],
-    poolSize: 5,
+    related: ["GitHub", "VSCode", "Gemini Gems", "Claude Code", "Supabase", "Obsidian"],
   },
   {
     key: "ship",
     label: "Ship",
     artifact: "Deployed surfaces handed to eng with context intact",
-    tools: ["Vercel", "GitHub", "Lovable"],
-    poolSize: 4,
+    related: ["Vercel", "GitHub", "Lovable", "Supabase", "VSCode"],
   },
 ];
+
 
 const tools = [
   { name: "Lovable", role: "Build the working prototype" },
@@ -124,10 +120,10 @@ const Workflow = () => {
   }, [reduced, hoveredStage]);
 
   useEffect(() => {
-    if (reduced || hoveredTool !== null) return;
+    if (reduced || hoveredTool !== null || hoveredStage !== null) return;
     const t = setInterval(() => setActiveTool((p) => (p + 1) % tools.length), 2000);
     return () => clearInterval(t);
-  }, [reduced, hoveredTool]);
+  }, [reduced, hoveredTool, hoveredStage]);
 
   const currentStage = hoveredStage ?? activeStage;
 
@@ -265,7 +261,7 @@ const Workflow = () => {
                       <span
                         aria-hidden
                         className={`absolute left-1/2 right-0 top-1/2 -translate-y-1/2 border-t border-dotted transition-colors ${
-                          isActive || currentStage === i + 1 ? "border-primary/60" : "border-border"
+                          currentStage === i + 1 ? "border-primary/60" : "border-border"
                         }`}
                         style={{ marginLeft: "3.5rem", marginRight: "-3.5rem" }}
                       />
@@ -279,7 +275,6 @@ const Workflow = () => {
             <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-2 relative">
               {stages.map((stage, i) => {
                 const isActive = i === currentStage;
-                const extra = Math.max(0, stage.poolSize - stage.tools.length);
                 return (
                   <motion.div
                     key={stage.key}
@@ -289,7 +284,7 @@ const Workflow = () => {
                     transition={{ duration: 0.5, delay: 0.9 + i * 0.12, ease: [0.2, 0.9, 0.3, 1] }}
                     onHoverStart={() => setHoveredStage(i)}
                     onHoverEnd={() => setHoveredStage(null)}
-                    className="relative flex flex-col items-center text-center px-1 py-2 rounded-sm cursor-default"
+                    className="relative flex flex-col items-center text-center px-1 py-1 rounded-sm cursor-default"
                   >
                     {/* Mobile-only label */}
                     <motion.p
@@ -307,45 +302,15 @@ const Workflow = () => {
                       {isActive && <span className="text-primary animate-pulse">▌</span>}
                     </motion.p>
 
-                    <p className={`text-xs font-body leading-relaxed mb-3 max-w-[200px] transition-colors duration-400 ${
+                    <p className={`text-xs font-body leading-relaxed max-w-[200px] transition-colors duration-300 ${
                       isActive ? "text-primary/90" : "text-muted-foreground"
                     }`}>
                       {stage.artifact}
                     </p>
-                    <div className="flex flex-nowrap items-center justify-center gap-1.5 w-full">
-                      {stage.tools.map((t) => (
-                        <motion.span
-                          key={t}
-                          animate={
-                            isActive
-                              ? { y: -1, boxShadow: "0 0 12px hsl(var(--primary) / 0.35) inset" }
-                              : { y: 0, boxShadow: "0 0 0px transparent inset" }
-                          }
-                          transition={{ duration: 0.4 }}
-                          className={`shrink-0 text-[10px] font-body px-2 py-0.5 rounded-full border whitespace-nowrap transition-colors ${
-                            isActive
-                              ? "border-primary/60 text-primary bg-primary/5"
-                              : "border-border text-muted-foreground"
-                          }`}
-                        >
-                          {t}
-                        </motion.span>
-                      ))}
-                      {extra > 0 && (
-                        <span
-                          aria-hidden
-                          title={`+${extra} more from the stack below`}
-                          className={`shrink-0 tracking-[0.15em] text-[11px] leading-none transition-colors ${
-                            isActive ? "text-primary/80" : "text-muted-foreground/60"
-                          }`}
-                        >
-                          ···
-                        </span>
-                      )}
-                    </div>
                   </motion.div>
                 );
               })}
+
 
             </div>
           </motion.div>
@@ -359,7 +324,12 @@ const Workflow = () => {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {tools.map((tool, i) => {
-              const isActive = hoveredTool === null ? i === activeTool : hoveredTool === i;
+              const stageRelated = hoveredStage !== null && stages[hoveredStage].related.includes(tool.name);
+              const isActive = hoveredStage !== null
+                ? stageRelated
+                : hoveredTool === null
+                  ? i === activeTool
+                  : hoveredTool === i;
               return (
                 <motion.div
                   key={tool.name}
