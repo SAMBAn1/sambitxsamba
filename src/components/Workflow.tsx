@@ -6,19 +6,19 @@ const stages = [
     key: "discovery",
     label: "Discovery",
     artifact: "Day-in-the-life notes, problem theses, opportunity maps",
-    tools: ["ChatGPT", "Claude", "Notion"],
+    tools: ["ChatGPT", "Claude", "NotebookLM", "Notion"],
   },
   {
     key: "prototype",
     label: "Prototype",
     artifact: "Working software — live app surfaces, not static mocks",
-    tools: ["Lovable", "Cursor", "Claude Code"],
+    tools: ["Lovable", "Cursor", "Claude Code", "AI Studio"],
   },
   {
     key: "validate",
     label: "Validate",
     artifact: "Versioned product guidance, schema, demo loops",
-    tools: ["Codex", "Supabase", "GitHub"],
+    tools: ["Gems", "Codex", "Supabase", "GitHub"],
   },
   {
     key: "ship",
@@ -34,9 +34,13 @@ const tools = [
   { name: "ChatGPT", role: "Discovery, framing, writing partner" },
   { name: "Codex", role: "Spec-driven code generation" },
   { name: "Cursor", role: "In-editor agentic edits" },
+  { name: "Gemini Gems", role: "Custom Gemini agents for repeatable PM tasks" },
+  { name: "NotebookLM", role: "RAG + knowledge bank for product context" },
+  { name: "Google AI Studio", role: "Quick prototyping & model experimentation" },
   { name: "GitHub", role: "Versioned product guidance" },
   { name: "Supabase", role: "Schema, auth, instant backend" },
   { name: "Vercel", role: "Ship to live preview in minutes" },
+  { name: "Notion", role: "PRDs, specs & research synthesis" },
 ];
 
 const outcomes = [
