@@ -246,7 +246,7 @@ const Workflow = () => {
                   >
                     {/* Connector — sits between this circle and the next, only on top band */}
                     {!isLast && (
-                      <div className="hidden md:block absolute top-7 left-[calc(50%+28px)] right-[calc(-50%+28px)] h-px overflow-hidden">
+                      <div className="hidden md:block absolute top-[10px] left-1/2 right-[calc(-50%+0px)] h-px overflow-hidden ml-12">
                         <div className="w-full h-full border-t border-dashed border-primary/30" />
                         <motion.span
                           className="absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_2px_hsl(var(--primary)/0.8)]"
@@ -266,51 +266,23 @@ const Workflow = () => {
                       </div>
                     )}
 
-                    <div className="relative mb-4">
-                      {/* Multi-ring halo */}
-                      {isActive && !reduced && (
-                        <>
-                          {[0, 1, 2].map((r) => (
-                            <motion.span
-                              key={r}
-                              aria-hidden
-                              initial={{ scale: 1, opacity: 0.7 }}
-                              animate={{ scale: 2.6, opacity: 0 }}
-                              transition={{ duration: 1.6, repeat: Infinity, delay: r * 0.45, ease: "easeOut" }}
-                              className="absolute inset-0 rounded-full border border-primary"
-                            />
-                          ))}
-                        </>
-                      )}
-                      <motion.div
-                        animate={{
-                          boxShadow: isActive
-                            ? "0 0 32px 4px hsl(var(--primary) / 0.65), inset 0 0 14px hsl(var(--primary) / 0.25)"
-                            : "0 0 0px 0px hsl(var(--primary) / 0)",
-                          scale: isActive ? 1.15 : 1,
-                        }}
-                        transition={{ duration: 0.5 }}
-                        className={`relative w-14 h-14 rounded-full border-2 flex items-center justify-center bg-background z-10 ${
-                          isActive
-                            ? "border-primary"
-                            : "border-border"
-                        }`}
-                      >
-                        <span
-                          className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                            isActive ? "bg-primary" : "bg-muted-foreground/50"
-                          }`}
-                        />
-                      </motion.div>
-
-                    </div>
-
-                    <p className="font-body text-xs tracking-[0.2em] uppercase text-foreground mb-2 flex items-center gap-1">
+                    <motion.p
+                      animate={{
+                        textShadow: isActive
+                          ? "0 0 18px hsl(var(--primary) / 0.7)"
+                          : "0 0 0px hsl(var(--primary) / 0)",
+                      }}
+                      transition={{ duration: 0.4 }}
+                      className={`font-body text-sm tracking-[0.2em] uppercase mb-3 flex items-center gap-1 transition-colors ${
+                        isActive ? "text-primary" : "text-muted-foreground"
+                      }`}
+                    >
                       {stage.label}
                       {isActive && (
                         <span className="text-primary animate-pulse">▌</span>
                       )}
-                    </p>
+                    </motion.p>
+
                     <p className="text-xs text-muted-foreground font-body leading-relaxed mb-3 max-w-[200px]">
                       {stage.artifact}
                     </p>
