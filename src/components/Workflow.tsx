@@ -275,7 +275,6 @@ const Workflow = () => {
             <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-2 relative">
               {stages.map((stage, i) => {
                 const isActive = i === currentStage;
-                const extra = Math.max(0, stage.poolSize - stage.tools.length);
                 return (
                   <motion.div
                     key={stage.key}
@@ -285,7 +284,7 @@ const Workflow = () => {
                     transition={{ duration: 0.5, delay: 0.9 + i * 0.12, ease: [0.2, 0.9, 0.3, 1] }}
                     onHoverStart={() => setHoveredStage(i)}
                     onHoverEnd={() => setHoveredStage(null)}
-                    className="relative flex flex-col items-center text-center px-1 py-2 rounded-sm cursor-default"
+                    className="relative flex flex-col items-center text-center px-1 py-1 rounded-sm cursor-default"
                   >
                     {/* Mobile-only label */}
                     <motion.p
@@ -303,45 +302,15 @@ const Workflow = () => {
                       {isActive && <span className="text-primary animate-pulse">▌</span>}
                     </motion.p>
 
-                    <p className={`text-xs font-body leading-relaxed mb-3 max-w-[200px] transition-colors duration-400 ${
+                    <p className={`text-xs font-body leading-relaxed max-w-[200px] transition-colors duration-300 ${
                       isActive ? "text-primary/90" : "text-muted-foreground"
                     }`}>
                       {stage.artifact}
                     </p>
-                    <div className="flex flex-nowrap items-center justify-center gap-1.5 w-full">
-                      {stage.tools.map((t) => (
-                        <motion.span
-                          key={t}
-                          animate={
-                            isActive
-                              ? { y: -1, boxShadow: "0 0 12px hsl(var(--primary) / 0.35) inset" }
-                              : { y: 0, boxShadow: "0 0 0px transparent inset" }
-                          }
-                          transition={{ duration: 0.4 }}
-                          className={`shrink-0 text-[10px] font-body px-2 py-0.5 rounded-full border whitespace-nowrap transition-colors ${
-                            isActive
-                              ? "border-primary/60 text-primary bg-primary/5"
-                              : "border-border text-muted-foreground"
-                          }`}
-                        >
-                          {t}
-                        </motion.span>
-                      ))}
-                      {extra > 0 && (
-                        <span
-                          aria-hidden
-                          title={`+${extra} more from the stack below`}
-                          className={`shrink-0 tracking-[0.15em] text-[11px] leading-none transition-colors ${
-                            isActive ? "text-primary/80" : "text-muted-foreground/60"
-                          }`}
-                        >
-                          ···
-                        </span>
-                      )}
-                    </div>
                   </motion.div>
                 );
               })}
+
 
             </div>
           </motion.div>
