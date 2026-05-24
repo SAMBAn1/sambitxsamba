@@ -261,7 +261,7 @@ const Workflow = () => {
                       <span
                         aria-hidden
                         className={`absolute left-1/2 right-0 top-1/2 -translate-y-1/2 border-t border-dotted transition-colors ${
-                          isActive || currentStage === i + 1 ? "border-primary/60" : "border-border"
+                          currentStage === i + 1 ? "border-primary/60" : "border-border"
                         }`}
                         style={{ marginLeft: "3.5rem", marginRight: "-3.5rem" }}
                       />
