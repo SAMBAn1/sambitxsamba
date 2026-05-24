@@ -278,7 +278,7 @@ const Workflow = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-2 relative">
               {stages.map((stage, i) => {
-                const isActive = i === currentStage;
+                const isActive = isStageHighlighted(i);
                 return (
                   <motion.div
                     key={stage.key}
