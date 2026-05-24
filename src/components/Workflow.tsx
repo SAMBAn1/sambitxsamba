@@ -246,25 +246,15 @@ const Workflow = () => {
                   >
                     {/* Connector — sits between this circle and the next, only on top band */}
                     {!isLast && (
-                      <div className="hidden md:block absolute top-[10px] left-1/2 right-[calc(-50%+0px)] h-px overflow-hidden ml-12">
-                        <div className="w-full h-full border-t border-dashed border-primary/30" />
-                        <motion.span
-                          className="absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_2px_hsl(var(--primary)/0.8)]"
-                          animate={
-                            reduced
-                              ? { left: "0%", opacity: 0.6 }
-                              : isActive
-                              ? { left: ["-5%", "105%"], opacity: [0, 1, 1, 0] }
-                              : { left: "0%", opacity: 0 }
-                          }
-                          transition={
-                            isActive && !reduced
-                              ? { duration: 1.8, ease: "easeInOut" }
-                              : { duration: 0.3 }
-                          }
-                        />
-                      </div>
+                      <span
+                        aria-hidden
+                        className="hidden md:block absolute top-2 right-0 text-primary/40"
+                      >
+                        →
+                      </span>
                     )}
+
+
 
                     <motion.p
                       animate={{
