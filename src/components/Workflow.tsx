@@ -121,7 +121,7 @@ const BracesViz = ({ active }: VizProps) => (
       <span>{"{"}</span>
       <motion.span
         animate={active ? { opacity: [1, 0, 1] } : { opacity: 0.6 }}
-        transition={{ duration: 0.6, repeat: Infinity, ease: "steps(2)" }}
+        transition={{ duration: 0.6, repeat: Infinity }}
       >_</motion.span>
       <span>{"}"}</span>
     </div>
@@ -261,7 +261,7 @@ const BoltViz = ({ active }: VizProps) => (
   <VizBox>
     <motion.svg viewBox="0 0 10 12" className="w-3 h-3 overflow-visible"
       animate={active ? { opacity: [0.5, 1, 0.7, 1, 0.5] } : { opacity: 0.6 }}
-      transition={{ duration: 0.9, repeat: Infinity, ease: "steps(5)" }}
+      transition={{ duration: 0.9, repeat: Infinity }}
     >
       <path d="M6 0 L1 7 H4 L3 12 L9 5 H6 Z" fill={active ? stroke : dimStroke} />
     </motion.svg>
@@ -277,7 +277,7 @@ const ChevronViz = ({ active }: VizProps) => (
         className="w-[2px] h-[6px] inline-block"
         style={{ background: "currentColor" }}
         animate={active ? { opacity: [1, 0, 1] } : { opacity: 0.6 }}
-        transition={{ duration: 0.6, repeat: Infinity, ease: "steps(2)" }}
+        transition={{ duration: 0.6, repeat: Infinity }}
       />
       <motion.span animate={active ? { x: [0, 1, 0] } : { x: 0 }} transition={{ duration: 0.5, repeat: Infinity }}>{">"}</motion.span>
     </div>
