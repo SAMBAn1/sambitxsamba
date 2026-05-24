@@ -307,32 +307,6 @@ const Workflow = () => {
             </div>
           </div>
 
-          {/* Outcome strip */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            {outcomes.map((o, i) => (
-              <motion.div
-                key={o}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
-                className="border-l-2 border-primary/60 pl-4 py-2 relative overflow-hidden"
-              >
-                <motion.span
-                  aria-hidden
-                  initial={{ x: "-100%" }}
-                  whileInView={{ x: "100%" }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1.1, delay: 0.4 + i * 0.12, ease: "easeOut" }}
-                  className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-primary/10 to-transparent"
-                />
-                <p className="font-body text-sm text-muted-foreground leading-relaxed relative">
-                  <span className="text-primary mr-2">▹</span>
-                  {o}
-                </p>
-              </motion.div>
-            ))}
-          </div>
         </div>
 
         {/* Tool stack grid */}
