@@ -120,10 +120,10 @@ const Workflow = () => {
   }, [reduced, hoveredStage]);
 
   useEffect(() => {
-    if (reduced || hoveredTool !== null) return;
+    if (reduced || hoveredTool !== null || hoveredStage !== null) return;
     const t = setInterval(() => setActiveTool((p) => (p + 1) % tools.length), 2000);
     return () => clearInterval(t);
-  }, [reduced, hoveredTool]);
+  }, [reduced, hoveredTool, hoveredStage]);
 
   const currentStage = hoveredStage ?? activeStage;
 
