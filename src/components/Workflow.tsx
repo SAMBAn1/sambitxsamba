@@ -570,7 +570,10 @@ const Workflow = () => {
                       {tool.name}
                       {isActive && <span className="text-primary ml-1 animate-pulse">_</span>}
                     </span>
-                    <Visualizer active={isActive} />
+                    {(() => {
+                      const Viz = visualizerMap[tool.name] ?? DotsViz;
+                      return <Viz active={isActive} />;
+                    })()}
                   </div>
                   <p className="text-xs text-muted-foreground font-body leading-snug">
                     {tool.role}
