@@ -539,11 +539,9 @@ const Workflow = () => {
 
         {/* Tool stack grid */}
         <div>
-          <div className="flex items-center justify-between mb-6">
-            <p className="text-primary font-body text-xs tracking-[0.3em] uppercase">
-              / stack
-            </p>
-          </div>
+          <p className="text-primary font-body text-xs tracking-[0.3em] uppercase mb-6">
+            / stack
+          </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {tools.map((tool, i) => {
               const isActive =
@@ -566,7 +564,6 @@ const Workflow = () => {
                       : "border-border"
                   }`}
                 >
-                  {/* Corner ticks */}
                   <span className={`absolute top-1 left-1 w-1.5 h-1.5 border-t border-l ${isActive ? "border-primary" : "border-border group-hover:border-primary/60"}`} aria-hidden />
                   <span className={`absolute bottom-1 right-1 w-1.5 h-1.5 border-b border-r ${isActive ? "border-primary" : "border-border group-hover:border-primary/60"}`} aria-hidden />
 
@@ -580,45 +577,6 @@ const Workflow = () => {
                       return <Viz active={isActive} />;
                     })()}
                   </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {tools.map((tool, i) => {
-              const isActive =
-                hoveredTool !== null
-                  ? hoveredTool === i
-                  : highlightedStages.some((s) => stages[s].related.includes(tool.name));
-              return (
-                <motion.div
-                  key={tool.name}
-                  initial={{ opacity: 0, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: i * 0.025, ease: "easeOut" }}
-                  whileHover={{ y: -2 }}
-                  onHoverStart={() => setHoveredTool(i)}
-                  onHoverEnd={() => setHoveredTool(null)}
-                  className={`group relative border rounded-sm p-4 bg-card transition-all duration-300 ${
-                    isActive
-                      ? "border-primary/70 shadow-[0_0_20px_-4px_hsl(var(--primary)/0.5)]"
-                      : "border-border"
-                  }`}
-                >
-                  {/* Corner ticks */}
-                  <span className={`absolute top-1 left-1 w-1.5 h-1.5 border-t border-l ${isActive ? "border-primary" : "border-border group-hover:border-primary/60"}`} aria-hidden />
-                  <span className={`absolute bottom-1 right-1 w-1.5 h-1.5 border-b border-r ${isActive ? "border-primary" : "border-border group-hover:border-primary/60"}`} aria-hidden />
-
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-display text-base text-foreground">
-                      {tool.name}
-                      {isActive && <span className="text-primary ml-1 animate-pulse">_</span>}
-                    </span>
-                    {iconMode === "logos" ? (
-                      <ToolLogo name={tool.name} active={isActive} />
-                    ) : (() => {
-                      const Viz = visualizerMap[tool.name] ?? DotsViz;
-                      return <Viz active={isActive} />;
-                    })()}
-                  </div>
                   <p className="text-xs text-muted-foreground font-body leading-snug">
                     {tool.role}
                   </p>
@@ -627,6 +585,7 @@ const Workflow = () => {
             })}
           </div>
         </div>
+
       </div>
     </section>
   );
