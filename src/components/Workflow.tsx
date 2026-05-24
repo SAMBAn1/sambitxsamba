@@ -6,38 +6,34 @@ const stages = [
     key: "discovery",
     label: "Discovery",
     artifact: "Day-in-the-life notes, problem theses, opportunity maps",
-    tools: ["ChatGPT", "NotebookLM", "Obsidian"],
-    poolSize: 5,
+    related: ["ChatGPT", "NotebookLM", "Obsidian", "Gemini Gems"],
   },
   {
     key: "ideate",
     label: "Ideate",
     artifact: "Solution sketches, model experiments, custom PM agents",
-    tools: ["Gemini Gems", "AI Studio", "Codex"],
-    poolSize: 6,
+    related: ["ChatGPT", "Gemini Gems", "Google AI Studio", "Codex", "Claude Code", "Obsidian"],
   },
   {
     key: "prototype",
     label: "Prototype",
     artifact: "Working software — live app surfaces, not static mocks",
-    tools: ["Lovable", "Claude Code", "Supabase"],
-    poolSize: 6,
+    related: ["Lovable", "Claude Code", "Codex", "Supabase", "Google AI Studio"],
   },
   {
     key: "validate",
     label: "Validate",
     artifact: "Versioned product guidance, schema, demo loops",
-    tools: ["GitHub", "VSCode", "Gems"],
-    poolSize: 5,
+    related: ["GitHub", "VSCode", "Gemini Gems", "Claude Code", "Supabase", "Obsidian"],
   },
   {
     key: "ship",
     label: "Ship",
     artifact: "Deployed surfaces handed to eng with context intact",
-    tools: ["Vercel", "GitHub", "Lovable"],
-    poolSize: 4,
+    related: ["Vercel", "GitHub", "Lovable", "Supabase", "VSCode"],
   },
 ];
+
 
 const tools = [
   { name: "Lovable", role: "Build the working prototype" },
