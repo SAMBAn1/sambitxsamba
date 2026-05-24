@@ -216,7 +216,7 @@ const Workflow = () => {
         </motion.div>
 
         {/* Pipeline diagram */}
-        <div className="mb-20">
+        <div className="mb-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.96, filter: "blur(8px)" }}
             whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
@@ -238,20 +238,6 @@ const Workflow = () => {
                 return (
                   <div key={stage.key} className="relative flex items-center">
                     <div className="flex-1 flex justify-center relative">
-                      {/* Radial glow */}
-                      {isActive && (
-                        <motion.span
-                          aria-hidden
-                          initial={{ opacity: 0, scale: 0.4 }}
-                          animate={{ opacity: [0.35, 0.7, 0.35], scale: [0.9, 1.15, 0.9] }}
-                          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-                          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-32 rounded-full"
-                          style={{
-                            background:
-                              "radial-gradient(ellipse at center, hsl(var(--primary) / 0.35) 0%, hsl(var(--primary) / 0.12) 40%, transparent 70%)",
-                          }}
-                        />
-                      )}
                       <motion.p
                         animate={{
                           textShadow: isActive
