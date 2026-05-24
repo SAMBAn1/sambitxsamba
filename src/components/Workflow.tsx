@@ -114,16 +114,20 @@ const Workflow = () => {
   const reduced = useReducedMotion() ?? false;
   const [activeTool, setActiveTool] = useState(0);
   const [activeStage, setActiveStage] = useState(0);
+  const [hoveredTool, setHoveredTool] = useState<number | null>(null);
 
   useEffect(() => {
     if (reduced) return;
-    const t = setInterval(() => setActiveTool((p) => (p + 1) % tools.length), 2000);
     const s = setInterval(() => setActiveStage((p) => (p + 1) % stages.length), 2200);
-    return () => {
-      clearInterval(t);
-      clearInterval(s);
-    };
+    return () => clearInterval(s);
   }, [reduced]);
+
+  useEffect(() => {
+    if (reduced || hoveredTool !== null) return;
+    const t = setInterval(() => setActiveTool((p) => (p + 1) % tools.length), 2000);
+    return () => clearInterval(t);
+  }, [reduced, hoveredTool]);
+
 
   const headline = "How I leverage";
 
@@ -345,19 +349,21 @@ const Workflow = () => {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {tools.map((tool, i) => {
-              const isActive = i === activeTool;
+              const isActive = hoveredTool === null ? i === activeTool : hoveredTool === i;
               return (
                 <motion.div
                   key={tool.name}
-                  initial={{ opacity: 0, y: 20, rotate: -1 }}
-                  whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: i * 0.045, ease: "easeOut" }}
-                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.3, delay: i * 0.025, ease: "easeOut" }}
+                  whileHover={{ y: -2 }}
+                  onHoverStart={() => setHoveredTool(i)}
+                  onHoverEnd={() => setHoveredTool(null)}
                   className={`group relative border rounded-sm p-4 bg-card transition-all duration-300 ${
                     isActive
                       ? "border-primary/70 shadow-[0_0_20px_-4px_hsl(var(--primary)/0.5)]"
-                      : "border-border hover:border-primary/50 hover:shadow-[0_0_16px_-6px_hsl(var(--primary)/0.4)]"
+                      : "border-border"
                   }`}
                 >
                   {/* Corner ticks */}
