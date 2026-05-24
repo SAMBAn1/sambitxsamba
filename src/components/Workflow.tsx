@@ -243,12 +243,12 @@ const Workflow = () => {
                         <motion.span
                           aria-hidden
                           initial={{ opacity: 0, scale: 0.4 }}
-                          animate={{ opacity: [0.35, 0.7, 0.35], scale: [0.9, 1.25, 0.9] }}
+                          animate={{ opacity: [0.35, 0.7, 0.35], scale: [0.9, 1.15, 0.9] }}
                           transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-                          className="pointer-events-none absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full"
+                          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-32 rounded-full"
                           style={{
                             background:
-                              "radial-gradient(circle, hsl(var(--primary) / 0.35) 0%, hsl(var(--primary) / 0.12) 40%, transparent 70%)",
+                              "radial-gradient(ellipse at center, hsl(var(--primary) / 0.35) 0%, hsl(var(--primary) / 0.12) 40%, transparent 70%)",
                           }}
                         />
                       )}
