@@ -115,18 +115,22 @@ const Workflow = () => {
   const [activeTool, setActiveTool] = useState(0);
   const [activeStage, setActiveStage] = useState(0);
   const [hoveredTool, setHoveredTool] = useState<number | null>(null);
+  const [hoveredStage, setHoveredStage] = useState<number | null>(null);
 
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || hoveredStage !== null) return;
     const s = setInterval(() => setActiveStage((p) => (p + 1) % stages.length), 2200);
     return () => clearInterval(s);
-  }, [reduced]);
+  }, [reduced, hoveredStage]);
 
   useEffect(() => {
     if (reduced || hoveredTool !== null) return;
     const t = setInterval(() => setActiveTool((p) => (p + 1) % tools.length), 2000);
     return () => clearInterval(t);
   }, [reduced, hoveredTool]);
+
+  const currentStage = hoveredStage ?? activeStage;
+
 
 
   const headline = "How I leverage";
@@ -237,7 +241,7 @@ const Workflow = () => {
             {/* Title row with dotted connectors between stage labels */}
             <div className="hidden md:grid grid-cols-5 items-center mb-6">
               {stages.map((stage, i) => {
-                const isActive = i === activeStage;
+                const isActive = i === currentStage;
                 const isLast = i === stages.length - 1;
                 return (
                   <div key={stage.key} className="relative flex items-center">
@@ -261,7 +265,7 @@ const Workflow = () => {
                       <span
                         aria-hidden
                         className={`absolute left-1/2 right-0 top-1/2 -translate-y-1/2 border-t border-dotted transition-colors ${
-                          isActive || activeStage === i + 1 ? "border-primary/60" : "border-border"
+                          isActive || currentStage === i + 1 ? "border-primary/60" : "border-border"
                         }`}
                         style={{ marginLeft: "3.5rem", marginRight: "-3.5rem" }}
                       />
@@ -269,11 +273,12 @@ const Workflow = () => {
                   </div>
                 );
               })}
+
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-2 relative">
               {stages.map((stage, i) => {
-                const isActive = i === activeStage;
+                const isActive = i === currentStage;
                 const extra = Math.max(0, stage.poolSize - stage.tools.length);
                 return (
                   <motion.div
@@ -282,7 +287,9 @@ const Workflow = () => {
                     whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.9 + i * 0.12, ease: [0.2, 0.9, 0.3, 1] }}
-                    className="relative flex flex-col items-center text-center"
+                    onHoverStart={() => setHoveredStage(i)}
+                    onHoverEnd={() => setHoveredStage(null)}
+                    className="relative flex flex-col items-center text-center px-1 py-2 rounded-sm cursor-default"
                   >
                     {/* Mobile-only label */}
                     <motion.p
@@ -300,10 +307,12 @@ const Workflow = () => {
                       {isActive && <span className="text-primary animate-pulse">▌</span>}
                     </motion.p>
 
-                    <p className="text-xs text-muted-foreground font-body leading-relaxed mb-3 max-w-[200px]">
+                    <p className={`text-xs font-body leading-relaxed mb-3 max-w-[200px] transition-colors duration-400 ${
+                      isActive ? "text-primary/90" : "text-muted-foreground"
+                    }`}>
                       {stage.artifact}
                     </p>
-                    <div className="flex flex-nowrap items-center justify-center gap-1 w-full">
+                    <div className="flex flex-nowrap items-center justify-center gap-1.5 w-full">
                       {stage.tools.map((t) => (
                         <motion.span
                           key={t}
@@ -313,7 +322,7 @@ const Workflow = () => {
                               : { y: 0, boxShadow: "0 0 0px transparent inset" }
                           }
                           transition={{ duration: 0.4 }}
-                          className={`shrink-0 text-[9px] font-body px-1.5 py-0.5 rounded-full border whitespace-nowrap transition-colors ${
+                          className={`shrink-0 text-[10px] font-body px-2 py-0.5 rounded-full border whitespace-nowrap transition-colors ${
                             isActive
                               ? "border-primary/60 text-primary bg-primary/5"
                               : "border-border text-muted-foreground"
@@ -337,6 +346,7 @@ const Workflow = () => {
                   </motion.div>
                 );
               })}
+
             </div>
           </motion.div>
 
