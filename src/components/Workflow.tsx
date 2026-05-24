@@ -329,8 +329,9 @@ const Workflow = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {tools.map((tool, i) => {
               const isActive =
-                hoveredTool === i ||
-                highlightedStages.some((s) => stages[s].related.includes(tool.name));
+                hoveredTool !== null
+                  ? hoveredTool === i
+                  : highlightedStages.some((s) => stages[s].related.includes(tool.name));
               return (
                 <motion.div
                   key={tool.name}
