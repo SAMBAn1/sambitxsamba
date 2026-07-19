@@ -3,6 +3,8 @@ import { ArrowUpRight, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
+const MAX_DRAWER_TAGS = 3;
+
 type Item = {
   title: string;
   description: string;
@@ -228,11 +230,7 @@ const DrawerRow = ({
       : { href: item.link }
     : {};
 
-  const metaLabel = item.internal
-    ? "read"
-    : item.link
-    ? "open"
-    : item.meta ?? "case";
+  const metaLabel = item.link ? "open" : item.meta ?? "case";
 
 
   const label = item.slug ?? item.title;
@@ -242,14 +240,17 @@ const DrawerRow = ({
       onMouseEnter={onEnter}
       onFocus={onEnter}
       className={`relative border-t border-border transition-colors duration-200 ${
-        isOpen ? "bg-primary/[0.04]" : ""
+        isOpen ? "bg-primary/[0.04]" : isLinked ? "bg-primary/[0.015]" : ""
       }`}
     >
-      {/* left edge glow when open */}
+      {/* left edge glow: persistent for linked items, stronger on hover */}
       <motion.span
         aria-hidden
         initial={false}
-        animate={{ opacity: isOpen ? 1 : 0, scaleY: isOpen ? 1 : 0.3 }}
+        animate={{
+          opacity: isOpen ? 1 : isLinked ? 0.45 : 0,
+          scaleY: isOpen ? 1 : isLinked ? 1 : 0.3,
+        }}
         transition={{ duration: 0.2 }}
         className="pointer-events-none absolute left-0 top-1 bottom-1 w-[2px] bg-primary origin-center"
         style={{ boxShadow: "0 0 12px hsl(var(--primary) / 0.6)" }}
@@ -265,28 +266,47 @@ const DrawerRow = ({
           <div className="flex items-center gap-3 min-w-0">
             <span
               aria-hidden
-              className={`font-body text-xs w-3 text-primary/70 transition-transform duration-200 ${
-                isOpen ? "rotate-90" : ""
+              className={`font-body text-xs w-3 transition-transform duration-200 ${
+                isOpen ? "rotate-90 text-primary" : isLinked ? "text-primary" : "text-primary/30"
               }`}
             >
               ▸
             </span>
-            <span
-              className={`font-body text-sm md:text-[15px] tracking-tight truncate transition-colors duration-200 ${
-                isOpen ? "text-primary" : "text-foreground/90 group-hover:text-primary"
-              }`}
-            >
-              {label}
-              {item.internal && isOpen && (
-                <span className="ml-0.5 text-primary animate-pulse">▌</span>
-              )}
-            </span>
+            <div className="flex items-center gap-2 min-w-0">
+              <span
+                className={`font-body text-sm md:text-[15px] tracking-tight truncate transition-colors duration-200 ${
+                  isOpen ? "text-primary" : "text-foreground/90 group-hover:text-primary"
+                }`}
+              >
+                {label}
+                {item.internal && isOpen && (
+                  <span className="ml-0.5 text-primary animate-pulse">▌</span>
+                )}
+              </span>
+              <span className="hidden sm:inline-flex items-center gap-1.5 shrink-0">
+                {item.tags.slice(0, MAX_DRAWER_TAGS).map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[9px] font-body text-muted-foreground/80 border border-border/60 px-1.5 py-0.5 rounded-full"
+                  >
+                    {tag}
+                  </span>
+                ))}
+                {item.tags.length > MAX_DRAWER_TAGS && (
+                  <span className="text-[9px] font-body text-muted-foreground/50">···</span>
+                )}
+              </span>
+            </div>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
             <span
               className={`text-[10px] font-body tracking-[0.2em] uppercase transition-colors ${
-                isOpen ? "text-primary/80" : "text-muted-foreground/60"
+                isOpen
+                  ? "text-primary/80"
+                  : isLinked
+                  ? "text-primary/70"
+                  : "text-muted-foreground/60"
               }`}
             >
               {metaLabel}
@@ -296,7 +316,7 @@ const DrawerRow = ({
                 className={`w-3.5 h-3.5 transition-all duration-200 ${
                   isOpen
                     ? "text-primary translate-x-0.5 -translate-y-0.5"
-                    : "text-muted-foreground/60"
+                    : "text-primary/70 group-hover:text-primary"
                 }`}
                 aria-hidden
               />
