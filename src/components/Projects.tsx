@@ -152,11 +152,6 @@ const AppCard = ({ item, i }: { item: Item; i: number }) => {
                   "repeating-linear-gradient(0deg, hsl(var(--primary)/0.35) 0 1px, transparent 1px 3px)",
               }}
             />
-            <div className="absolute top-2 left-3 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary/60" />
-              <span className="w-1.5 h-1.5 rounded-full bg-primary/30" />
-              <span className="w-1.5 h-1.5 rounded-full bg-primary/20" />
-            </div>
             <div className="absolute bottom-2 right-3 text-[10px] font-body tracking-[0.2em] uppercase text-primary/80">
               {item.internal ? "read" : item.link ? "live" : "case"}
             </div>
@@ -171,11 +166,6 @@ const AppCard = ({ item, i }: { item: Item; i: number }) => {
                   "repeating-linear-gradient(90deg, hsl(var(--primary)/0.12) 0 1px, transparent 1px 6px)",
               }}
             />
-            <div className="absolute top-2 left-3 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary/60" />
-              <span className="w-1.5 h-1.5 rounded-full bg-primary/30" />
-              <span className="w-1.5 h-1.5 rounded-full bg-primary/20" />
-            </div>
             <div className="absolute bottom-2 right-3 text-[10px] font-body tracking-[0.2em] uppercase text-primary/60">
               {item.internal ? "read" : item.link ? "live" : "case"}
             </div>
