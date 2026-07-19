@@ -302,7 +302,11 @@ const DrawerRow = ({
           <div className="flex items-center gap-2 shrink-0">
             <span
               className={`text-[10px] font-body tracking-[0.2em] uppercase transition-colors ${
-                isOpen ? "text-primary/80" : "text-muted-foreground/60"
+                isOpen
+                  ? "text-primary/80"
+                  : isLinked
+                  ? "text-primary/70"
+                  : "text-muted-foreground/60"
               }`}
             >
               {metaLabel}
@@ -312,7 +316,7 @@ const DrawerRow = ({
                 className={`w-3.5 h-3.5 transition-all duration-200 ${
                   isOpen
                     ? "text-primary translate-x-0.5 -translate-y-0.5"
-                    : "text-muted-foreground/60"
+                    : "text-primary/70 group-hover:text-primary"
                 }`}
                 aria-hidden
               />
