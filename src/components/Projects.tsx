@@ -28,6 +28,24 @@ const featured: Item[] = [
     image: "https://samban1.github.io/Cortex/screenshots/01-dashboard.png",
   },
   {
+    title: "AI-Native PM Workflow Initiative",
+    description:
+      "Pitched an AI-native PM/build stack for the Collections Worklist rebuild — Lovable, ChatGPT, Codex, GitHub, Supabase, Vercel, Claude. Business case and operating model for VP/CPO approval.",
+    tags: ["Strategy", "AI-Native", "Operating Model"],
+    link: "https://samban1.github.io/case-studies/ai-native-pm-workflow/",
+    external: true,
+    image: "/portfolio/ai-native-pm-workflow.png",
+  },
+  {
+    title: "Hybrid Collections Worklist Operating Model",
+    description:
+      "Sanitized product strategy for an enterprise fintech SaaS — a simulation-first migration path that preserves configurability while adding data-driven scoring, transparency and AI-ready extensibility.",
+    tags: ["Strategy", "Enterprise", "Migration"],
+    link: "https://samban1.github.io/case-studies/worklist-vision/",
+    external: true,
+    image: "/portfolio/worklist-vision.png",
+  },
+  {
     title: "ShrayArchy",
     description:
       "Co-founded a handmade clay charms brand with 40k+ followers, 1M+ monthly views, and ~$2k monthly revenue through D2C sales and content.",
@@ -67,30 +85,12 @@ const drawer: Item[] = [
     external: true,
   },
   {
-    title: "AI-Native PM Workflow Initiative",
-    slug: "ai-native_pm_workflow_initiative",
-    description:
-      "Pitched an AI-native PM/build stack for the Collections Worklist rebuild — Lovable, ChatGPT, Codex, GitHub, Supabase, Vercel, Claude. Business case and operating model for VP/CPO approval.",
-    tags: ["Strategy", "AI-Native", "Operating Model"],
-    link: "https://drive.google.com/file/d/1aFZoRTBRF6xcMmVjH-n_wf_8eehcYl_n/view?usp=drivesdk",
-    external: true,
-  },
-  {
     title: "GTM Strategy — i95Dev Ecommerce Portal",
     slug: "gtm_strategy_i95dev_ecommerce_portal",
     description:
       "Freelance short-form GTM deck to reach the first 100 customers — ICP, positioning, demo strategy, acquisition motion and partner-led outreach for B2B brands on Shopify/Adobe Commerce.",
     tags: ["GTM", "Positioning", "B2B"],
     link: "https://drive.google.com/file/d/1SGSIMg6tsPNZI1E0UaHFHxNleaBM8xcp/view?usp=drivesdk",
-    external: true,
-  },
-  {
-    title: "Hybrid Collections Worklist Operating Model",
-    slug: "hybrid_collections_worklist_operating_model",
-    description:
-      "Sanitized product strategy for an enterprise fintech SaaS — a simulation-first migration path that preserves configurability while adding data-driven scoring, transparency and AI-ready extensibility.",
-    tags: ["Strategy", "Enterprise", "Migration"],
-    link: "https://drive.google.com/file/d/10ofKzQDKvwCFwT3AiVyrHZ-3w1LgMaRt/view?usp=drivesdk",
     external: true,
   },
   // Non-clickable items pinned to the bottom
