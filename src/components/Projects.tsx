@@ -230,11 +230,7 @@ const DrawerRow = ({
       : { href: item.link }
     : {};
 
-  const metaLabel = item.internal
-    ? "read"
-    : item.link
-    ? "open"
-    : item.meta ?? "case";
+  const metaLabel = item.link ? "open" : item.meta ?? "case";
 
 
   const label = item.slug ?? item.title;
