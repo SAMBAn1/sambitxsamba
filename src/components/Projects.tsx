@@ -284,7 +284,7 @@ const Projects = () => {
             / portfolio
           </p>
           <h2 className="font-display text-4xl md:text-5xl mb-16">
-            Things I've <span className="italic text-gradient">created or built.</span>
+            Things I've <span className="italic text-gradient">built.</span>
           </h2>
         </motion.div>
 
