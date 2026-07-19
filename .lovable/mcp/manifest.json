@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "sdk_version": "0.23.0",
+  "path": "/functions/v1/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "sambitxsamba-mcp",
+      "version": "0.1.0",
+      "title": "sambitxsamba.com"
+    },
+    "tools": [
+      {
+        "name": "get_profile",
+        "title": "Get profile",
+        "description": "Return Sambit Samantaray's high-level profile: name, current role, location, summary bio, top skills, and public social/contact links from sambitxsamba.com.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_experience",
+        "title": "List work experience",
+        "description": "Return Sambit's professional experience timeline (company, role, period, location, description, highlights). Optionally filter by company name (case-insensitive substring match).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "company": {
+              "description": "Case-insensitive substring to filter by company name, e.g. 'HighRadius'.",
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_projects",
+        "title": "List portfolio projects",
+        "description": "Return the portfolio projects showcased on sambitxsamba.com (title, description, tags, optional external link). Optionally filter by a tag substring (case-insensitive).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "tag": {
+              "description": "Case-insensitive substring to match against a project's tags, e.g. 'AI' or 'Strategy'.",
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_workflow",
+        "title": "Get AI-native PM workflow",
+        "description": "Return Sambit's AI-native PM workflow: the pipeline stages (Discovery → Ideate → Prototype → Validate → Ship) with per-stage artifacts and the underlying AI tool stack he uses.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_contact",
+        "title": "Get contact links",
+        "description": "Return Sambit's public contact channels — email, LinkedIn, Instagram, GitHub, and personal site — for anyone who wants to get in touch.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
