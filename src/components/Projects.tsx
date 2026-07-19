@@ -272,16 +272,33 @@ const DrawerRow = ({
             >
               ▸
             </span>
-            <span
-              className={`font-body text-sm md:text-[15px] tracking-tight truncate transition-colors duration-200 ${
-                isOpen ? "text-primary" : "text-foreground/90 group-hover:text-primary"
-              }`}
-            >
-              {label}
-              {item.internal && isOpen && (
-                <span className="ml-0.5 text-primary animate-pulse">▌</span>
-              )}
-            </span>
+            <div className="flex items-center gap-2 min-w-0">
+              <span
+                className={`font-body text-sm md:text-[15px] tracking-tight truncate transition-colors duration-200 ${
+                  isOpen ? "text-primary" : "text-foreground/90 group-hover:text-primary"
+                }`}
+              >
+                {label}
+                {item.internal && isOpen && (
+                  <span className="ml-0.5 text-primary animate-pulse">▌</span>
+                )}
+              </span>
+              <span className="hidden sm:inline-flex items-center gap-1.5 shrink-0">
+                {item.tags.slice(0, MAX_DRAWER_TAGS).map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[9px] font-body text-muted-foreground/80 border border-border/60 px-1.5 py-0.5 rounded-full"
+                  >
+                    {tag}
+                  </span>
+                ))}
+                {item.tags.length > MAX_DRAWER_TAGS && (
+                  <span className="text-[9px] font-body text-muted-foreground/50">
+                    +{item.tags.length - MAX_DRAWER_TAGS}
+                  </span>
+                )}
+              </span>
+            </div>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
