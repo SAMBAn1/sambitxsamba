@@ -10,6 +10,7 @@ type Item = {
   external?: boolean;
   internal?: boolean; // internal SPA route (react-router)
   meta?: string; // muted label shown when there is no outbound link
+  image?: string; // optional preview image URL (replaces the accent strip)
 };
 
 const apps: Item[] = [
