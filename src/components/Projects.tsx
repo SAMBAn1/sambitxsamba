@@ -21,6 +21,7 @@ const apps: Item[] = [
     tags: ["React", "Claude API", "Local-first"],
     link: "https://samban1.github.io/Cortex/",
     external: true,
+    image: "https://samban1.github.io/Cortex/screenshots/01-dashboard.png",
   },
   {
     title: "RadiusOne AR Suite",
