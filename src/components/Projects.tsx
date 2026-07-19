@@ -34,22 +34,6 @@ const featured: Item[] = [
     external: true,
     image: "/portfolio/shrayarchy.jpg",
   },
-  {
-    title: "RadiusOne AR Suite",
-    description:
-      "Co-built a net-new SMB-focused SaaS product line from 0→1; identified $1B addressable market and onboarded 20+ clients contributing $9M ARR.",
-    tags: ["0→1 Product", "SMB SaaS", "Growth"],
-    link: "https://www.highradius.com/company/newsroom/highradius-launches-radiusone-ar-suite/",
-    external: true,
-  },
-  {
-    title: "sambitxsamba.com",
-    description:
-      "Personal product portfolio and writing hub — the site you're reading right now. Vite + React + shadcn-ui, with a custom blog system and reading experience.",
-    tags: ["Portfolio", "Writing", "Design"],
-    link: "https://github.com/SAMBAn1/sambitxsamba",
-    external: true,
-  },
 ];
 
 const drawer: Item[] = [
@@ -63,12 +47,22 @@ const drawer: Item[] = [
     internal: true,
   },
   {
-    title: "AI Agents for Autonomous Collections",
-    slug: "ai-agents_for_autonomous_collections",
+    title: "RadiusOne AR Suite",
+    slug: "radiusone_ar_suite",
     description:
-      "Shipped AI agents that autonomously prioritize and allocate collection work, resulting in 50% FTE reduction across enterprise AR operations.",
-    tags: ["AI/ML", "Enterprise SaaS", "Automation"],
-    meta: "internal product",
+      "Co-built a net-new SMB-focused SaaS product line from 0→1; identified $1B addressable market and onboarded 20+ clients contributing $9M ARR.",
+    tags: ["0→1 Product", "SMB SaaS", "Growth"],
+    link: "https://www.highradius.com/company/newsroom/highradius-launches-radiusone-ar-suite/",
+    external: true,
+  },
+  {
+    title: "sambitxsamba.com",
+    slug: "sambitxsamba.com",
+    description:
+      "Personal product portfolio and writing hub — the site you're reading right now. Vite + React + shadcn-ui, with a custom blog system and reading experience.",
+    tags: ["Portfolio", "Writing", "Design"],
+    link: "https://github.com/SAMBAn1/sambitxsamba",
+    external: true,
   },
   {
     title: "AI-Native PM Workflow Initiative",
@@ -97,12 +91,22 @@ const drawer: Item[] = [
     link: "https://drive.google.com/file/d/10ofKzQDKvwCFwT3AiVyrHZ-3w1LgMaRt/view?usp=drivesdk",
     external: true,
   },
+  // Non-clickable items pinned to the bottom
+  {
+    title: "AI Agents for Autonomous Collections",
+    slug: "ai-agents_for_autonomous_collections",
+    description:
+      "Shipped AI agents that autonomously prioritize and allocate collection work, resulting in 50% FTE reduction across enterprise AR operations.",
+    tags: ["AI/ML", "Enterprise SaaS", "Automation"],
+    meta: "internal product",
+  },
   {
     title: "Markov Chain Worklist Engine",
     slug: "markov_chain_worklist_engine",
     description:
       "Patent-pending engine analyzing 1M+ invoice interactions to predict optimal collector actions — projected 60% reduction in manual prioritization and 20% recovery lift.",
     tags: ["Data Science", "Patent", "Optimization"],
+    meta: "patent",
   },
 ];
 
