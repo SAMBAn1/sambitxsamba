@@ -266,8 +266,8 @@ const DrawerRow = ({
           <div className="flex items-center gap-3 min-w-0">
             <span
               aria-hidden
-              className={`font-body text-xs w-3 text-primary/70 transition-transform duration-200 ${
-                isOpen ? "rotate-90" : ""
+              className={`font-body text-xs w-3 transition-transform duration-200 ${
+                isOpen ? "rotate-90 text-primary" : isLinked ? "text-primary" : "text-primary/30"
               }`}
             >
               ▸
