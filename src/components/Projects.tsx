@@ -279,9 +279,6 @@ const DrawerRow = ({
                 }`}
               >
                 {label}
-                {item.internal && isOpen && (
-                  <span className="ml-0.5 text-primary animate-pulse">▌</span>
-                )}
               </span>
               <span className="hidden sm:inline-flex items-center gap-1.5 shrink-0">
                 {item.tags.slice(0, MAX_DRAWER_TAGS).map((tag) => (
