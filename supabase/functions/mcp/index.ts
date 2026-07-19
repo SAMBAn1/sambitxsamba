@@ -113,20 +113,6 @@ var projects = [
     link: "https://www.shrayarchy.com"
   },
   {
-    title: "RadiusOne AR Suite",
-    category: "featured",
-    description: "Co-built a net-new SMB-focused SaaS product line from 0\u21921; identified $1B addressable market and onboarded 20+ clients contributing $9M ARR.",
-    tags: ["0\u21921 Product", "SMB SaaS", "Growth"],
-    link: "https://www.highradius.com/company/newsroom/highradius-launches-radiusone-ar-suite/"
-  },
-  {
-    title: "sambitxsamba.com",
-    category: "featured",
-    description: "Personal product portfolio and writing hub. Vite + React + shadcn-ui, with a custom blog system and reading experience.",
-    tags: ["Portfolio", "Writing", "Design"],
-    link: "https://github.com/SAMBAn1/sambitxsamba"
-  },
-  {
     title: "blog",
     category: "drawer",
     description: "Long-form notes on AI-native PM workflows, worklist engineering, and product craft.",
@@ -134,11 +120,18 @@ var projects = [
     link: "https://sambitxsamba.com/blog"
   },
   {
-    title: "AI Agents for Autonomous Collections",
+    title: "RadiusOne AR Suite",
     category: "drawer",
-    description: "Shipped AI agents that autonomously prioritize and allocate collection work, resulting in 50% FTE reduction across enterprise AR operations.",
-    tags: ["AI/ML", "Enterprise SaaS", "Automation"],
-    link: null
+    description: "Co-built a net-new SMB-focused SaaS product line from 0\u21921; identified $1B addressable market and onboarded 20+ clients contributing $9M ARR.",
+    tags: ["0\u21921 Product", "SMB SaaS", "Growth"],
+    link: "https://www.highradius.com/company/newsroom/highradius-launches-radiusone-ar-suite/"
+  },
+  {
+    title: "sambitxsamba.com",
+    category: "drawer",
+    description: "Personal product portfolio and writing hub. Vite + React + shadcn-ui, with a custom blog system and reading experience.",
+    tags: ["Portfolio", "Writing", "Design"],
+    link: "https://github.com/SAMBAn1/sambitxsamba"
   },
   {
     title: "AI-Native PM Workflow Initiative",
@@ -160,6 +153,13 @@ var projects = [
     description: "Sanitized product strategy and operating model for an enterprise fintech SaaS \u2014 a simulation-first migration path that preserves configurability while adding data-driven scoring, transparency and AI-ready extensibility.",
     tags: ["Strategy", "Enterprise", "Migration"],
     link: "https://drive.google.com/file/d/10ofKzQDKvwCFwT3AiVyrHZ-3w1LgMaRt/view?usp=drivesdk"
+  },
+  {
+    title: "AI Agents for Autonomous Collections",
+    category: "drawer",
+    description: "Shipped AI agents that autonomously prioritize and allocate collection work, resulting in 50% FTE reduction across enterprise AR operations.",
+    tags: ["AI/ML", "Enterprise SaaS", "Automation"],
+    link: null
   },
   {
     title: "Markov Chain Worklist Engine",
