@@ -243,11 +243,14 @@ const DrawerRow = ({
         isOpen ? "bg-primary/[0.04]" : isLinked ? "bg-primary/[0.015]" : ""
       }`}
     >
-      {/* left edge glow when open */}
+      {/* left edge glow: persistent for linked items, stronger on hover */}
       <motion.span
         aria-hidden
         initial={false}
-        animate={{ opacity: isOpen ? 1 : 0, scaleY: isOpen ? 1 : 0.3 }}
+        animate={{
+          opacity: isOpen ? 1 : isLinked ? 0.45 : 0,
+          scaleY: isOpen ? 1 : isLinked ? 1 : 0.3,
+        }}
         transition={{ duration: 0.2 }}
         className="pointer-events-none absolute left-0 top-1 bottom-1 w-[2px] bg-primary origin-center"
         style={{ boxShadow: "0 0 12px hsl(var(--primary) / 0.6)" }}
