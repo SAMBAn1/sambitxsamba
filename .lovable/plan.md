@@ -1,67 +1,55 @@
-# Portfolio restructure + section reorder
+## Portfolio section restructure
 
-## 1. Section reorder (`src/pages/Index.tsx`)
+Turn `src/components/Projects.tsx` into two flat subsections (no visible group labels like "// apps"), keeping the current section header ("Things I've built.") and the on-brand terminal aesthetic.
 
-New order below the Hero:
-`About → Workflow → Portfolio → Experience → Contact`
+### 1. Featured (app cards with previews)
 
-No content changes to the sections themselves, just the order of the components rendered in `Index.tsx`. Navbar links already use anchors (`#about`, `#workflow`, `#portfolio`, `#experience`, `#contact`) so the nav order will be updated to match.
+A 2-column grid of large cards, same visual language as the existing Cortex card (screenshot preview + scanline overlay + fade + terminal chrome), for apps that have their own live site:
 
-## 2. Portfolio — rename + categorize (`src/components/Projects.tsx`)
+- **Cortex** — `https://samban1.github.io/Cortex/`, preview `screenshots/01-dashboard.png` (already wired).
+- **ShrayArchy** — `https://www.shrayarchy.com`, preview captured from the site (fetch page, pick the strongest hero/product shot, save to `public/portfolio/shrayarchy.jpg` and reference locally so it never breaks if their site changes).
+- **RadiusOne AR Suite** — kept as a featured card. It has no product screenshot we can host, so it uses the existing terminal accent strip (no image), and links to the HighRadius press release.
+- **sambitxsamba.com** — kept as a featured card with the terminal accent strip, linking to the GitHub repo.
 
-- Heading changes from **"Things I've built."** to **"Things I've created or built."** (keep the `italic text-gradient` styling on the last word).
-- Section label stays `/ portfolio`.
-- Split the current flat list into three grouped subsections, each introduced by a small terminal-style label consistent with the rest of the site (`// apps`, `// case studies`, `// writing`).
+No "// apps" label above the grid — the grid speaks for itself.
 
-Category mapping:
+### 2. Drawer (everything else)
 
-**Apps** (things with a live product surface — get the featured treatment, see §3)
-- Cortex — link updated to `https://samban1.github.io/Cortex/` (new marketing site, replaces the GitHub repo link).
-- RadiusOne AR Suite — link updated to the HighRadius press release: `https://www.highradius.com/company/newsroom/highradius-launches-radiusone-ar-suite/`.
-- AI Agents for Autonomous Collections — no external link (internal HighRadius product), stays as an app card without an outbound arrow.
-- sambitxsamba.com — the site itself; kept here as an app entry.
+Below Featured, a single "file drawer" list containing every remaining item — case studies, blog, and any app-shaped item without its own site (currently only "AI Agents for Autonomous Collections"). No visible group labels.
 
-**Case studies** (strategy decks + operating models, all Drive-linked)
-- AI-Native PM Workflow Initiative
-- GTM Strategy — i95Dev Ecommerce Portal
-- Hybrid Collections Worklist Operating Model
-- Markov Chain Worklist Engine (unlinked, as per prior decision)
+Items, in order:
+1. `blog_` — internal link to `/blog`, styled with the branded `/name_` convention (leading slash, trailing blinking underscore), matching the site's terminal branding instead of the word "Writing".
+2. `ai-agents_for_autonomous_collections`
+3. `ai-native_pm_workflow_initiative`
+4. `gtm_strategy_i95dev_ecommerce_portal`
+5. `hybrid_collections_worklist_operating_model`
+6. `markov_chain_worklist_engine`
 
-**Writing / Ventures** (the outliers — one D2C brand, everything else on the site's `/blog` route)
-- ShrayArchy — links out to shrayarchy.com.
-- A single "Writing" entry that links to `/blog` (internal route), so the blog surface is discoverable from the portfolio itself.
+Each row renders collapsed as a single line: a small file-tab glyph on the left, the `slug_` title, and a right-aligned meta chip (`live`, `read`, `case`, or `internal product`). Rows sit flush against each other with a 1px hairline separator so the collapsed state literally looks like file tabs stacked in a drawer.
 
-## 3. Apps showcase — featured treatment
+**Hover interaction (the "drawer" feel):**
+- Hovered row smoothly expands (Framer Motion `height: auto`, ~220–280ms, ease-out) to reveal: description, tags, and the `ArrowUpRight` affordance if linked. Slight lift (`-translate-y-0.5`), left edge glows in primary green, and the file-tab glyph flips from closed to open.
+- Only one row is expanded at a time. When the pointer moves to a sibling row, the previously expanded row collapses in the same tween — producing the "one pops up, the next comes down" motion the user described. Managed with a single `hoveredIndex` state on the drawer container; `onMouseLeave` on the container resets to `null` so nothing stays expanded when the mouse leaves the drawer.
+- Keyboard/touch parity: `focus-within` behaves like hover so tab navigation and mobile taps also expand a row. On touch (no hover), tapping a row toggles it; tapping its title/affordance still navigates.
+- All motion respects `prefers-reduced-motion` — expansion becomes an instant show/hide, no lift.
 
-The three grouped subsections are all rendered inside the existing Portfolio section (same container, same section label, same heading). Only the **Apps** group gets a richer visual treatment; **Case studies** and **Writing** keep the current stacked-row layout so the section stays scannable and doesn't balloon in height.
+### Screenshot capture for ShrayArchy
 
-**Apps layout** — a 2-column responsive grid of larger "app cards" (single column on mobile). Each card contains:
-- App name (display font, larger).
-- One-line tagline (existing `description`, trimmed to one sentence where needed).
-- A compact tag row (existing `tags`).
-- A `Visit ↗` affordance in the corner for linked apps; unlinked apps (AI Agents for Autonomous Collections) show a muted `Internal product` label instead of the arrow.
-- Subtle hover: brand-green border + slight lift, matching the existing hover treatment on project rows.
-- Optional small "screenshot placeholder" strip at the top of each card — a thin gradient/mono band using the existing hacker-green tokens (no real screenshots yet; kept as a lightweight visual accent so cards feel like product tiles without requiring image assets). If the user later provides screenshots we can drop them in.
+- Fetch `https://www.shrayarchy.com` via a scripted headless browser (Playwright already available in the sandbox) at 1280×1800, capture a viewport screenshot of the hero, downscale/crop to a 16:9-ish preview, and commit as `public/portfolio/shrayarchy.jpg`.
+- Referenced from `AppCard` as `/portfolio/shrayarchy.jpg` so the asset is served from our own origin.
 
-Inspiration reference (behavior, not visuals we copy): Linear's "Product" cards, Rauno Freiberg's project index, Vercel's Templates grid — larger tiles for shipped products, smaller rows for supporting artifacts. All styled with the existing dark / hacker-green / lowercase-`/`-heading system — no new colors, fonts, or gradients introduced.
+### MCP data sync
 
-## 4. MCP data sync (`src/lib/mcp/data.ts`)
+Update `src/lib/mcp/data.ts` so the tool responses match the new grouping: keep the existing `category` field but collapse to two buckets (`featured`, `drawer`) so `list_projects` reflects what the site actually shows. Regenerate `.lovable/mcp/manifest.json` after the data change.
 
-Update the `projects` array so the MCP `list_projects` tool stays in sync:
-- Cortex `link` → new marketing site URL.
-- RadiusOne AR Suite `link` → HighRadius press release URL.
-- Add a `category` field (`"app" | "case_study" | "writing"`) on each entry so agents can filter by category too.
-- Add the `Writing` entry pointing to `/blog` (absolute URL: `https://sambitxsamba.com/blog`).
+### Files touched
 
-## 5. Out of scope for this plan
+- `src/components/Projects.tsx` — remove `GroupLabel` usage, split into Featured grid + Drawer list, add the animated hover-expand row component, restyle blog row with `/blog_` convention.
+- `public/portfolio/shrayarchy.jpg` — new asset.
+- `src/lib/mcp/data.ts` — recategorize items into `featured` / `drawer`.
+- `.lovable/mcp/manifest.json` — regenerated.
 
-- No new screenshot assets are added (the app cards use a token-based accent band; real screenshots can be dropped in later).
-- No changes to About, Workflow, Experience, Contact, Hero, Navbar visuals beyond the anchor-order reshuffle in the nav links.
-- No changes to the MCP tool signatures — only the underlying `data.ts` content changes.
+### Out of scope
 
-## Technical notes
-
-- Files touched: `src/pages/Index.tsx`, `src/components/Navbar.tsx` (link order only), `src/components/Projects.tsx`, `src/lib/mcp/data.ts`.
-- Projects component becomes: heading → `AppsGrid` (2-col) → `CaseStudiesList` (current row style) → `WritingList` (current row style). All three share the section's max-width container so vertical rhythm stays consistent.
-- Framer Motion entrance animations are preserved and reapplied per group (stagger by index within each group).
-- Cortex + RadiusOne links open in a new tab (`target="_blank"`, `rel="noopener noreferrer"`), matching existing external-link behavior. The Writing entry uses an internal `<Link to="/blog">` so it stays within the SPA.
+- No changes to section ordering, navbar, other sections, colors, fonts, or global tokens.
+- No changes to the Cortex screenshot source (still hotlinked from the Cortex site as it is today) — only ShrayArchy gets a locally hosted preview because we're capturing it fresh.
