@@ -293,9 +293,7 @@ const DrawerRow = ({
                   </span>
                 ))}
                 {item.tags.length > MAX_DRAWER_TAGS && (
-                  <span className="text-[9px] font-body text-muted-foreground/50">
-                    +{item.tags.length - MAX_DRAWER_TAGS}
-                  </span>
+                  <span className="text-[9px] font-body text-muted-foreground/50">···</span>
                 )}
               </span>
             </div>
