@@ -240,8 +240,8 @@ const DrawerRow = ({
       onMouseEnter={onEnter}
       onFocus={onEnter}
       className={`relative border-t border-border transition-colors duration-200 ${
-        isOpen ? "bg-primary/[0.04]" : ""
-      } ${isLinked ? "linked-drawer-row" : ""}`}
+        isOpen ? "bg-primary/[0.04]" : isLinked ? "bg-primary/[0.015]" : ""
+      }`}
     >
       {/* left edge glow when open */}
       <motion.span
