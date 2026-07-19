@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 type Item = {
   title: string;
@@ -8,12 +9,13 @@ type Item = {
   tags: string[];
   link?: string;
   external?: boolean;
-  internal?: boolean; // internal SPA route (react-router)
-  meta?: string; // muted label shown when there is no outbound link
-  image?: string; // optional preview image URL (replaces the accent strip)
+  internal?: boolean;
+  meta?: string;
+  image?: string;
+  slug?: string; // optional override for drawer label (branded /name_ form)
 };
 
-const apps: Item[] = [
+const featured: Item[] = [
   {
     title: "Cortex",
     description:
@@ -24,19 +26,21 @@ const apps: Item[] = [
     image: "https://samban1.github.io/Cortex/screenshots/01-dashboard.png",
   },
   {
+    title: "ShrayArchy",
+    description:
+      "Co-founded a handmade clay charms brand with 40k+ followers, 1M+ monthly views, and ~$2k monthly revenue through D2C sales and content.",
+    tags: ["D2C", "Content", "Brand"],
+    link: "https://www.shrayarchy.com",
+    external: true,
+    image: "/portfolio/shrayarchy.jpg",
+  },
+  {
     title: "RadiusOne AR Suite",
     description:
       "Co-built a net-new SMB-focused SaaS product line from 0→1; identified $1B addressable market and onboarded 20+ clients contributing $9M ARR.",
     tags: ["0→1 Product", "SMB SaaS", "Growth"],
     link: "https://www.highradius.com/company/newsroom/highradius-launches-radiusone-ar-suite/",
     external: true,
-  },
-  {
-    title: "AI Agents for Autonomous Collections",
-    description:
-      "Shipped AI agents that autonomously prioritize and allocate collection work, resulting in 50% FTE reduction across enterprise AR operations.",
-    tags: ["AI/ML", "Enterprise SaaS", "Automation"],
-    meta: "internal product",
   },
   {
     title: "sambitxsamba.com",
@@ -48,63 +52,59 @@ const apps: Item[] = [
   },
 ];
 
-const caseStudies: Item[] = [
+const drawer: Item[] = [
+  {
+    title: "blog",
+    slug: "/blog_",
+    description:
+      "Long-form notes on AI-native PM workflows, worklist engineering, and product craft.",
+    tags: ["Essays", "Notes"],
+    link: "/blog",
+    internal: true,
+  },
+  {
+    title: "AI Agents for Autonomous Collections",
+    slug: "ai-agents_for_autonomous_collections",
+    description:
+      "Shipped AI agents that autonomously prioritize and allocate collection work, resulting in 50% FTE reduction across enterprise AR operations.",
+    tags: ["AI/ML", "Enterprise SaaS", "Automation"],
+    meta: "internal product",
+  },
   {
     title: "AI-Native PM Workflow Initiative",
+    slug: "ai-native_pm_workflow_initiative",
     description:
-      "Created and pitched an AI-native PM/build stack for the Collections Worklist rebuild — combining Lovable, ChatGPT, Codex, GitHub, Supabase, Vercel and Claude. Built the business case and operating model for VP/CPO approval.",
+      "Pitched an AI-native PM/build stack for the Collections Worklist rebuild — Lovable, ChatGPT, Codex, GitHub, Supabase, Vercel, Claude. Business case and operating model for VP/CPO approval.",
     tags: ["Strategy", "AI-Native", "Operating Model"],
     link: "https://drive.google.com/file/d/1aFZoRTBRF6xcMmVjH-n_wf_8eehcYl_n/view?usp=drivesdk",
     external: true,
   },
   {
     title: "GTM Strategy — i95Dev Ecommerce Portal",
+    slug: "gtm_strategy_i95dev_ecommerce_portal",
     description:
-      "Freelance short-form GTM guidance deck to reach the first 100 customers — ICP, positioning, demo strategy, acquisition motion and partner-led outreach for wholesalers, distributors and B2B brands on Shopify/Adobe Commerce.",
+      "Freelance short-form GTM deck to reach the first 100 customers — ICP, positioning, demo strategy, acquisition motion and partner-led outreach for B2B brands on Shopify/Adobe Commerce.",
     tags: ["GTM", "Positioning", "B2B"],
     link: "https://drive.google.com/file/d/1SGSIMg6tsPNZI1E0UaHFHxNleaBM8xcp/view?usp=drivesdk",
     external: true,
   },
   {
     title: "Hybrid Collections Worklist Operating Model",
+    slug: "hybrid_collections_worklist_operating_model",
     description:
-      "Sanitized product strategy and operating model for an enterprise fintech SaaS — a simulation-first migration path that preserves configurability while adding data-driven scoring, transparency and AI-ready extensibility.",
+      "Sanitized product strategy for an enterprise fintech SaaS — a simulation-first migration path that preserves configurability while adding data-driven scoring, transparency and AI-ready extensibility.",
     tags: ["Strategy", "Enterprise", "Migration"],
     link: "https://drive.google.com/file/d/10ofKzQDKvwCFwT3AiVyrHZ-3w1LgMaRt/view?usp=drivesdk",
     external: true,
   },
   {
     title: "Markov Chain Worklist Engine",
+    slug: "markov_chain_worklist_engine",
     description:
       "Patent-pending engine analyzing 1M+ invoice interactions to predict optimal collector actions — projected 60% reduction in manual prioritization and 20% recovery lift.",
     tags: ["Data Science", "Patent", "Optimization"],
   },
 ];
-
-const writing: Item[] = [
-  {
-    title: "Writing",
-    description:
-      "Long-form notes on AI-native PM workflows, worklist engineering, and product craft — published on this site.",
-    tags: ["Blog", "Essays"],
-    link: "/blog",
-    internal: true,
-  },
-  {
-    title: "ShrayArchy",
-    description:
-      "Co-founded a handmade clay charms brand with 40k+ followers, 1M+ monthly views, and ~$2k monthly revenue through D2C sales and content.",
-    tags: ["D2C", "Content", "Entrepreneurship"],
-    link: "https://www.shrayarchy.com",
-    external: true,
-  },
-];
-
-const GroupLabel = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-primary/70 font-body text-[11px] tracking-[0.3em] uppercase mb-6">
-    {children}
-  </p>
-);
 
 const AppCard = ({ item, i }: { item: Item; i: number }) => {
   const isLinked = !!item.link;
@@ -132,7 +132,6 @@ const AppCard = ({ item, i }: { item: Item; i: number }) => {
             : ""
         }`}
       >
-        {/* preview: screenshot if provided, otherwise the terminal accent strip */}
         {item.image ? (
           <div className="relative h-44 border-b border-border overflow-hidden bg-background">
             <img
@@ -141,7 +140,6 @@ const AppCard = ({ item, i }: { item: Item; i: number }) => {
               loading="lazy"
               className="absolute inset-0 w-full h-full object-cover object-top opacity-80 transition-all duration-500 group-hover:opacity-100 group-hover:scale-[1.02]"
             />
-            {/* scanline + tint overlay to keep it on-theme */}
             <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_40%,hsl(var(--background))_100%)]" />
             <div
               className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none"
@@ -217,7 +215,15 @@ const AppCard = ({ item, i }: { item: Item; i: number }) => {
   );
 };
 
-const RowItem = ({ item, i }: { item: Item; i: number }) => {
+const DrawerRow = ({
+  item,
+  isOpen,
+  onEnter,
+}: {
+  item: Item;
+  isOpen: boolean;
+  onEnter: () => void;
+}) => {
   const isLinked = !!item.link;
   const Wrapper: any = isLinked ? (item.internal ? Link : "a") : "div";
   const linkProps = isLinked
@@ -228,45 +234,131 @@ const RowItem = ({ item, i }: { item: Item; i: number }) => {
       : { href: item.link }
     : {};
 
+  const metaLabel = item.internal
+    ? "read"
+    : item.link
+    ? "open"
+    : item.meta ?? "case";
+
+  const label = item.slug ?? item.title;
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: i * 0.08 }}
+    <div
+      onMouseEnter={onEnter}
+      onFocus={onEnter}
+      className={`relative border-t border-border transition-colors duration-200 ${
+        isOpen ? "bg-primary/[0.04]" : ""
+      }`}
     >
+      {/* left edge glow when open */}
+      <motion.span
+        aria-hidden
+        initial={false}
+        animate={{ opacity: isOpen ? 1 : 0, scaleY: isOpen ? 1 : 0.3 }}
+        transition={{ duration: 0.2 }}
+        className="pointer-events-none absolute left-0 top-1 bottom-1 w-[2px] bg-primary origin-center"
+        style={{ boxShadow: "0 0 12px hsl(var(--primary) / 0.6)" }}
+      />
+
       <Wrapper
         {...linkProps}
-        className={`block py-6 border-t border-border transition-colors duration-300 px-4 -mx-4 rounded-sm group ${
-          isLinked ? "hover:bg-primary/5 cursor-pointer" : ""
+        className={`group block px-4 py-3 outline-none ${
+          isLinked ? "cursor-pointer" : "cursor-default"
         }`}
       >
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h3 className="font-display text-xl md:text-2xl mb-2 transition-colors duration-300 group-hover:text-primary inline-flex items-center gap-2">
-              {item.title}
-              {isLinked && (
-                <ArrowUpRight
-                  className="w-4 h-4 text-muted-foreground transition-all duration-300 group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  aria-hidden
-                />
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <span
+              aria-hidden
+              className={`font-body text-xs w-3 text-primary/70 transition-transform duration-200 ${
+                isOpen ? "rotate-90" : ""
+              }`}
+            >
+              ▸
+            </span>
+            <span
+              className={`font-body text-sm md:text-[15px] tracking-tight truncate transition-colors duration-200 ${
+                isOpen ? "text-primary" : "text-foreground/90 group-hover:text-primary"
+              }`}
+            >
+              {label}
+              {item.internal && isOpen && (
+                <span className="ml-0.5 text-primary animate-pulse">▌</span>
               )}
-            </h3>
-            <p className="text-muted-foreground text-sm max-w-md">{item.description}</p>
+            </span>
           </div>
-          <div className="flex gap-2 flex-wrap">
-            {item.tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-xs font-body text-muted-foreground border border-border px-3 py-1 rounded-full"
-              >
-                {tag}
-              </span>
-            ))}
+
+          <div className="flex items-center gap-2 shrink-0">
+            <span
+              className={`text-[10px] font-body tracking-[0.2em] uppercase transition-colors ${
+                isOpen ? "text-primary/80" : "text-muted-foreground/60"
+              }`}
+            >
+              {metaLabel}
+            </span>
+            {isLinked && (
+              <ArrowUpRight
+                className={`w-3.5 h-3.5 transition-all duration-200 ${
+                  isOpen
+                    ? "text-primary translate-x-0.5 -translate-y-0.5"
+                    : "text-muted-foreground/60"
+                }`}
+                aria-hidden
+              />
+            )}
           </div>
         </div>
+
+        <AnimatePresence initial={false}>
+          {isOpen && (
+            <motion.div
+              key="body"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+              className="overflow-hidden"
+            >
+              <div className="pt-3 pb-1 pl-6 pr-2">
+                <p className="text-muted-foreground text-sm max-w-2xl mb-3">
+                  {item.description}
+                </p>
+                <div className="flex gap-2 flex-wrap">
+                  {item.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[11px] font-body text-muted-foreground border border-border px-2.5 py-0.5 rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Wrapper>
-    </motion.div>
+    </div>
+  );
+};
+
+const Drawer = ({ items }: { items: Item[] }) => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  return (
+    <div
+      onMouseLeave={() => setActiveIndex(null)}
+      className="border-b border-border rounded-sm"
+    >
+      {items.map((item, i) => (
+        <DrawerRow
+          key={item.title}
+          item={item}
+          isOpen={activeIndex === i}
+          onEnter={() => setActiveIndex(i)}
+        />
+      ))}
+    </div>
   );
 };
 
@@ -288,35 +380,24 @@ const Projects = () => {
           </h2>
         </motion.div>
 
-        {/* Apps */}
-        <div className="mb-20">
-          <GroupLabel>// apps</GroupLabel>
+        {/* Featured */}
+        <div className="mb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {apps.map((item, i) => (
+            {featured.map((item, i) => (
               <AppCard key={item.title} item={item} i={i} />
             ))}
           </div>
         </div>
 
-        {/* Case studies */}
-        <div className="mb-20">
-          <GroupLabel>// case studies</GroupLabel>
-          <div className="space-y-1">
-            {caseStudies.map((item, i) => (
-              <RowItem key={item.title} item={item} i={i} />
-            ))}
-          </div>
-        </div>
-
-        {/* Writing */}
-        <div>
-          <GroupLabel>// writing &amp; ventures</GroupLabel>
-          <div className="space-y-1">
-            {writing.map((item, i) => (
-              <RowItem key={item.title} item={item} i={i} />
-            ))}
-          </div>
-        </div>
+        {/* Drawer */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <Drawer items={drawer} />
+        </motion.div>
       </div>
     </section>
   );
