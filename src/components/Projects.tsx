@@ -3,6 +3,8 @@ import { ArrowUpRight, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
+const MAX_DRAWER_TAGS = 2;
+
 type Item = {
   title: string;
   description: string;
