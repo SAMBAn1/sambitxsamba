@@ -10,6 +10,7 @@ type Item = {
   external?: boolean;
   internal?: boolean; // internal SPA route (react-router)
   meta?: string; // muted label shown when there is no outbound link
+  image?: string; // optional preview image URL (replaces the accent strip)
 };
 
 const apps: Item[] = [
@@ -20,6 +21,7 @@ const apps: Item[] = [
     tags: ["React", "Claude API", "Local-first"],
     link: "https://samban1.github.io/Cortex/",
     external: true,
+    image: "https://samban1.github.io/Cortex/screenshots/01-dashboard.png",
   },
   {
     title: "RadiusOne AR Suite",
@@ -130,25 +132,53 @@ const AppCard = ({ item, i }: { item: Item; i: number }) => {
             : ""
         }`}
       >
-        {/* accent strip */}
-        <div className="relative h-16 border-b border-border overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,hsl(var(--primary)/0.18),transparent_60%)]" />
-          <div
-            className="absolute inset-0 opacity-40"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(90deg, hsl(var(--primary)/0.12) 0 1px, transparent 1px 6px)",
-            }}
-          />
-          <div className="absolute top-2 left-3 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary/60" />
-            <span className="w-1.5 h-1.5 rounded-full bg-primary/30" />
-            <span className="w-1.5 h-1.5 rounded-full bg-primary/20" />
+        {/* preview: screenshot if provided, otherwise the terminal accent strip */}
+        {item.image ? (
+          <div className="relative h-44 border-b border-border overflow-hidden bg-background">
+            <img
+              src={item.image}
+              alt={`${item.title} preview`}
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover object-top opacity-80 transition-all duration-500 group-hover:opacity-100 group-hover:scale-[1.02]"
+            />
+            {/* scanline + tint overlay to keep it on-theme */}
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_40%,hsl(var(--background))_100%)]" />
+            <div
+              className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(0deg, hsl(var(--primary)/0.35) 0 1px, transparent 1px 3px)",
+              }}
+            />
+            <div className="absolute top-2 left-3 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/60" />
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/30" />
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/20" />
+            </div>
+            <div className="absolute bottom-2 right-3 text-[10px] font-body tracking-[0.2em] uppercase text-primary/80">
+              {item.internal ? "read" : item.link ? "live" : "case"}
+            </div>
           </div>
-          <div className="absolute bottom-2 right-3 text-[10px] font-body tracking-[0.2em] uppercase text-primary/60">
-            {item.internal ? "read" : item.link ? "live" : "case"}
+        ) : (
+          <div className="relative h-16 border-b border-border overflow-hidden">
+            <div className="absolute inset-0 bg-[linear-gradient(135deg,hsl(var(--primary)/0.18),transparent_60%)]" />
+            <div
+              className="absolute inset-0 opacity-40"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(90deg, hsl(var(--primary)/0.12) 0 1px, transparent 1px 6px)",
+              }}
+            />
+            <div className="absolute top-2 left-3 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/60" />
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/30" />
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/20" />
+            </div>
+            <div className="absolute bottom-2 right-3 text-[10px] font-body tracking-[0.2em] uppercase text-primary/60">
+              {item.internal ? "read" : item.link ? "live" : "case"}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="p-5">
           <div className="flex items-start justify-between gap-3 mb-2">
