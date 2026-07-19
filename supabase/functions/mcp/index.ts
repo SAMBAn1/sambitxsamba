@@ -100,57 +100,73 @@ var experience = [
 var projects = [
   {
     title: "Cortex",
+    category: "app",
     description: "A second-brain note-taking app for PMs \u2014 markdown capture, natural-language dates, wikilinks, graph view, local-first storage, and Claude-powered next-action suggestions.",
     tags: ["React", "Claude API", "Local-first"],
-    link: "https://github.com/SAMBAn1/Cortex"
+    link: "https://samban1.github.io/Cortex/"
+  },
+  {
+    title: "RadiusOne AR Suite",
+    category: "app",
+    description: "Co-built a net-new SMB-focused SaaS product line from 0\u21921; identified $1B addressable market and onboarded 20+ clients contributing $9M ARR.",
+    tags: ["0\u21921 Product", "SMB SaaS", "Growth"],
+    link: "https://www.highradius.com/company/newsroom/highradius-launches-radiusone-ar-suite/"
+  },
+  {
+    title: "AI Agents for Autonomous Collections",
+    category: "app",
+    description: "Shipped AI agents that autonomously prioritize and allocate collection work, resulting in 50% FTE reduction across enterprise AR operations.",
+    tags: ["AI/ML", "Enterprise SaaS", "Automation"],
+    link: null
   },
   {
     title: "sambitxsamba.com",
+    category: "app",
     description: "Personal product portfolio and writing hub. Vite + React + shadcn-ui, with a custom blog system and reading experience.",
     tags: ["Portfolio", "Writing", "Design"],
     link: "https://github.com/SAMBAn1/sambitxsamba"
   },
   {
     title: "AI-Native PM Workflow Initiative",
+    category: "case_study",
     description: "Created and pitched an AI-native PM/build stack for the Collections Worklist rebuild \u2014 combining Lovable, ChatGPT, Codex, GitHub, Supabase, Vercel and Claude. Built the business case and operating model for VP/CPO approval.",
     tags: ["Strategy", "AI-Native", "Operating Model"],
     link: "https://drive.google.com/file/d/1aFZoRTBRF6xcMmVjH-n_wf_8eehcYl_n/view?usp=drivesdk"
   },
   {
     title: "GTM Strategy \u2014 i95Dev Ecommerce Portal",
+    category: "case_study",
     description: "Freelance short-form GTM guidance deck to reach the first 100 customers \u2014 ICP, positioning, demo strategy, acquisition motion and partner-led outreach for wholesalers, distributors and B2B brands on Shopify/Adobe Commerce.",
     tags: ["GTM", "Positioning", "B2B"],
     link: "https://drive.google.com/file/d/1SGSIMg6tsPNZI1E0UaHFHxNleaBM8xcp/view?usp=drivesdk"
   },
   {
     title: "Hybrid Collections Worklist Operating Model",
+    category: "case_study",
     description: "Sanitized product strategy and operating model for an enterprise fintech SaaS \u2014 a simulation-first migration path that preserves configurability while adding data-driven scoring, transparency and AI-ready extensibility.",
     tags: ["Strategy", "Enterprise", "Migration"],
     link: "https://drive.google.com/file/d/10ofKzQDKvwCFwT3AiVyrHZ-3w1LgMaRt/view?usp=drivesdk"
   },
   {
-    title: "ShrayArchy",
-    description: "Co-founded a handmade clay charms brand with 40k+ followers, 1M+ monthly views, and ~$2k monthly revenue through D2C sales and content.",
-    tags: ["D2C", "Content", "Entrepreneurship"],
-    link: "https://www.shrayarchy.com"
-  },
-  {
-    title: "AI Agents for Autonomous Collections",
-    description: "Shipped AI agents that autonomously prioritize and allocate collection work, resulting in 50% FTE reduction across enterprise AR operations.",
-    tags: ["AI/ML", "Enterprise SaaS", "Automation"],
-    link: null
-  },
-  {
     title: "Markov Chain Worklist Engine",
+    category: "case_study",
     description: "Patent-pending engine analyzing 1M+ invoice interactions to predict optimal collector actions \u2014 projected 60% reduction in manual prioritization and 20% recovery lift.",
     tags: ["Data Science", "Patent", "Optimization"],
     link: null
   },
   {
-    title: "RadiusOne AR Suite",
-    description: "Co-built a net-new SMB-focused SaaS product line from 0\u21921; identified $1B addressable market and onboarded 20+ clients contributing $9M ARR.",
-    tags: ["0\u21921 Product", "SMB SaaS", "Growth"],
-    link: null
+    title: "Writing",
+    category: "writing",
+    description: "Long-form notes on AI-native PM workflows, worklist engineering, and product craft \u2014 published on sambitxsamba.com.",
+    tags: ["Blog", "Essays"],
+    link: "https://sambitxsamba.com/blog"
+  },
+  {
+    title: "ShrayArchy",
+    category: "writing",
+    description: "Co-founded a handmade clay charms brand with 40k+ followers, 1M+ monthly views, and ~$2k monthly revenue through D2C sales and content.",
+    tags: ["D2C", "Content", "Entrepreneurship"],
+    link: "https://www.shrayarchy.com"
   }
 ];
 var workflow = {
