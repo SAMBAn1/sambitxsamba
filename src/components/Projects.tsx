@@ -39,7 +39,7 @@ const featured: Item[] = [
 const drawer: Item[] = [
   {
     title: "blog",
-    slug: "/blog_",
+    slug: "/ blog_",
     description:
       "Long-form notes on AI-native PM workflows, worklist engineering, and product craft.",
     tags: ["Essays", "Notes"],
