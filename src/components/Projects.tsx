@@ -28,15 +28,6 @@ const featured: Item[] = [
     image: "https://samban1.github.io/Cortex/screenshots/01-dashboard.png",
   },
   {
-    title: "AI-Native PM Workflow Initiative",
-    description:
-      "Pitched an AI-native PM/build stack for the Collections Worklist rebuild — Lovable, ChatGPT, Codex, GitHub, Supabase, Vercel, Claude. Business case and operating model for VP/CPO approval.",
-    tags: ["Strategy", "AI-Native", "Operating Model"],
-    link: "https://samban1.github.io/case-studies/ai-native-pm-workflow/",
-    external: true,
-    image: "/portfolio/ai-native-pm-workflow.png",
-  },
-  {
     title: "Hybrid Collections Worklist Operating Model",
     description:
       "Sanitized product strategy for an enterprise fintech SaaS — a simulation-first migration path that preserves configurability while adding data-driven scoring, transparency and AI-ready extensibility.",
@@ -44,6 +35,15 @@ const featured: Item[] = [
     link: "https://samban1.github.io/case-studies/worklist-vision/",
     external: true,
     image: "/portfolio/worklist-vision.png",
+  },
+  {
+    title: "AI-Native PM Workflow Initiative",
+    description:
+      "Pitched an AI-native PM/build stack for the Collections Worklist rebuild — Lovable, ChatGPT, Codex, GitHub, Supabase, Vercel, Claude. Business case and operating model for VP/CPO approval.",
+    tags: ["Strategy", "AI-Native", "Operating Model"],
+    link: "https://samban1.github.io/case-studies/ai-native-pm-workflow/",
+    external: true,
+    image: "/portfolio/ai-native-pm-workflow.png",
   },
   {
     title: "ShrayArchy",
