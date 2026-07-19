@@ -280,7 +280,11 @@ const DrawerRow = ({
               >
                 {label}
               </span>
-              <span className="hidden sm:inline-flex items-center gap-1.5 shrink-0">
+              <span
+                className={`hidden sm:inline-flex items-center gap-1.5 shrink-0 transition-all duration-200 ${
+                  isOpen ? "opacity-0 translate-x-1" : "opacity-100 translate-x-0"
+                }`}
+              >
                 {item.tags.slice(0, MAX_DRAWER_TAGS).map((tag) => (
                   <span
                     key={tag}
