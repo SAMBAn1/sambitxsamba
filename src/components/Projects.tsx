@@ -175,7 +175,7 @@ const AppCard = ({ item, i }: { item: Item; i: number }) => {
               }}
             />
             <div className="absolute bottom-2 right-3 text-[10px] font-body tracking-[0.2em] uppercase text-primary/80">
-              {item.internal ? "read" : item.link ? "live" : "case"}
+              {item.status ?? (item.internal ? "read" : item.link ? "live" : "case")}
             </div>
           </div>
         ) : (
