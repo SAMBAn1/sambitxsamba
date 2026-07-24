@@ -15,6 +15,7 @@ type Item = {
   meta?: string;
   image?: string;
   slug?: string; // optional override for drawer label (branded /name_ form)
+  status?: string; // optional badge label override (defaults to live/read/case)
 };
 
 const featured: Item[] = [
