@@ -15,6 +15,7 @@ type Item = {
   meta?: string;
   image?: string;
   slug?: string; // optional override for drawer label (branded /name_ form)
+  status?: string; // optional badge label override (defaults to live/read/case)
 };
 
 const featured: Item[] = [
@@ -26,6 +27,16 @@ const featured: Item[] = [
     link: "https://samban1.github.io/Cortex/",
     external: true,
     image: "https://samban1.github.io/Cortex/screenshots/01-dashboard.png",
+  },
+  {
+    title: "Expression Studio",
+    description:
+      "A visual, Excel-like expression builder for Collections admins — describe the value once, and it compiles to governed SQL that runs where the data already lives. Product concept with a working prototype and case study.",
+    tags: ["0→1 Product", "Design System", "SQL Compiler"],
+    link: "https://github.com/SAMBAn1/expression-studio",
+    external: true,
+    image: "/portfolio/expression-studio.png",
+    status: "wip",
   },
   {
     title: "Hybrid Collections Worklist Operating Model",
@@ -164,7 +175,7 @@ const AppCard = ({ item, i }: { item: Item; i: number }) => {
               }}
             />
             <div className="absolute bottom-2 right-3 text-[10px] font-body tracking-[0.2em] uppercase text-primary/80">
-              {item.internal ? "read" : item.link ? "live" : "case"}
+              {item.status ?? (item.internal ? "read" : item.link ? "live" : "case")}
             </div>
           </div>
         ) : (
@@ -178,7 +189,7 @@ const AppCard = ({ item, i }: { item: Item; i: number }) => {
               }}
             />
             <div className="absolute bottom-2 right-3 text-[10px] font-body tracking-[0.2em] uppercase text-primary/60">
-              {item.internal ? "read" : item.link ? "live" : "case"}
+              {item.status ?? (item.internal ? "read" : item.link ? "live" : "case")}
             </div>
           </div>
         )}
