@@ -46,6 +46,24 @@ const featured: Item[] = [
     image: "/portfolio/ai-native-pm-workflow.png",
   },
   {
+    title: "GTM Strategy — i95Dev Ecommerce Portal",
+    description:
+      "Freelance short-form GTM deck to reach the first 100 customers — ICP, positioning, demo strategy, acquisition motion and partner-led outreach for B2B brands on Shopify/Adobe Commerce.",
+    tags: ["GTM", "Positioning", "B2B"],
+    link: "https://samban1.github.io/case-studies/i95dev-gtm/#roadmap",
+    external: true,
+    image: "/portfolio/i95dev-gtm.png",
+  },
+  {
+    title: "Intel i9-9900K Overclock",
+    description:
+      "Pushed an Intel i9-9900K from a 4.7GHz stock boost to a stable 5.3GHz all-core overclock at zero AVX offset, Prime95-stable under a 360mm AIO — a personal build project documented end-to-end.",
+    tags: ["Hardware", "Overclocking", "Personal Build"],
+    link: "https://samban1.github.io/case-studies/overclock/#result",
+    external: true,
+    image: "/portfolio/overclock.png",
+  },
+  {
     title: "ShrayArchy",
     description:
       "Co-founded a handmade clay charms brand with 40k+ followers, 1M+ monthly views, and ~$2k monthly revenue through D2C sales and content.",
@@ -82,15 +100,6 @@ const drawer: Item[] = [
       "Personal product portfolio and writing hub — the site you're reading right now. Vite + React + shadcn-ui, with a custom blog system and reading experience.",
     tags: ["Portfolio", "Writing", "Design"],
     link: "https://github.com/SAMBAn1/sambitxsamba",
-    external: true,
-  },
-  {
-    title: "GTM Strategy — i95Dev Ecommerce Portal",
-    slug: "gtm_strategy_i95dev_ecommerce_portal",
-    description:
-      "Freelance short-form GTM deck to reach the first 100 customers — ICP, positioning, demo strategy, acquisition motion and partner-led outreach for B2B brands on Shopify/Adobe Commerce.",
-    tags: ["GTM", "Positioning", "B2B"],
-    link: "https://drive.google.com/file/d/1SGSIMg6tsPNZI1E0UaHFHxNleaBM8xcp/view?usp=drivesdk",
     external: true,
   },
   // Non-clickable items pinned to the bottom

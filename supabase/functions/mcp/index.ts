@@ -120,6 +120,20 @@ var projects = [
     link: "https://samban1.github.io/case-studies/worklist-vision/"
   },
   {
+    title: "GTM Strategy \u2014 i95Dev Ecommerce Portal",
+    category: "featured",
+    description: "Freelance short-form GTM guidance to reach the first 100 customers \u2014 ICP, positioning, demo strategy, acquisition motion and partner-led outreach for wholesalers, distributors and B2B brands on Shopify/Adobe Commerce.",
+    tags: ["GTM", "Positioning", "B2B"],
+    link: "https://samban1.github.io/case-studies/i95dev-gtm/#roadmap"
+  },
+  {
+    title: "Intel i9-9900K Overclock",
+    category: "featured",
+    description: "Personal build project \u2014 pushed an Intel i9-9900K from a 4.7GHz stock boost to a stable 5.3GHz all-core overclock at zero AVX offset, Prime95-stable under a 360mm AIO.",
+    tags: ["Hardware", "Overclocking", "Personal Build"],
+    link: "https://samban1.github.io/case-studies/overclock/#result"
+  },
+  {
     title: "ShrayArchy",
     category: "featured",
     description: "Co-founded a handmade clay charms brand with 40k+ followers, 1M+ monthly views, and ~$2k monthly revenue through D2C sales and content.",
@@ -146,13 +160,6 @@ var projects = [
     description: "Personal product portfolio and writing hub. Vite + React + shadcn-ui, with a custom blog system and reading experience.",
     tags: ["Portfolio", "Writing", "Design"],
     link: "https://github.com/SAMBAn1/sambitxsamba"
-  },
-  {
-    title: "GTM Strategy \u2014 i95Dev Ecommerce Portal",
-    category: "drawer",
-    description: "Freelance short-form GTM guidance deck to reach the first 100 customers \u2014 ICP, positioning, demo strategy, acquisition motion and partner-led outreach for wholesalers, distributors and B2B brands on Shopify/Adobe Commerce.",
-    tags: ["GTM", "Positioning", "B2B"],
-    link: "https://drive.google.com/file/d/1SGSIMg6tsPNZI1E0UaHFHxNleaBM8xcp/view?usp=drivesdk"
   },
   {
     title: "AI Agents for Autonomous Collections",
