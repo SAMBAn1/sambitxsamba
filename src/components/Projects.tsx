@@ -29,6 +29,16 @@ const featured: Item[] = [
     image: "https://samban1.github.io/Cortex/screenshots/01-dashboard.png",
   },
   {
+    title: "Expression Studio",
+    description:
+      "A visual, Excel-like expression builder for Collections admins — describe the value once, and it compiles to governed SQL that runs where the data already lives. Product concept with a working prototype and case study.",
+    tags: ["0→1 Product", "Design System", "SQL Compiler"],
+    link: "https://github.com/SAMBAn1/expression-studio",
+    external: true,
+    image: "/portfolio/expression-studio.png",
+    status: "wip",
+  },
+  {
     title: "Hybrid Collections Worklist Operating Model",
     description:
       "Sanitized product strategy for an enterprise fintech SaaS — a simulation-first migration path that preserves configurability while adding data-driven scoring, transparency and AI-ready extensibility.",
