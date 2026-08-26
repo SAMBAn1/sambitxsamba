@@ -434,8 +434,8 @@ const Workflow = () => {
             transition={{ delay: 0.85, duration: 0.5 }}
             className="text-muted-foreground font-body max-w-2xl mb-16"
           >
-            An AI-native PM stack I designed and pitched to leadership — moving discovery from static mocks
-            to working software, with versioned product guidance shipped every sprint.
+            This is how I work as a PM — an AI-assisted stack that turns discovery into working software,
+            with versioned product guidance shipped every sprint.
           </motion.p>
         </motion.div>
 
