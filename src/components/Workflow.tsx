@@ -434,7 +434,7 @@ const Workflow = () => {
             transition={{ delay: 0.85, duration: 0.5 }}
             className="text-muted-foreground font-body max-w-2xl mb-16"
           >
-            This is how I work as a PM, an AI-assisted stack that turns discovery into working software,
+            This is how I work as a PM, an AI-assisted stack that turns discovery into working prototypes,
             with versioned product guidance shipped every sprint.
           </motion.p>
         </motion.div>
